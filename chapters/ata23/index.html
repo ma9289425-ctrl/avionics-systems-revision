@@ -1,0 +1,2666 @@
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Self-contained priority-layered interactive revision system for 11.5.2 Avionics Systems – Communications (ATA 23), built only from the supplied original source and revision notes." name="description"/>
+<title>ATA 23 Communications | Priority-Layered Premium Interactive Revision System</title>
+<style>
+    :root {
+      --bg: #eef3f8;
+      --surface: #ffffff;
+      --surface-2: #f7fafc;
+      --surface-3: #eaf1f7;
+      --text: #142234;
+      --muted: #5f6f82;
+      --border: #d7e1eb;
+      --navy: #0b2b4c;
+      --navy-2: #123f6b;
+      --cyan: #0b8fa8;
+      --cyan-soft: #dff4f7;
+      --orange: #f28c28;
+      --orange-soft: #fff0dd;
+      --green: #17845b;
+      --green-soft: #e3f6ee;
+      --red: #ba3e49;
+      --red-soft: #fde8eb;
+      --yellow: #9c6a00;
+      --yellow-soft: #fff4ce;
+      --shadow: 0 14px 36px rgba(11, 43, 76, 0.10);
+      --shadow-sm: 0 6px 18px rgba(11, 43, 76, 0.08);
+      --radius: 22px;
+      --radius-sm: 14px;
+      --header-height: 72px;
+      --focus: 0 0 0 4px rgba(11, 143, 168, 0.22);
+    }
+
+    html[data-theme="dark"] {
+      --bg: #07121e;
+      --surface: #0e1c2c;
+      --surface-2: #132438;
+      --surface-3: #172c43;
+      --text: #ecf5ff;
+      --muted: #aebfd0;
+      --border: #29435e;
+      --navy: #d9ecff;
+      --navy-2: #8dc6ff;
+      --cyan: #48c9df;
+      --cyan-soft: #123a43;
+      --orange: #ffad58;
+      --orange-soft: #4a2b10;
+      --green: #68d4a7;
+      --green-soft: #123b2d;
+      --red: #ff8d99;
+      --red-soft: #481f28;
+      --yellow: #ffd66f;
+      --yellow-soft: #473711;
+      --shadow: 0 16px 40px rgba(0, 0, 0, 0.32);
+      --shadow-sm: 0 7px 20px rgba(0, 0, 0, 0.22);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(11, 143, 168, 0.10), transparent 28rem),
+        radial-gradient(circle at 95% 8%, rgba(242, 140, 40, 0.09), transparent 24rem),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      transition: background-color .2s ease, color .2s ease;
+    }
+
+    button, input { font: inherit; }
+    button { color: inherit; }
+    a { color: inherit; }
+    strong { color: var(--navy); }
+    html[data-theme="dark"] strong { color: #f3f9ff; }
+
+    .skip-link {
+      position: fixed;
+      left: 12px;
+      top: -60px;
+      z-index: 1000;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: var(--shadow-sm);
+    }
+    .skip-link:focus { top: 12px; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      min-height: var(--header-height);
+      border-bottom: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+      background: color-mix(in srgb, var(--surface) 88%, transparent);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .topbar-inner {
+      max-width: 1480px;
+      margin: 0 auto;
+      min-height: var(--header-height);
+      padding: 10px 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 0;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      color: #fff;
+      background: linear-gradient(145deg, #0b8fa8, #0b2b4c);
+      box-shadow: 0 8px 20px rgba(11, 143, 168, .25);
+      flex: 0 0 auto;
+    }
+
+    .brand-mark svg { width: 25px; height: 25px; }
+    .brand-copy { min-width: 0; }
+    .brand-kicker {
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--cyan);
+    }
+    .brand-title {
+      font-weight: 800;
+      line-height: 1.15;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .topbar-spacer { flex: 1; }
+    .top-actions { display: flex; gap: 8px; align-items: center; }
+    .icon-btn, .menu-btn {
+      min-width: 42px;
+      height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface-2);
+      display: inline-grid;
+      place-items: center;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .icon-btn:hover, .menu-btn:hover { transform: translateY(-1px); border-color: var(--cyan); }
+    .icon-btn:focus-visible, .menu-btn:focus-visible, button:focus-visible, input:focus-visible, a:focus-visible {
+      outline: none;
+      box-shadow: var(--focus);
+    }
+    .icon-btn svg, .menu-btn svg { width: 20px; height: 20px; }
+    .menu-btn { display: none; }
+
+    .page-shell {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 26px 22px 60px;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 94px;
+      max-height: calc(100vh - 116px);
+      overflow-y: auto;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: color-mix(in srgb, var(--surface) 96%, transparent);
+      box-shadow: var(--shadow-sm);
+      scrollbar-width: thin;
+    }
+
+    .sidebar-label {
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 10px;
+    }
+
+    .search-wrap { position: relative; margin-bottom: 14px; }
+    .search-wrap svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      width: 18px;
+      height: 18px;
+      color: var(--muted);
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+    #searchInput {
+      width: 100%;
+      height: 43px;
+      padding: 0 12px 0 38px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      background: var(--surface-2);
+    }
+    #searchStatus {
+      min-height: 20px;
+      margin: -5px 2px 8px;
+      font-size: .78rem;
+      color: var(--muted);
+    }
+
+    .nav-list { display: grid; gap: 5px; }
+    .nav-link {
+      display: grid;
+      grid-template-columns: 29px minmax(0, 1fr);
+      gap: 9px;
+      align-items: center;
+      padding: 8px 9px;
+      border-radius: 11px;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: .89rem;
+      font-weight: 700;
+      transition: background .18s ease, color .18s ease, transform .18s ease;
+    }
+    .nav-link:hover { background: var(--surface-3); color: var(--text); transform: translateX(2px); }
+    .nav-link.active { background: var(--cyan-soft); color: var(--cyan); }
+    .nav-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      background: var(--surface-3);
+      color: var(--navy);
+      font-size: .75rem;
+      font-weight: 900;
+    }
+    .nav-link.active .nav-num { background: var(--cyan); color: #fff; }
+
+    .sidebar-progress {
+      margin-top: 16px;
+      padding-top: 15px;
+      border-top: 1px solid var(--border);
+    }
+    .progress-copy {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 7px;
+      font-size: .83rem;
+      font-weight: 800;
+    }
+    .progress-track {
+      height: 9px;
+      overflow: hidden;
+      border-radius: 99px;
+      background: var(--surface-3);
+    }
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+      transition: width .3s ease;
+    }
+    .reset-btn {
+      width: 100%;
+      margin-top: 10px;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: .8rem;
+      font-weight: 750;
+    }
+    .reset-btn:hover { color: var(--red); border-color: var(--red); }
+
+    main { min-width: 0; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(28px, 4vw, 52px);
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 30px;
+      color: #fff;
+      background:
+        linear-gradient(130deg, rgba(11, 43, 76, .97), rgba(10, 82, 111, .94)),
+        #0b2b4c;
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .hero::before {
+      width: 350px;
+      height: 350px;
+      right: -120px;
+      top: -150px;
+      background: radial-gradient(circle, rgba(72, 201, 223, .32), transparent 67%);
+    }
+    .hero::after {
+      width: 250px;
+      height: 250px;
+      left: 48%;
+      bottom: -180px;
+      background: radial-gradient(circle, rgba(242, 140, 40, .26), transparent 68%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(260px, .8fr);
+      align-items: center;
+      gap: clamp(22px, 4vw, 52px);
+    }
+    .hero-grid > * { min-width: 0; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      font-size: .75rem;
+      font-weight: 850;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+    .eyebrow-dot { width: 8px; height: 8px; border-radius: 50%; background: #55dcf0; box-shadow: 0 0 0 5px rgba(85,220,240,.12); }
+    .hero h1 {
+      max-width: 880px;
+      margin: 15px 0 13px;
+      font-size: clamp(2.15rem, 5vw, 4.65rem);
+      line-height: .98;
+      letter-spacing: -.045em;
+    }
+    .hero h1 span { color: #63d9eb; }
+    .hero-subtitle {
+      max-width: 760px;
+      margin: 0;
+      color: #c9dcef;
+      font-size: clamp(1rem, 1.7vw, 1.18rem);
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    .primary-btn, .secondary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 850;
+      cursor: pointer;
+    }
+    .primary-btn { border: 1px solid #55d5e9; background: #55d5e9; color: #062335; }
+    .secondary-btn { border: 1px solid rgba(255,255,255,.22); background: rgba(255,255,255,.08); color: #fff; }
+    .primary-btn:hover, .secondary-btn:hover { transform: translateY(-1px); }
+
+    .hero-radar {
+      position: relative;
+      min-height: 285px;
+      display: grid;
+      place-items: center;
+    }
+    .radar {
+      position: relative;
+      width: min(100%, 300px);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 50%;
+      background:
+        linear-gradient(90deg, transparent 49.7%, rgba(255,255,255,.13) 50%, transparent 50.3%),
+        linear-gradient(0deg, transparent 49.7%, rgba(255,255,255,.13) 50%, transparent 50.3%),
+        radial-gradient(circle, transparent 24%, rgba(255,255,255,.12) 24.5%, transparent 25.3%, transparent 49%, rgba(255,255,255,.12) 49.5%, transparent 50.3%, transparent 74%, rgba(255,255,255,.12) 74.5%, transparent 75.3%);
+    }
+    .radar::before {
+      content: "";
+      position: absolute;
+      inset: 4%;
+      border-radius: 50%;
+      background: conic-gradient(from -20deg, rgba(79, 217, 235, .52), transparent 18%, transparent 100%);
+      animation: sweep 7s linear infinite;
+    }
+    .radar-plane {
+      position: relative;
+      z-index: 2;
+      width: 72px;
+      height: 72px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 50%;
+      background: rgba(255,255,255,.10);
+      box-shadow: 0 0 38px rgba(72,201,223,.26);
+    }
+    .radar-plane svg { width: 43px; height: 43px; transform: rotate(-12deg); }
+    .signal-dot {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ffb45d;
+      box-shadow: 0 0 0 6px rgba(255,180,93,.15), 0 0 18px rgba(255,180,93,.8);
+    }
+    .signal-dot.one { top: 28%; right: 18%; }
+    .signal-dot.two { bottom: 19%; left: 27%; background: #55d5e9; box-shadow: 0 0 0 6px rgba(85,213,233,.15), 0 0 18px rgba(85,213,233,.8); }
+    .signal-dot.three { top: 13%; left: 39%; width: 7px; height: 7px; }
+    @keyframes sweep { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; animation: none !important; transition-duration: 0s !important; } }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .hero-stat {
+      padding: 11px 12px;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 13px;
+      background: rgba(255,255,255,.07);
+    }
+    .hero-stat strong { display: block; color: #fff; font-size: 1.05rem; }
+    .hero-stat span { color: #b9d0e3; font-size: .78rem; }
+
+    .study-banner {
+      margin: 20px 0 0;
+      padding: 14px 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+    }
+    .study-banner-icon {
+      width: 38px;
+      height: 38px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      color: var(--cyan);
+      background: var(--cyan-soft);
+    }
+    .study-banner strong { display: block; margin-bottom: 1px; }
+    .study-banner p { margin: 0; color: var(--muted); font-size: .92rem; }
+
+    .section-card {
+      scroll-margin-top: 92px;
+      margin-top: 22px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+    }
+    .section-card.search-hidden { display: none; }
+    .section-card.search-hit { border-color: color-mix(in srgb, var(--cyan) 72%, var(--border)); box-shadow: 0 0 0 3px rgba(11,143,168,.08), var(--shadow-sm); }
+
+    .section-head {
+      width: 100%;
+      padding: 20px 22px;
+      border: 0;
+      background: transparent;
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 14px;
+      text-align: left;
+      cursor: pointer;
+    }
+    .section-head:hover { background: color-mix(in srgb, var(--surface-2) 72%, transparent); }
+    .section-number {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      color: #fff;
+      background: linear-gradient(145deg, var(--cyan), #0b567b);
+      font-size: 1.05rem;
+      font-weight: 900;
+      box-shadow: 0 9px 18px rgba(11,143,168,.18);
+    }
+    .section-kicker {
+      margin: 0 0 3px;
+      color: var(--cyan);
+      font-size: .72rem;
+      font-weight: 850;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+    .section-title { margin: 0; color: var(--text); font-size: clamp(1.25rem, 2vw, 1.65rem); line-height: 1.15; }
+    .section-toggle {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--surface-2);
+      color: var(--muted);
+    }
+    .section-toggle svg { width: 19px; height: 19px; transition: transform .2s ease; }
+    .section-head[aria-expanded="false"] .section-toggle svg { transform: rotate(-90deg); }
+    .section-body { padding: 0 22px 23px; }
+    .section-body[hidden] { display: none; }
+
+    .complete-row {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0 22px 18px;
+    }
+    .complete-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface-2);
+      color: var(--muted);
+      font-size: .8rem;
+      font-weight: 800;
+      cursor: pointer;
+      user-select: none;
+    }
+    .complete-label input { width: 17px; height: 17px; accent-color: var(--green); }
+    .complete-label:has(input:checked) { color: var(--green); border-color: color-mix(in srgb, var(--green) 55%, var(--border)); background: var(--green-soft); }
+
+    .lead {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+    .definition {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: var(--cyan-soft);
+      color: var(--cyan);
+      font-weight: 850;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .feature-card, .stat-card, .mini-card {
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface-2);
+    }
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 9px;
+      border-radius: 12px;
+      color: var(--cyan);
+      background: var(--cyan-soft);
+    }
+    .feature-icon svg { width: 21px; height: 21px; }
+    .feature-card h3, .mini-card h3 { margin: 0 0 4px; font-size: 1rem; }
+    .feature-card p, .mini-card p { margin: 0; color: var(--muted); font-size: .9rem; }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 14px 0;
+    }
+    .stat-card { position: relative; overflow: hidden; }
+    .stat-card::after {
+      content: "";
+      position: absolute;
+      right: -18px;
+      bottom: -22px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--cyan-soft) 80%, transparent);
+    }
+    .stat-label { display: block; color: var(--muted); font-size: .76rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .stat-value { display: block; position: relative; z-index: 1; margin-top: 4px; color: var(--navy); font-size: clamp(1.25rem, 2.6vw, 1.85rem); line-height: 1.1; font-weight: 900; }
+    .stat-note { display: block; position: relative; z-index: 1; margin-top: 5px; color: var(--muted); font-size: .83rem; }
+
+    .clean-list {
+      margin: 14px 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 9px;
+    }
+    .clean-list li {
+      position: relative;
+      padding-left: 30px;
+      color: var(--muted);
+    }
+    .clean-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: .05em;
+      width: 20px;
+      height: 20px;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      color: var(--green);
+      background: var(--green-soft);
+      font-size: .74rem;
+      font-weight: 900;
+    }
+
+    .callout {
+      margin: 16px 0 0;
+      padding: 15px 16px;
+      display: grid;
+      grid-template-columns: 40px minmax(0, 1fr);
+      gap: 12px;
+      border: 1px solid color-mix(in srgb, var(--cyan) 28%, var(--border));
+      border-radius: var(--radius-sm);
+      background: var(--cyan-soft);
+    }
+    .callout.orange { border-color: color-mix(in srgb, var(--orange) 35%, var(--border)); background: var(--orange-soft); }
+    .callout.red { border-color: color-mix(in srgb, var(--red) 35%, var(--border)); background: var(--red-soft); }
+    .callout.yellow { border-color: color-mix(in srgb, var(--yellow) 35%, var(--border)); background: var(--yellow-soft); }
+    .callout-icon {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      color: var(--cyan);
+      background: color-mix(in srgb, var(--surface) 68%, transparent);
+    }
+    .callout.orange .callout-icon { color: var(--orange); }
+    .callout.red .callout-icon { color: var(--red); }
+    .callout.yellow .callout-icon { color: var(--yellow); }
+    .callout-icon svg { width: 21px; height: 21px; }
+    .callout h3 { margin: 0 0 2px; font-size: .96rem; }
+    .callout p { margin: 0; color: var(--muted); font-size: .92rem; }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: stretch;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .compare-card {
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      background: var(--surface-2);
+    }
+    .compare-card.vhf { border-top: 4px solid var(--cyan); }
+    .compare-card.hf { border-top: 4px solid var(--orange); }
+    .compare-card h3 { margin: 0 0 10px; font-size: 1.18rem; }
+    .compare-card ul { margin: 0; padding-left: 18px; color: var(--muted); }
+    .compare-vs {
+      align-self: center;
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--surface);
+      font-size: .72rem;
+      font-weight: 900;
+    }
+
+    .process-flow {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: center;
+      gap: 12px;
+      margin: 18px 0;
+    }
+    .process-node {
+      min-height: 130px;
+      padding: 16px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--surface-2);
+    }
+    .process-node .node-icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 8px;
+      border-radius: 14px;
+      color: var(--cyan);
+      background: var(--cyan-soft);
+    }
+    .process-node svg { width: 25px; height: 25px; }
+    .process-node strong { display: block; }
+    .process-node span { color: var(--muted); font-size: .84rem; }
+    .process-arrow {
+      display: none;
+      text-align: center;
+      color: var(--cyan);
+      font-size: 1.5rem;
+      font-weight: 900;
+    }
+    @media (min-width: 760px) {
+      .process-flow.with-arrows { grid-template-columns: 1fr 38px 1fr 38px 1fr; }
+      .process-flow.with-arrows .process-arrow { display: block; }
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .step {
+      position: relative;
+      padding: 17px 16px 16px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface-2);
+    }
+    .step-num {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 10px;
+      border-radius: 9px;
+      color: #fff;
+      background: var(--cyan);
+      font-size: .76rem;
+      font-weight: 900;
+    }
+    .step h3 { margin: 0 0 4px; font-size: 1rem; }
+    .step p { margin: 0; color: var(--muted); font-size: .9rem; }
+
+    .message-board {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 16px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background:
+        linear-gradient(color-mix(in srgb, var(--surface-3) 46%, transparent) 1px, transparent 1px),
+        linear-gradient(90deg, color-mix(in srgb, var(--surface-3) 46%, transparent) 1px, transparent 1px),
+        var(--surface-2);
+      background-size: 28px 28px;
+    }
+    .message-column h3 { margin: 0 0 10px; font-size: .95rem; }
+    .bubble {
+      margin: 8px 0;
+      padding: 10px 12px;
+      border-radius: 14px 14px 14px 4px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 10px rgba(11,43,76,.04);
+      font-size: .88rem;
+    }
+    .message-column.pilot .bubble { border-radius: 14px 14px 4px 14px; background: var(--cyan-soft); }
+
+    .audio-layout {
+      display: grid;
+      grid-template-columns: minmax(0, .85fr) minmax(300px, 1.15fr);
+      gap: 18px;
+      align-items: center;
+    }
+    .audio-hub {
+      position: relative;
+      min-height: 370px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: radial-gradient(circle at center, var(--cyan-soft), transparent 51%), var(--surface-2);
+      overflow: hidden;
+    }
+    .hub-center {
+      position: relative;
+      z-index: 3;
+      width: 130px;
+      height: 130px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border-radius: 50%;
+      color: #fff;
+      background: linear-gradient(145deg, var(--navy-2), #0b8fa8);
+      box-shadow: 0 14px 28px rgba(11,143,168,.22);
+      font-size: .9rem;
+      font-weight: 900;
+    }
+    .hub-orbit {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border: 1px dashed color-mix(in srgb, var(--cyan) 42%, var(--border));
+      border-radius: 50%;
+    }
+    .hub-node {
+      position: absolute;
+      z-index: 4;
+      min-width: 90px;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+      font-size: .78rem;
+      font-weight: 850;
+    }
+    .hub-node.n1 { top: 27px; left: 50%; transform: translateX(-50%); }
+    .hub-node.n2 { top: 92px; right: 20px; }
+    .hub-node.n3 { bottom: 58px; right: 27px; }
+    .hub-node.n4 { bottom: 28px; left: 50%; transform: translateX(-50%); }
+    .hub-node.n5 { bottom: 58px; left: 27px; }
+    .hub-node.n6 { top: 92px; left: 20px; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .panel {
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      background: var(--surface-2);
+    }
+    .panel h3 { margin: 0 0 9px; font-size: 1.03rem; }
+    .panel .clean-list { margin-bottom: 0; }
+
+    .link-matrix {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .link-card {
+      min-height: 122px;
+      padding: 15px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface-2);
+    }
+    .link-card .arrow { color: var(--cyan); font-size: 1.45rem; line-height: 1; }
+    .link-card strong { display: block; font-size: .92rem; }
+    .chip-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 11px; }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 5px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: .82rem;
+      font-weight: 750;
+    }
+
+    .elt-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(230px, .58fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+    .elt-signal {
+      position: relative;
+      min-height: 260px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 20px;
+      color: #fff;
+      background: linear-gradient(145deg, #d84c31, #f28c28);
+    }
+    .elt-signal::before,
+    .elt-signal::after {
+      content: "";
+      position: absolute;
+      border: 2px solid rgba(255,255,255,.35);
+      border-radius: 50%;
+    }
+    .elt-signal::before { width: 160px; height: 160px; }
+    .elt-signal::after { width: 235px; height: 235px; opacity: .45; }
+    .elt-core { position: relative; z-index: 2; text-align: center; }
+    .elt-core svg { width: 48px; height: 48px; }
+    .elt-frequency { display: block; margin-top: 8px; font-size: 2rem; line-height: 1; font-weight: 950; }
+    .elt-frequency small { display: block; margin-top: 6px; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; }
+
+    .control-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .control {
+      padding: 13px 10px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: var(--surface-2);
+      text-align: center;
+      font-weight: 900;
+    }
+
+    .recorder-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .recorder-card {
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
+      border: 1px solid color-mix(in srgb, var(--orange) 48%, var(--border));
+      border-radius: 19px;
+      background: linear-gradient(145deg, var(--orange-soft), var(--surface));
+    }
+    .recorder-badge {
+      display: inline-grid;
+      place-items: center;
+      min-width: 58px;
+      height: 40px;
+      padding: 0 12px;
+      border-radius: 12px;
+      color: #fff;
+      background: var(--orange);
+      font-size: 1.05rem;
+      font-weight: 950;
+    }
+    .recorder-card h3 { margin: 12px 0 7px; font-size: 1.2rem; }
+    .recorder-card p { margin: 0; color: var(--muted); }
+    .recorder-specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-top: 14px;
+    }
+    .recorder-spec {
+      padding: 10px;
+      border: 1px solid color-mix(in srgb, var(--orange) 30%, var(--border));
+      border-radius: 11px;
+      background: color-mix(in srgb, var(--surface) 82%, transparent);
+    }
+    .recorder-spec span { display: block; color: var(--muted); font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+    .recorder-spec strong { display: block; margin-top: 2px; color: var(--text); }
+
+    .review-table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+    .review-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+    .review-table th, .review-table td { padding: 13px 15px; border-bottom: 1px solid var(--border); text-align: left; }
+    .review-table th { background: var(--navy); color: var(--surface); font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; }
+    html[data-theme="dark"] .review-table th { background: #1c6a91; color: #fff; }
+    .review-table tr:last-child td { border-bottom: 0; }
+    .review-table tbody tr:nth-child(even) { background: var(--surface-2); }
+    .system-pill {
+      display: inline-flex;
+      min-width: 76px;
+      justify-content: center;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--cyan-soft);
+      color: var(--cyan);
+      font-weight: 900;
+    }
+
+    .recall-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .recall-card {
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface-2);
+    }
+    .recall-card strong { display: block; margin-bottom: 2px; color: var(--cyan); }
+    .recall-card span { color: var(--muted); font-size: .88rem; }
+
+    .flashcard-intro, .quiz-intro {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .flashcard-intro p, .quiz-intro p { margin: 0; color: var(--muted); }
+    .flash-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      perspective: 1000px;
+    }
+    .flashcard {
+      position: relative;
+      min-height: 170px;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      cursor: pointer;
+      perspective: 1000px;
+    }
+    .flashcard-inner {
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      box-shadow: var(--shadow-sm);
+      transform-style: preserve-3d;
+      transition: transform .5s ease;
+    }
+    .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+    .flash-face {
+      position: absolute;
+      inset: 0;
+      padding: 16px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      border-radius: inherit;
+      backface-visibility: hidden;
+      text-align: center;
+    }
+    .flash-front { background: linear-gradient(145deg, var(--surface-2), var(--surface)); }
+    .flash-back { background: linear-gradient(145deg, var(--cyan-soft), var(--surface)); transform: rotateY(180deg); }
+    .flash-face .flash-label { color: var(--muted); font-size: .7rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+    .flash-face strong { margin-top: 5px; font-size: 1.18rem; }
+    .flash-back strong { color: var(--cyan); }
+    .flash-hint { position: absolute; bottom: 10px; color: var(--muted); font-size: .7rem; }
+
+    .quiz-list { display: grid; gap: 14px; }
+    .question {
+      margin: 0;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      background: var(--surface-2);
+    }
+    .question.correct { border-color: var(--green); background: var(--green-soft); }
+    .question.incorrect { border-color: var(--red); background: var(--red-soft); }
+    .question legend {
+      width: 100%;
+      padding: 0 0 10px;
+      font-weight: 900;
+    }
+    .qnum {
+      display: inline-grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      margin-right: 8px;
+      border-radius: 9px;
+      color: #fff;
+      background: var(--navy-2);
+      font-size: .76rem;
+    }
+    .options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 10px 11px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--surface);
+      cursor: pointer;
+    }
+    .option:hover { border-color: var(--cyan); }
+    .option input { margin-top: 3px; accent-color: var(--cyan); }
+    .feedback { display: none; margin: 10px 0 0; color: var(--muted); font-size: .86rem; font-weight: 700; }
+    .question.graded .feedback { display: block; }
+
+    .quiz-actions {
+      position: sticky;
+      bottom: 12px;
+      z-index: 20;
+      margin-top: 16px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: color-mix(in srgb, var(--surface) 92%, transparent);
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+    }
+    .quiz-btn {
+      min-height: 42px;
+      padding: 0 15px;
+      border-radius: 11px;
+      border: 1px solid var(--cyan);
+      background: var(--cyan);
+      color: #fff;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    .quiz-btn.secondary { border-color: var(--border); background: var(--surface-2); color: var(--muted); }
+    #quizScore { margin-left: auto; font-weight: 900; }
+
+    .footer {
+      margin-top: 24px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--muted);
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .footer strong { color: var(--text); }
+
+    .back-top {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 80;
+      width: 45px;
+      height: 45px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .back-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .back-top svg { width: 20px; height: 20px; }
+
+    .no-results {
+      display: none;
+      margin-top: 22px;
+      padding: 30px;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      text-align: center;
+      color: var(--muted);
+    }
+    .no-results.visible { display: block; }
+
+    .sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    @media (max-width: 1100px) {
+      .page-shell { grid-template-columns: 238px minmax(0, 1fr); gap: 20px; }
+      .feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .audio-layout { grid-template-columns: 1fr; }
+      .recall-grid, .flash-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .menu-btn { display: inline-grid; }
+      .page-shell { display: block; padding: 18px 14px 50px; }
+      .sidebar {
+        position: fixed;
+        inset: var(--header-height) 12px auto 12px;
+        z-index: 95;
+        max-height: calc(100vh - var(--header-height) - 24px);
+        transform: translateY(-12px) scale(.98);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .18s ease, transform .18s ease;
+        background: var(--surface);
+      }
+      body.nav-open .sidebar { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+      body.nav-open::before {
+        content: "";
+        position: fixed;
+        inset: var(--header-height) 0 0;
+        z-index: 90;
+        background: rgba(4, 13, 23, .42);
+      }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-radar { min-height: 240px; }
+      .radar { width: 235px; }
+      .brand-kicker { display: none; }
+    }
+
+    @media (max-width: 680px) {
+      :root { --header-height: 64px; }
+      .topbar-inner { padding: 8px 12px; min-height: var(--header-height); }
+      .brand-mark { width: 40px; height: 40px; }
+      .brand-title { font-size: .9rem; }
+      .top-actions .icon-btn.print { display: none; }
+      .hero { padding: 26px 20px; border-radius: 23px; }
+      .hero h1 { font-size: clamp(2rem, 10vw, 2.55rem); letter-spacing: -.04em; }
+      .hero-meta { grid-template-columns: 1fr; }
+      .hero-stat { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+      .hero-stat strong { order: 2; }
+      .section-head { padding: 17px 16px; grid-template-columns: 44px minmax(0, 1fr) 34px; gap: 10px; }
+      .section-number { width: 44px; height: 44px; border-radius: 13px; }
+      .section-title { font-size: 1.16rem; }
+      .section-body { padding: 0 16px 18px; }
+      .complete-row { padding: 0 16px 15px; }
+      .feature-grid, .stat-grid, .steps, .two-col, .link-matrix, .recorder-grid, .recall-grid, .flash-grid, .message-board { grid-template-columns: 1fr; }
+      .comparison { grid-template-columns: 1fr; }
+      .compare-vs { margin: 0 auto; }
+      .process-flow, .process-flow.with-arrows { grid-template-columns: 1fr; }
+      .process-arrow { display: block !important; transform: rotate(90deg); }
+      .audio-hub { min-height: 340px; }
+      .hub-orbit { width: 265px; height: 265px; }
+      .hub-center { width: 112px; height: 112px; }
+      .hub-node { min-width: 79px; padding: 7px 8px; font-size: .7rem; }
+      .hub-node.n2 { right: 8px; }
+      .hub-node.n3 { right: 14px; }
+      .hub-node.n5 { left: 14px; }
+      .hub-node.n6 { left: 8px; }
+      .elt-hero { grid-template-columns: 1fr; }
+      .options { grid-template-columns: 1fr; }
+      .quiz-actions { flex-wrap: wrap; }
+      #quizScore { width: 100%; margin-left: 0; }
+      .back-top { right: 14px; bottom: 14px; }
+    }
+
+    @media print {
+      :root {
+        --bg: #fff;
+        --surface: #fff;
+        --surface-2: #f7f7f7;
+        --surface-3: #ececec;
+        --text: #111;
+        --muted: #444;
+        --border: #cfcfcf;
+        --navy: #0b2b4c;
+      }
+      body { background: #fff !important; font-size: 10.5pt; }
+      .topbar, .sidebar, .hero-actions, .study-banner, .complete-row, .quiz-actions, .back-top, .flash-hint { display: none !important; }
+      .page-shell { display: block; max-width: none; padding: 0; }
+      .hero { min-height: 0; padding: 28px; margin-bottom: 14px; border-radius: 0; box-shadow: none; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-radar { display: none; }
+      .hero h1 { font-size: 28pt; }
+      .section-card { box-shadow: none; break-inside: avoid; margin-top: 12px; }
+      .section-body[hidden] { display: block !important; }
+      .section-toggle { display: none; }
+      .section-head { cursor: default; }
+      .flashcard { min-height: 115px; break-inside: avoid; }
+      .flashcard-inner { transform: none !important; position: relative; min-height: 115px; }
+      .flash-front, .flash-back { position: relative; min-height: 100px; transform: none; backface-visibility: visible; }
+      .flash-front { display: none; }
+      .question { break-inside: avoid; }
+      .footer { box-shadow: none; }
+      @page { margin: 14mm; }
+    }
+  
+
+    /* Premium learning-system enhancements */
+    .source-fidelity-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 7px 11px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 999px;
+      color: rgba(255,255,255,.86);
+      background: rgba(255,255,255,.09);
+      font-size: .76rem;
+      font-weight: 750;
+      letter-spacing: .02em;
+    }
+    .source-fidelity-badge::before { content: "✓"; font-weight: 900; color: #8af0c7; }
+
+    .section-head { cursor: default; }
+    .section-head:hover { background: transparent; }
+    .section-collapse {
+      width: 42px;
+      height: 42px;
+      padding: 0;
+      border: 0;
+      border-radius: 12px;
+      background: transparent;
+      cursor: pointer;
+    }
+    .section-collapse:hover .section-toggle { border-color: var(--cyan); color: var(--cyan); }
+    .section-collapse .section-toggle { width: 42px; height: 42px; }
+    .section-collapse[aria-expanded="false"] .section-toggle svg { transform: rotate(-90deg); }
+
+    .subheading {
+      margin: 22px 0 10px;
+      color: var(--navy);
+      font-size: 1.05rem;
+    }
+    .source-note {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-left: 4px solid var(--cyan);
+      border-radius: 0 12px 12px 0;
+      background: var(--cyan-soft);
+      color: var(--muted);
+      font-size: .9rem;
+    }
+    .utility-note { margin-top: 5px !important; font-size: .84rem; color: var(--muted); }
+
+    .sequence-strip {
+      display: grid;
+      grid-template-columns: minmax(130px,1fr) auto minmax(130px,1fr) auto minmax(130px,1fr) auto minmax(130px,1fr) auto minmax(130px,1fr);
+      gap: 8px;
+      align-items: stretch;
+      margin: 14px 0 18px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .sequence-item {
+      min-width: 132px;
+      padding: 13px;
+      display: grid;
+      gap: 6px;
+      align-content: start;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface-2);
+    }
+    .sequence-item strong {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      color: #fff;
+      background: var(--cyan);
+    }
+    .sequence-item span { color: var(--muted); font-size: .84rem; }
+    .sequence-arrow { display: grid; place-items: center; color: var(--cyan); font-weight: 900; }
+
+    .flashcard-tools { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+    .secondary-action, .quiz-submit {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--surface-2);
+      color: var(--text);
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .secondary-action:hover { border-color: var(--cyan); color: var(--cyan); }
+    .quiz-submit {
+      border-color: transparent;
+      color: #fff;
+      background: linear-gradient(135deg, var(--cyan), #0b567b);
+      box-shadow: 0 8px 18px rgba(11,143,168,.18);
+    }
+    .quiz-submit:hover { filter: brightness(1.06); }
+    .flash-answer { color: var(--text); font-size: .9rem; line-height: 1.45; font-weight: 700; }
+
+    .quiz-mode-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .quiz-mode-card {
+      min-height: 176px;
+      padding: 20px;
+      display: grid;
+      gap: 7px;
+      align-content: center;
+      text-align: left;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: linear-gradient(145deg, var(--surface-2), var(--surface));
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+    .quiz-mode-card:hover { transform: translateY(-2px); border-color: var(--cyan); box-shadow: var(--shadow); }
+    .quiz-mode-card strong { font-size: 1.35rem; }
+    .quiz-mode-card > span:last-child { color: var(--muted); }
+    .mode-label {
+      color: var(--cyan);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+    .quiz-meta {
+      margin-bottom: 15px;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface-2);
+    }
+    .quiz-meta > div { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .quiz-meta-actions { justify-content: flex-end; }
+    #quizAnswered { color: var(--muted); font-size: .86rem; font-weight: 750; }
+    .question {
+      position: relative;
+      scroll-margin-top: 105px;
+    }
+    .question .question-badges {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .question-badge {
+      display: inline-flex;
+      padding: 3px 7px;
+      border-radius: 999px;
+      color: var(--muted);
+      background: var(--surface-3);
+      font-size: .66rem;
+      font-weight: 850;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .option.answer-correct {
+      border-color: color-mix(in srgb, var(--green) 62%, var(--border));
+      background: var(--green-soft);
+      color: var(--green);
+    }
+    .option.answer-selected-wrong {
+      border-color: color-mix(in srgb, var(--red) 62%, var(--border));
+      background: var(--red-soft);
+      color: var(--red);
+    }
+    .feedback-detail {
+      display: grid;
+      gap: 7px;
+      margin-top: 11px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: var(--surface-2);
+      color: var(--muted);
+      font-size: .88rem;
+    }
+    .feedback-detail p { margin: 0; }
+    .feedback-detail .correct-line { color: var(--green); }
+    .feedback-detail .wrong-line { color: var(--red); }
+    .quiz-actions, .quiz-result-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .quiz-results-panel {
+      margin-top: 18px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--surface-2);
+    }
+    .score-summary {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: center;
+    }
+    .score-ring {
+      width: 88px;
+      height: 88px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: conic-gradient(var(--green) var(--score-angle, 0deg), var(--surface-3) 0);
+      box-shadow: inset 0 0 0 9px color-mix(in srgb, var(--surface) 86%, transparent);
+      font-size: 1.05rem;
+      font-weight: 900;
+    }
+    .score-copy h3 { margin: 0 0 3px; }
+    .score-copy p { margin: 0; color: var(--muted); }
+    .weak-topics { margin-top: 18px; }
+    .weak-topics h3 { margin: 0 0 9px; }
+    .weak-topic-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+    .weak-topic-link {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--surface);
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 750;
+    }
+    .weak-topic-link:hover { border-color: var(--cyan); color: var(--cyan); }
+    .weak-topic-link span:last-child { color: var(--red); }
+    .all-strong {
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: var(--green-soft);
+      color: var(--green);
+      font-weight: 800;
+    }
+    .link-action { width: auto; }
+    .recorder-specs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .recorder-spec { min-width: 0; }
+    .recorder-spec span, .recorder-spec strong { overflow-wrap: anywhere; }
+    .print-only { display: none; }
+
+    @media (max-width: 1100px) {
+      .sequence-strip { grid-template-columns: minmax(170px, 1fr); overflow: visible; }
+      .sequence-arrow { transform: rotate(90deg); min-height: 24px; }
+    }
+    @media (max-width: 700px) {
+      .quiz-mode-grid { grid-template-columns: 1fr; }
+      .recorder-specs { grid-template-columns: 1fr; }
+      .quiz-meta { align-items: flex-start; flex-direction: column; }
+      .quiz-meta-actions { width: 100%; justify-content: space-between; }
+      .score-summary { grid-template-columns: 1fr; }
+      .flashcard-intro { align-items: flex-start; flex-direction: column; }
+      .flashcard-tools { width: 100%; justify-content: flex-start; }
+    }
+
+    @media print {
+      .source-fidelity-badge { color: #fff !important; border-color: rgba(255,255,255,.35) !important; }
+      .section-collapse, .flashcard-tools, .quiz-mode-grid, #quizWorkspace, .quiz-intro, .source-fidelity-badge { display: none !important; }
+      .section-head { grid-template-columns: 48px minmax(0, 1fr); padding: 14px 16px; }
+      .section-number { width: 44px; height: 44px; border-radius: 12px; }
+      .source-note { break-inside: avoid; }
+      .sequence-strip { grid-template-columns: repeat(5, minmax(0,1fr)); overflow: visible; gap: 5px; }
+      .sequence-arrow { transform: none; }
+      .sequence-item { min-width: 0; padding: 8px; }
+      .flash-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .flashcard { min-height: auto !important; border: 1px solid #cfcfcf; border-radius: 12px; }
+      .flashcard-inner { position: relative !important; inset: auto !important; min-height: 0 !important; display: block; border: 0; box-shadow: none; transform: none !important; }
+      .flash-front, .flash-back {
+        position: relative !important;
+        inset: auto !important;
+        min-height: 0 !important;
+        display: block !important;
+        padding: 10px 12px;
+        transform: none !important;
+        backface-visibility: visible !important;
+        text-align: left;
+      }
+      .flash-front { border-bottom: 1px solid #d8d8d8; }
+      .flash-face .flash-label { display: block; margin-bottom: 4px; }
+      .flash-answer { font-weight: 600; }
+      .print-only { display: block !important; }
+      .print-question-bank { margin-top: 8px; }
+      .print-question-bank > h3 { margin-top: 0; }
+      .print-question-bank > ol { padding-left: 22px; }
+      .print-question { break-inside: avoid; margin: 0 0 14px; padding: 0 0 10px; border-bottom: 1px solid #d9d9d9; }
+      .print-question h4 { margin: 0 0 4px; font-size: 10.5pt; }
+      .print-question ul { margin: 4px 0 6px; padding-left: 20px; }
+      .print-question p { margin: 4px 0; }
+      #quiz .section-body { padding-top: 0; }
+    }
+
+
+    /* Priority-layer learning hierarchy and reliability refinements */
+    [hidden] { display: none !important; }
+    .priority-legend {
+      margin: 0 0 18px;
+      padding: 19px;
+      display: grid;
+      grid-template-columns: minmax(220px, .78fr) minmax(0, 1.5fr);
+      gap: 18px;
+      align-items: center;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, var(--surface), var(--surface-2));
+      box-shadow: var(--shadow-sm);
+    }
+    .priority-legend-copy h2 { margin: 2px 0 5px; color: var(--navy); font-size: 1.3rem; line-height: 1.2; }
+    .priority-legend-copy p { margin: 0; color: var(--muted); font-size: .9rem; }
+    .mini-kicker {
+      color: var(--cyan);
+      font-size: .7rem;
+      font-weight: 900;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    .priority-legend-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .priority-legend-card {
+      min-width: 0;
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface-2);
+    }
+    .priority-legend-card strong { display: block; margin: 7px 0 3px; font-size: .91rem; }
+    .priority-legend-card p { margin: 0; color: var(--muted); font-size: .78rem; line-height: 1.45; }
+    .priority-marker,
+    .card-priority {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: fit-content;
+      padding: 4px 8px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      font-size: .66rem;
+      font-weight: 900;
+      letter-spacing: .075em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+    .priority-marker::before,
+    .card-priority::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    .priority-marker.core, .card-priority.core { color: var(--cyan); background: var(--cyan-soft); }
+    .priority-marker.source, .card-priority.source { color: var(--yellow); background: var(--yellow-soft); }
+    .priority-marker.specific, .card-priority.specific { color: var(--orange); background: var(--orange-soft); }
+    .priority-intro {
+      margin: 0 0 12px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 9px;
+    }
+    .priority-intro p { margin: 0; color: var(--muted); font-size: .83rem; }
+    .priority-block {
+      margin-top: 15px;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: var(--surface-2);
+    }
+    .priority-block.source { border-left: 5px solid var(--yellow); }
+    .priority-block.specific { border-left: 5px solid var(--orange); }
+    .priority-block > h3 { margin: 9px 0 6px; }
+    .priority-block > p:last-child, .priority-block > ul:last-child { margin-bottom: 0; }
+    .source-detail-panel { border-left: 4px solid var(--yellow); }
+    .source-detail-panel .priority-marker { margin-bottom: 9px; }
+    .source-detail-card { border-left: 4px solid var(--yellow); }
+    .source-detail-card .priority-marker { margin-bottom: 7px; }
+    .source-note.specific { border-left-color: var(--orange); background: var(--orange-soft); }
+    .source-note .priority-marker { margin-right: 7px; vertical-align: middle; }
+    .core-note { color: var(--muted); font-size: .84rem; }
+    .detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+    .detail-card { padding: 14px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface-2); }
+    .detail-card h3 { margin: 8px 0 5px; font-size: 1rem; }
+    .detail-card p, .detail-card ul { margin-top: 0; color: var(--muted); font-size: .87rem; }
+    .detail-card ul { padding-left: 19px; }
+    .detail-card li + li { margin-top: 5px; }
+    .stat-card.source-stat { border-style: dashed; background: var(--yellow-soft); }
+    .stat-card.source-stat .stat-label, .stat-card.source-stat .stat-note { color: var(--yellow); }
+    .recorder-source-strip {
+      margin-top: 12px;
+      padding-top: 11px;
+      border-top: 1px dashed var(--border);
+      color: var(--muted);
+      font-size: .82rem;
+    }
+    .review-core-banner {
+      margin-bottom: 14px;
+      padding: 11px 13px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      align-items: center;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: var(--cyan-soft);
+    }
+    .review-core-banner p { margin: 0; color: var(--muted); font-size: .83rem; }
+    .flashcard[data-priority="source"] .flashcard-inner { border-color: color-mix(in srgb, var(--yellow) 45%, var(--border)); }
+    .flashcard[data-priority="specific"] .flashcard-inner { border-color: color-mix(in srgb, var(--orange) 55%, var(--border)); }
+    .flash-face .card-priority { margin-bottom: 7px; }
+    .question-badge.priority-core { color: var(--cyan); background: var(--cyan-soft); }
+    .question-badge.priority-source { color: var(--yellow); background: var(--yellow-soft); }
+    .question-badge.priority-specific { color: var(--orange); background: var(--orange-soft); }
+    .print-priority { font-size: 8.5pt; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; }
+
+    /* Let flashcards grow to fit longer source-grounded answers without overlap. */
+    .flashcard { min-height: 218px; display: grid; }
+    .flashcard-inner { position: relative; inset: auto; display: grid; min-height: 100%; }
+    .flash-face {
+      position: relative;
+      inset: auto;
+      grid-area: 1 / 1;
+      min-height: 218px;
+      height: 100%;
+      overflow-wrap: anywhere;
+    }
+    .flash-face strong { font-size: clamp(.98rem, 1.25vw, 1.14rem); line-height: 1.34; }
+    .flash-answer { overflow-wrap: anywhere; }
+
+    @media (max-width: 900px) {
+      .priority-legend { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 700px) {
+      .hero-radar { display: none; }
+      .priority-legend-grid, .detail-grid { grid-template-columns: 1fr; }
+      .priority-legend { padding: 15px; }
+      .flashcard, .flash-face { min-height: 200px; }
+    }
+    @media print {
+      .priority-legend { grid-template-columns: 1fr; box-shadow: none; break-inside: avoid; }
+      .priority-legend-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .priority-block, .detail-card, .review-core-banner { break-inside: avoid; }
+      .flashcard, .flash-face { min-height: auto !important; }
+      .card-priority { margin-bottom: 4px !important; }
+    }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to study content</a>
+<header class="topbar">
+<div class="topbar-inner">
+<button aria-expanded="false" aria-label="Open study navigation" class="menu-btn" id="menuButton" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+</button>
+<a aria-label="ATA 23 revision home" class="brand" href="#top">
+<span aria-hidden="true" class="brand-mark">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M22 16.2 13.6 12l8.4-4.2V5.5L11 9 4.4 5.7 2 6.9l5.8 5.1L2 17.1l2.4 1.2L11 15l11 3.5z"></path></svg>
+</span>
+<span class="brand-copy">
+<span class="brand-kicker">Interactive Revision</span>
+<span class="brand-title">ATA 23 · Communications</span>
+</span>
+</a>
+<div class="topbar-spacer"></div>
+<div class="top-actions">
+<a aria-label="Course home" class="icon-btn" href="../../" title="Course home">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"></path><path d="M5.5 10.5V20h13v-9.5"></path><path d="M9.5 20v-6h5v6"></path></svg>
+</a>
+<button aria-label="Print or save as PDF" class="icon-btn print" id="printButton" title="Print / Save as PDF" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 14h12v8H6z"></path></svg>
+</button>
+<button aria-label="Switch to dark theme" class="icon-btn" id="themeButton" title="Light / Dark theme" type="button">
+<svg class="theme-sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path></svg>
+</button>
+</div>
+</div>
+</header>
+<div class="page-shell" id="top">
+<aside aria-label="Study navigation" class="sidebar" id="sidebar">
+<p class="sidebar-label">Find a topic</p>
+<div class="search-wrap">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+<label class="sr-only" for="searchInput">Search this revision guide</label>
+<input aria-label="Search study topics and revision tools" autocomplete="off" id="searchInput" placeholder="Search study topics…" type="search"/>
+</div>
+<div aria-live="polite" id="searchStatus"></div>
+<nav class="nav-list">
+<a aria-current="location" class="nav-link active" href="#overview"><span class="nav-num">01</span><span>Overview</span></a>
+<a class="nav-link" href="#vhf"><span class="nav-num">02</span><span>VHF Radio</span></a>
+<a class="nav-link" href="#hf"><span class="nav-num">03</span><span>HF Radio</span></a>
+<a class="nav-link" href="#selcal"><span class="nav-num">04</span><span>SELCAL</span></a>
+<a class="nav-link" href="#satcom"><span class="nav-num">05</span><span>SATCOM</span></a>
+<a class="nav-link" href="#cpdlc"><span class="nav-num">06</span><span>CPDLC</span></a>
+<a class="nav-link" href="#audio"><span class="nav-num">07</span><span>Aircraft Audio</span></a>
+<a class="nav-link" href="#interphone"><span class="nav-num">08</span><span>Service Interphone</span></a>
+<a class="nav-link" href="#elt"><span class="nav-num">09</span><span>ELT</span></a>
+<a class="nav-link" href="#recorders"><span class="nav-num">10</span><span>CVR &amp; FDR</span></a>
+<a class="nav-link" href="#review"><span class="nav-num">R</span><span>Quick Review</span></a>
+<a class="nav-link" href="#flashcards"><span class="nav-num">F</span><span>Flashcards</span></a>
+<a class="nav-link" href="#quiz"><span class="nav-num">Q</span><span>Exam Quiz</span></a>
+</nav>
+<div class="sidebar-progress">
+<div class="progress-copy"><span>Topic progress</span><span aria-live="polite" id="progressText">0 / 10 · 0%</span></div>
+<div aria-hidden="true" class="progress-track"><div aria-label="Topic completion progress" aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" class="progress-fill" id="progressFill" role="progressbar"></div></div>
+<button class="reset-btn" id="resetProgress" type="button">Reset study progress</button>
+</div>
+</aside>
+<main id="main-content">
+<section aria-labelledby="pageTitle" class="hero">
+<div class="hero-grid">
+<div>
+<div class="eyebrow"><span class="eyebrow-dot"></span>11.5.2 Avionics Systems</div>
+<h1 id="pageTitle">Communications <span>ATA 23</span></h1>
+<p class="hero-subtitle">Study aircraft radio, data link, audio, interphone, emergency-location and recorder systems through clearly separated core revision, supporting source detail and targeted testing.</p>
+<div class="hero-actions">
+<a class="primary-btn" href="#overview">Start revision
+                <svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="18"><path d="m9 18 6-6-6-6"></path></svg>
+</a>
+<a class="secondary-btn" href="#quiz">Take exam quiz</a>
+</div><div class="source-fidelity-badge">Built only from the supplied original source and revision notes</div>
+<div aria-label="Guide summary" class="hero-meta">
+<div class="hero-stat"><strong>10</strong><span>Core topics</span></div>
+<div class="hero-stat"><strong>24</strong><span>Flashcards</span></div>
+<div class="hero-stat"><strong>30</strong><span>Exam Mode questions</span></div>
+</div>
+</div>
+<div aria-hidden="true" class="hero-radar">
+<div class="radar">
+<span class="signal-dot one"></span>
+<span class="signal-dot two"></span>
+<span class="signal-dot three"></span>
+<div class="radar-plane">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24"><path d="M22 16.2 13.6 12l8.4-4.2V5.5L11 9 4.4 5.7 2 6.9l5.8 5.1L2 17.1l2.4 1.2L11 15l11 3.5z"></path></svg>
+</div>
+</div>
+</div>
+</div>
+</section>
+<div class="study-banner">
+<div aria-hidden="true" class="study-banner-icon">
+<svg fill="none" height="21" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="21"><path d="M12 3a6 6 0 0 0-6 6c0 5-3 6-3 6h18s-3-1-3-6a6 6 0 0 0-6-6Z"></path><path d="M10 21h4"></path></svg>
+</div>
+<div><strong>Study method</strong><p>Start with Core Revision, open Source Detail for depth, mark each topic complete, then use flashcards and the two quiz modes to review and retest.</p></div>
+</div>
+<section aria-labelledby="priorityLegendTitle" class="priority-legend">
+<div class="priority-legend-copy">
+<span class="mini-kicker">Study priority</span>
+<h2 id="priorityLegendTitle">Know what to learn first</h2>
+<p>The page keeps the revision notes visually dominant while preserving useful depth from the original source.</p>
+</div>
+<div class="priority-legend-grid">
+<article class="priority-legend-card">
+<span class="priority-marker core">Core Revision</span>
+<strong>Highest priority</strong>
+<p>Main facts, comparisons, values and memory anchors retained in the revision notes.</p>
+</article>
+<article class="priority-legend-card">
+<span class="priority-marker source">Source Detail</span>
+<strong>Supporting depth</strong>
+<p>Useful original-source information that improves understanding or broader exam coverage.</p>
+</article>
+<article class="priority-legend-card">
+<span class="priority-marker specific">Specific Source Note</span>
+<strong>Targeted detail</strong>
+<p>Specialised, contextual or low-priority material kept separate from rapid revision.</p>
+</article>
+</div>
+</section>
+<div class="no-results" id="noResults"><strong>No matching topic found.</strong><br/>Try a system name, frequency, or keyword such as “line-of-sight”, “ELT”, or “audio”.</div>
+<section aria-labelledby="overview-title" class="section-card topic-section" data-search-zone="study" data-topic="communication systems overview ATC air-to-air ground operations flight deck cabin ground crew satellite passenger internet" id="overview">
+<div class="section-head"><span class="section-number">01</span><span><span class="section-kicker">System map</span><h2 class="section-title" id="overview-title">Communication Systems – Overview</h2></span><button aria-controls="body-overview" aria-expanded="true" aria-label="Collapse Communication Systems – Overview" class="section-collapse" type="button"><span aria-hidden="true" class="section-toggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button></div>
+<div class="section-body" id="body-overview">
+<div class="priority-intro"><span class="priority-marker core">Core Revision</span><p>Primary system purposes retained in the revision notes.</p></div>
+<p class="lead">Large-aircraft communication systems connect the flight crew with air traffic control, other aircraft, ground operations, the passenger cabin, ground personnel and satellite services.</p>
+<div class="feature-grid">
+<article class="feature-card"><h3>ATC communication</h3><p>Communication between the flight crew and air traffic control.</p></article>
+<article class="feature-card"><h3>Air-to-air communication</h3><p>Communication between aircraft while in flight.</p></article>
+<article class="feature-card"><h3>Ground operations</h3><p>Communication with operational personnel.</p></article>
+<article class="feature-card"><h3>Flight deck ↔ cabin</h3><p>Interphone communication between the flight deck and passenger cabin.</p></article>
+<article class="feature-card"><h3>Flight deck ↔ ground crew</h3><p>Interphone communication with personnel outside the aircraft.</p></article>
+<article class="feature-card"><h3>Satellite services</h3><p>Operational communication and passenger internet through SATCOM.</p></article>
+</div>
+<div class="callout"><div aria-hidden="true" class="callout-icon">↔</div><div><h3>System view</h3><p>The chapter covers external voice and data communication, internal and ground interphone links, emergency location and the two flight recorders described in the supplied material.</p></div></div>
+</div>
+<div class="complete-row"><label class="complete-label"><input class="topic-check" data-topic-id="overview" type="checkbox"/> Topic complete</label></div>
+</section>
+<section aria-labelledby="vhf-title" class="section-card topic-section" data-search-zone="study" data-topic="VHF very high frequency 118.0 136.975 MHz 25 kHz 720 channels line-of-sight redundancy avionics bay same channel one party transmit" id="vhf">
+<div class="section-head"><span class="section-number">02</span><span><span class="section-kicker">Primary ATC voice link</span><h2 class="section-title" id="vhf-title">VHF Radio</h2></span><button aria-controls="body-vhf" aria-expanded="true" aria-label="Collapse VHF Radio" class="section-collapse" type="button"><span aria-hidden="true" class="section-toggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button></div>
+<div class="section-body" id="body-vhf">
+<div class="priority-intro"><span class="priority-marker core">Core Revision</span><p>Primary ATC voice-link facts and values.</p></div>
+<div class="definition">VHF = Very High Frequency</div>
+<p class="lead">VHF maintains radio voice communication between aircraft and air traffic control and also supports air-to-air communication.</p>
+<div class="stat-grid">
+<div class="stat-card"><span class="stat-label">Frequency range</span><span class="stat-value">118.0–136.975</span><span class="stat-note">MHz</span></div>
+<div class="stat-card"><span class="stat-label">Channel spacing</span><span class="stat-value">25</span><span class="stat-note">kHz</span></div>
+<div class="stat-card"><span class="stat-label">Designated channels</span><span class="stat-value">720</span><span class="stat-note">Separate and distinct channels</span></div>
+<div class="stat-card"><span class="stat-label">Typical minimum</span><span class="stat-value">2 radios</span><span class="stat-note">For redundancy</span></div>
+</div>
+<div class="two-col">
+<div class="panel"><h3>Operating characteristics</h3><ul class="clean-list"><li>Relatively short range.</li><li>Requires <strong>line-of-sight</strong> between stations.</li><li>Used for aircraft ↔ ATC and air-to-air communication.</li><li>Each party transmits and receives on the <strong>same channel</strong>.</li><li>Only <strong>one party</strong> can transmit at any one time.</li></ul></div>
+<div class="panel source-detail-panel"><span class="priority-marker source">Source Detail</span><h3>Typical transport-aircraft installation</h3><ul class="clean-list"><li>Radio typically located in an <strong>avionics bay</strong>.</li><li>Connected to a flight-deck tuning and frequency display head.</li><li>Connected to the flight-deck audio control panel through a data bus.</li></ul></div>
+</div>
+<div class="callout"><div aria-hidden="true" class="callout-icon">1</div><div><h3>Key point</h3><p>On the selected VHF channel, only one party can transmit at a time.</p></div></div>
+</div>
+<div class="complete-row"><label class="complete-label"><input class="topic-check" data-topic-id="vhf" type="checkbox"/> Topic complete</label></div>
+</section>
+<section aria-labelledby="hf-title" class="section-card topic-section" data-search-zone="study" data-topic="HF high frequency 2 25 MHz long distance transoceanic ionosphere refraction beyond line-of-sight base station" id="hf">
+<div class="section-head"><span class="section-number">03</span><span><span class="section-kicker">Long-range voice link</span><h2 class="section-title" id="hf-title">HF Radio</h2></span><button aria-controls="body-hf" aria-expanded="true" aria-label="Collapse HF Radio" class="section-collapse" type="button"><span aria-hidden="true" class="section-toggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button></div>
+<div class="section-body" id="body-hf">
+<div class="priority-intro"><span class="priority-marker core">Core Revision</span><p>Long-range communication and propagation.</p></div>
+<div class="definition">HF = High Frequency</div>
+<p class="lead">HF is used mainly for long-distance or transoceanic communication.</p>
+<div aria-label="HF propagation path" class="process-flow with-arrows">
+<div class="process-node"><strong>HF transmission</strong><span>2–25 MHz</span></div>
+<div aria-hidden="true" class="process-arrow">→</div>
+<div class="process-node"><strong>Ionosphere</strong><span>Radio waves are refracted</span></div>
+<div aria-hidden="true" class="process-arrow">→</div>
+<div class="process-node"><strong>Extended range</strong><span>Beyond line-of-sight</span></div>
+</div>
+<div aria-label="VHF and HF comparison" class="comparison">
+<article class="compare-card vhf"><h3>VHF</h3><ul><li>118.0–136.975 MHz</li><li>Relatively short range</li><li>Line-of-sight</li><li>ATC and air-to-air communication</li></ul></article>
+<div class="compare-vs">VS</div>
+<article class="compare-card hf"><h3>HF</h3><ul><li>2–25 MHz</li><li>Long-distance / transoceanic</li><li>Ionospheric refraction</li><li>Beyond line-of-sight</li></ul></article>
+</div>
+<div class="callout orange"><div aria-hidden="true" class="callout-icon">↗</div><div><h3>Memory anchor</h3><p><strong>VHF = short range / line-of-sight.</strong> <strong>HF = long range / beyond line-of-sight.</strong></p></div></div>
+<div class="priority-block source"><span class="priority-marker source">Source Detail</span><h3>Typical use stated in the original material</h3><p>Some transoceanic aircraft may use HF for long-distance communication with an operator's base station.</p></div>
+</div>
+<div class="complete-row"><label class="complete-label"><input class="topic-check" data-topic-id="hf" type="checkbox"/> Topic complete</label></div>
+</section>
+<section aria-labelledby="selcal-title" class="section-card topic-section" data-search-zone="study" data-topic="SELCAL selective calling VHF HF panel illuminates tone ground operations incoming call" id="selcal">
+<div class="section-head"><span class="section-number">04</span><span><span class="section-kicker">Incoming-call alert</span><h2 class="section-title" id="selcal-title">SELCAL</h2></span><button aria-controls="body-selcal" aria-expanded="true" aria-label="Collapse SELCAL" class="section-collapse" type="button"><span aria-hidden="true" class="section-toggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button></div>
+<div class="section-body" id="body-selcal">
+<div class="priority-intro"><span class="priority-marker core">Core Revision</span><p>Incoming-call alert used with VHF or HF.</p></div>
+<div class="definition">SELCAL = Selective Calling</div>
+<p class="lead">SELCAL works in conjunction with VHF or HF radio and alerts the flight crew when ground operations calls the aircraft, without requiring continuous radio monitoring.</p>
+<div class="steps">
+<article class="step"><span class="step-num">1</span><h3>Ground call</h3><p>Ground operations contacts the aircraft through VHF or HF.</p></article>
+<article class="step"><span class="step-num">2</span><h3>Visual indication</h3><p>The SELCAL panel on the flight deck illuminates.</p></article>
+<article class="step"><span class="step-num">3</span><h3>Audible indication</h3><p>A tone is heard to alert the flight crew.</p></article>
+</div>
+<div class="callout"><div aria-hidden="true" class="callout-icon">🔔</div><div><h3>Recall association</h3><p><strong>SELCAL = incoming-call alert by light + tone.</strong></p></div></div>
+</div>
+<div class="complete-row"><label class="complete-label"><input class="topic-check" data-topic-id="selcal" type="checkbox"/> Topic complete</label></div>
+</section>
+<section aria-labelledby="satcom-title" class="section-card topic-section" data-search-zone="study" data-topic="SATCOM satellite communication aircraft satellite ground station airline operations enroute passenger internet INMARSAT ten satellites" id="satcom">
+<div class="section-head"><span class="section-number">05</span><span><span class="section-kicker">Satellite link</span><h2 class="section-title" id="satcom-title">SATCOM</h2></span><button aria-controls="body-satcom" aria-expanded="true" aria-label="Collapse SATCOM" class="section-collapse" type="button"><span aria-hidden="true" class="section-toggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button></div>
+<div class="section-body" id="body-satcom">
+<div class="priority-intro"><span class="priority-marker core">Core Revision</span><p>Satellite relay, operational communication and passenger internet.</p></div>
+<div class="definition">SATCOM = Satellite Communication</div>
+<p class="lead">SATCOM uses ground stations and orbiting satellites to relay transmissions to and from the aircraft.</p>
+<div aria-label="SATCOM communication path" class="process-flow with-arrows">
+<div class="process-node"><strong>Aircraft</strong><span>Sends or receives a transmission</span></div>
+<div aria-hidden="true" class="process-arrow">↔</div>
+<div class="process-node"><strong>Orbiting satellite</strong><span>Relays the transmission</span></div>
+<div aria-hidden="true" class="process-arrow">↔</div>
+<div class="process-node"><strong>Ground station</strong><span>Operational communication endpoint</span></div>
+</div>
+<div class="feature-grid"><article class="feature-card"><h3>Airline operations</h3><p>Airline operators typically use SATCOM for enroute communication with ground stations.</p></article><article class="feature-card"><h3>Long-range communication</h3><p>SATCOM supports long-range communication through the satellite relay path.</p></article><article class="feature-card"><h3>Passenger internet</h3><p>SATCOM is also used to connect passengers to the internet.</p></article></div><div class="priority-block source"><span class="priority-marker source">Source Detail</span><h3>INMARSAT example</h3><p>The original material identifies INMARSAT as a commercially available system that includes ten orbiting satellites and provides different services.</p></div>
+</div>
+<div class="complete-row"><label class="complete-label"><input class="topic-check" data-topic-id="satcom" type="checkbox"/> Topic complete</label></div>
+</section>
+<section aria-labelledby="cpdlc-title" class="section-card topic-section" data-search-zone="study" data-topic="CPDLC controller pilot data link communications text ATC altitude course speed frequency clearance information visual display voice alternative" id="cpdlc">
+<div class="section-head"><span class="section-number">06</span><span><span class="section-kicker">Digital ATC messaging</span><h2 class="section-title" id="cpdlc-title">CPDLC</h2></span><button aria-controls="body-cpdlc" aria-expanded="true" aria-label="Collapse CPDLC" class="section-collapse" type="button"><span aria-hidden="true" class="section-toggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button></div>
+<div class="section-body" id="body-cpdlc">
+<div class="priority-intro"><span class="priority-marker core">Core Revision</span><p>Two-way digital text communication between controllers and pilots.</p></div>
+<div class="definition">CPDLC = Controller Pilot Data Link Communications</div>
+<p class="lead">CPDLC is a two-way data-link system through which controllers transmit short text messages to an aircraft as an alternative to voice communication.</p>
+<div aria-label="CPDLC message exchange" class="process-flow with-arrows">
+<div class="process-node"><strong>Controller</strong><span>Transmits a message</span></div>
+<div aria-hidden="true" class="process-arrow">→</div>
+<div class="process-node"><strong>Flight-deck visual display</strong><span>Shows the short text message</span></div>
+<div aria-hidden="true" class="process-arrow">↔</div>
+<div class="process-node"><strong>Pilot</strong><span>Responds, requests or reports</span></div>
+</div>
+<div class="message-board">
+<div class="message-column"><h3>Controllers can transmit</h3><div class="bubble">Altitude assignments</div><div class="bubble">Course changes</div><div class="bubble">Speed assignments</div><div class="bubble">Radio-frequency assignments</div><div class="bubble">Requests for information</div></div>
+<div class="message-column pilot"><h3>Pilots can</h3><div class="bubble">Respond to messages</div><div class="bubble">Request or receive clearances</div><div class="bubble">Report information</div></div>
+</div>
+<div class="callout orange"><div aria-hidden="true" class="callout-icon">T</div><div><h3>Exam tip from the revision notes</h3><p>CPDLC is an alternative to <strong>voice communication</strong>.</p></div></div>
+<div class="source-note specific"><span class="priority-marker specific">Source Example</span><strong>CPDLC display example:</strong> a revised route change is approved and the pilot is instructed to maintain an altitude of 3 000 feet.</div>
+</div>
+<div class="complete-row"><label class="complete-label"><input class="topic-check" data-topic-id="cpdlc" type="checkbox"/> Topic complete</label></div>
+</section>
+<section aria-labelledby="audio-title" class="section-card topic-section" data-search-zone="study" data-topic="aircraft audio system audio panel intercom cabin VHF SATCOM radio crew alert tones messages active standby volume speakers microphones headsets push-to-talk PTT" id="audio">
+<div class="section-head"><span class="section-number">07</span><span><span class="section-kicker">Audio selection &amp; distribution</span><h2 class="section-title" id="audio-title">Aircraft Audio System</h2></span><button aria-controls="body-audio" aria-expanded="true" aria-label="Collapse Aircraft Audio System" class="section-collapse" type="button"><span aria-hidden="true" class="section-toggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button></div>
+<div class="section-body" id="body-audio">
+<div class="priority-intro"><span class="priority-marker core">Core Revision</span><p>How communication and warning audio are integrated and selected.</p></div>
+<p class="lead">The aircraft audio system and audio panel integrate audio from several sources and allow the pilot to manage incoming and outgoing audio.</p>
+<div class="audio-layout">
+<div>
+<div aria-label="Audio sources integrated by the aircraft audio system" class="audio-hub">
+<div aria-hidden="true" class="hub-orbit"></div>
+<div class="hub-center">Aircraft<br/>Audio System</div>
+<div class="hub-node n1">VHF / HF / SATCOM</div>
+<div class="hub-node n2">Crew intercom</div>
+<div class="hub-node n3">Ground-service intercom</div>
+<div class="hub-node n4">Cabin communication</div>
+<div class="hub-node n5">Crew-alert tones</div>
+<div class="hub-node n6">Crew-alert messages</div>
+</div>
+</div>
+<div class="two-col">
+<div class="panel"><h3>Pilot selections</h3><ul class="clean-list"><li>Select which audio source to transmit, receive, monitor or adjust.</li><li>Manage incoming and outgoing audio.</li><li>Control audio volume and other features.</li></ul></div>
+<div class="panel"><h3>Typical components</h3><ul class="clean-list"><li>Audio electronics control unit</li><li>Audio control panels</li><li>Flight-compartment and cabin speakers</li><li>Microphones and headsets</li><li>Push-to-talk switches</li><li>External ground interphone jacks</li></ul></div>
+</div>
+</div>
+<div class="priority-block source"><span class="priority-marker source">Source Detail</span><h3>Selection status</h3><p>The original material additionally describes choosing which selections are active and which are on standby.</p></div>
+</div>
+<div class="complete-row"><label class="complete-label"><input class="topic-check" data-topic-id="audio" type="checkbox"/> Topic complete</label></div>
+</section>
+<section aria-labelledby="interphone-title" class="section-card topic-section" data-search-zone="study" data-topic="service interphone flight deck passenger cabin ground personnel exterior jacks fueling cargo tail cone wheel wells equipment bays engine nacelles APU ground crew call horn" id="interphone">
+<div class="section-head"><span class="section-number">08</span><span><span class="section-kicker">Internal &amp; ground communication</span><h2 class="section-title" id="interphone-title">Service Interphone</h2></span><button aria-controls="body-interphone" aria-expanded="true" aria-label="Collapse Service Interphone" class="section-collapse" type="button"><span aria-hidden="true" class="section-toggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button></div>
+<div class="section-body" id="body-interphone">
+<div class="priority-intro"><span class="priority-marker core">Core Revision</span><p>Internal and ground communication links.</p></div>
+<p class="lead">The service interphone is an intercom-type system linking the flight deck, passenger cabin and personnel outside the aircraft.</p>
+<div aria-label="Service interphone communication links" class="link-matrix">
+<div class="link-card"><strong>Flight deck</strong><span class="arrow">↔</span><strong>Passenger cabin</strong></div>
+<div class="link-card"><strong>Flight deck</strong><span class="arrow">↔</span><strong>Ground personnel</strong></div>
+<div class="link-card"><strong>Passenger cabin</strong><span class="arrow">↔</span><strong>Ground personnel</strong></div>
+</div>
+<div class="two-col">
+<div class="panel"><h3>Typical exterior jack areas</h3><div class="chip-wrap"><span class="chip">Fueling station</span><span class="chip">Cargo bays</span><span class="chip">Wheel wells</span><span class="chip">Equipment bays</span><span class="chip">Engines</span><span class="chip">APU area</span></div></div>
+<div class="panel"><h3>Ground crew call system</h3><ul class="clean-list"><li>Creates audible and visual alerts on the flight deck when ground crew wish to speak.</li><li>Allows flight-deck personnel to notify ground crew to connect to the interphone.</li><li>A horn on the external APU control panel sounds to gain ground-crew attention.</li></ul></div>
+</div>
+<div class="priority-block source"><span class="priority-marker source">Source Detail</span><h3>Additional operation and installation detail</h3><ul class="clean-list"><li>Cabin phones become active when picked up.</li><li>A switch must be operated to broadcast over the cabin speaker system.</li><li>Flight-deck crew can typically choose between the passenger cabin and ground crew.</li><li>Maintenance personnel connect through exterior headset jacks.</li><li>The original location list also specifies the tail cone, engine nacelles, APU compartment and APU control panel.</li><li>Modern systems are controlled by an audio management unit or similar equipment-bay unit, are DC powered and often incorporate the ground crew call system.</li></ul></div>
+<div class="source-note specific"><span class="priority-marker specific">Manufacturer-Specific Note</span><strong>Boeing detail in the supplied source:</strong> the same external APU-panel horn is also described as indicating an equipment-cooling failure and sounding when the air data inertial reference unit is on while no AC power is available.</div>
+</div>
+<div class="complete-row"><label class="complete-label"><input class="topic-check" data-topic-id="interphone" type="checkbox"/> Topic complete</label></div>
+</section>
+<section aria-labelledby="elt-title" class="section-card topic-section" data-search-zone="study" data-topic="ELT emergency locator transmitter 406.025 MHz every 50 seconds 5 W 24 hours satellite local user terminal mission control search rescue 12 months battery corrosion crash sensor antenna longitudinal axis ARM TEST manual three sweeps" id="elt">
+<div class="section-head"><span class="section-number">09</span><span><span class="section-kicker">Search-and-rescue beacon</span><h2 class="section-title" id="elt-title">Emergency Locator Transmitter (ELT)</h2></span><button aria-controls="body-elt" aria-expanded="true" aria-label="Collapse Emergency Locator Transmitter (ELT)" class="section-collapse" type="button"><span aria-hidden="true" class="section-toggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button></div>
+<div class="section-body" id="body-elt">
+<div class="priority-intro"><span class="priority-marker core">Core Revision</span><p>Emergency activation, location signal, installation, controls and maintenance.</p></div>
+<div class="definition">ELT = Emergency Locator Transmitter</div>
+<p class="lead">An ELT is an independent battery-powered transmitter activated by excessive G-forces during a crash. Its signal is received by satellite systems and relayed for search-and-rescue action.</p>
+<div class="elt-hero">
+<div>
+<div class="stat-grid">
+<div class="stat-card"><span class="stat-label">Digital frequency</span><span class="stat-value">406.025</span><span class="stat-note">MHz</span></div>
+<div class="stat-card"><span class="stat-label">Power</span><span class="stat-value">5 W</span><span class="stat-note">Source value</span></div>
+<div class="stat-card"><span class="stat-label">Operating time</span><span class="stat-value">At least 24 h</span><span class="stat-note">Minimum duration</span></div>
+<div class="stat-card"><span class="stat-label">Automatic trigger</span><span class="stat-value">Crash G-force</span><span class="stat-note">Excessive G-forces</span></div>
+</div>
+</div>
+<div aria-label="ELT digital frequency 406.025 megahertz" class="elt-signal"><div class="elt-core"><span class="elt-frequency">406.025<small>MHz ELT signal</small></span></div></div>
+</div>
+<div class="two-col">
+<div class="panel"><h3>Typical installation and controls</h3><ul class="clean-list"><li>Typically installed as far aft in the fuselage as practicable, just forward of the empennage.</li><li>Built-in G-force sensor aligned with the aircraft's longitudinal axis.</li><li>Flight-deck panel alerts the pilot if activated.</li><li>Flight-deck controls permit <strong>ARM</strong>, <strong>TEST</strong> and <strong>manual activation</strong>.</li></ul><div class="control-strip"><div class="control">ARM</div><div class="control">TEST</div><div class="control">MANUAL</div></div></div>
+<div class="panel"><h3>Core maintenance checks</h3><ul class="clean-list"><li>Proper installation</li><li>Battery condition</li><li>Operation of controls</li><li>Crash-sensor operation</li><li>Sufficient signal at the antenna</li></ul></div>
+</div>
+<div class="callout red"><div aria-hidden="true" class="callout-icon">!</div><div><h3>Maintenance caution</h3><p>Do not accidentally activate the ELT and transmit an emergency distress signal.</p></div></div>
+<div class="priority-block source"><span class="priority-marker source">Source Detail</span><h3>Transmission and rescue path</h3><div class="stat-grid"><div class="stat-card source-stat"><span class="stat-label">Signal interval</span><span class="stat-value">Every 50 s</span><span class="stat-note">Digital transmission</span></div><div class="stat-card source-stat"><span class="stat-label">Inspection interval</span><span class="stat-value">Within 12 months</span><span class="stat-note">Of the previous inspection</span></div></div><div aria-label="ELT emergency alert sequence" class="sequence-strip"><div class="sequence-item"><strong>1</strong><span>Crash G-force activates the ELT</span></div><div aria-hidden="true" class="sequence-arrow">→</div><div class="sequence-item"><strong>2</strong><span>Digital signal is transmitted</span></div><div aria-hidden="true" class="sequence-arrow">→</div><div class="sequence-item"><strong>3</strong><span>Low-earth-orbit or geostationary satellite receives it</span></div><div aria-hidden="true" class="sequence-arrow">→</div><div class="sequence-item"><strong>4</strong><span>Local user terminal and mission control process it</span></div><div aria-hidden="true" class="sequence-arrow">→</div><div class="sequence-item"><strong>5</strong><span>Search-and-rescue operations are notified</span></div></div></div>
+<div class="detail-grid">
+<article class="detail-card"><span class="priority-marker source">Source Detail</span><h3>Inspection and records</h3><ul><li>Inspect within 12 months of the previous inspection.</li><li>Check for battery corrosion as well as the controls, crash sensor and antenna signal.</li><li>Record the inspection and new battery-expiration date in maintenance records and on the outside of the ELT.</li><li>Built-in test equipment facilitates testing without transmitting an emergency signal.</li></ul></article>
+<article class="detail-card"><span class="priority-marker source">Source Detail</span><h3>Identification and portability</h3><ul><li>The digital signal contains unique registration information identifying the aircraft, owner and contact information.</li><li>Automatic G-force units are easily removable and often contain a portable antenna.</li><li>ELTs are equipped with multidirectional activation devices.</li></ul></article>
+</div>
+<div class="source-note specific"><span class="priority-marker specific">Specific Source Note</span><strong>Intentional signal activation:</strong> only from the top of each hour to five minutes after the hour, for no longer than three audible sweeps. Contacting the local air traffic control tower before testing is recommended. Follow the ELT and airframe manufacturers' instructions.</div>
+</div>
+<div class="complete-row"><label class="complete-label"><input class="topic-check" data-topic-id="elt" type="checkbox"/> Topic complete</label></div>
+</section>
+<section aria-labelledby="recorders-title" class="section-card topic-section" data-search-zone="study" data-topic="CVR cockpit voice recorder FDR flight data recorder black box two hours 1000 parameters 25 hours engine running international orange reflective tape underwater acoustic beacon six years" id="recorders">
+<div class="section-head"><span class="section-number">10</span><span><span class="section-kicker">Crash-protected recorders</span><h2 class="section-title" id="recorders-title">CVR and FDR – “Black Boxes”</h2></span><button aria-controls="body-recorders" aria-expanded="true" aria-label="Collapse CVR and FDR – “Black Boxes”" class="section-collapse" type="button"><span aria-hidden="true" class="section-toggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button></div>
+<div class="section-body" id="body-recorders">
+<div class="priority-intro"><span class="priority-marker core">Core Revision</span><p>Two separate recorders with different content and storage.</p></div>
+<p class="lead">The common name “black box” refers to two separate pieces of equipment: the Cockpit Voice Recorder and the Flight Data Recorder. Their information is typically used after an accident to help investigators determine its cause.</p>
+<div class="recorder-grid">
+<article class="recorder-card"><span class="recorder-badge">CVR</span><h3>Cockpit Voice Recorder</h3><p>Records flight-crew conversations, radio communications and cockpit sounds.</p><div class="recorder-specs"><div class="recorder-spec"><span>Maximum storage</span><strong>2 hours</strong></div><div class="recorder-spec"><span>At the limit</span><strong>Overwrites older material</strong></div><div class="recorder-spec"><span>Primary content</span><strong>Conversation and cockpit audio</strong></div><div class="recorder-spec"><span>Recorder type</span><strong>Separate from the FDR</strong></div></div></article>
+<article class="recorder-card"><span class="recorder-badge">FDR</span><h3>Flight Data Recorder</h3><p>Records critical flight and operational parameters, including engine conditions, air data, flight controls, navigation and hydraulic-system data.</p><div class="recorder-specs"><div class="recorder-spec"><span>Parameters</span><strong>About 1,000</strong></div><div class="recorder-spec"><span>Storage</span><strong>25 hours</strong></div><div class="recorder-spec"><span>Examples</span><strong>Altitude, airspeed, temperature</strong></div><div class="recorder-spec"><span>Recorder type</span><strong>Separate from the CVR</strong></div></div></article>
+</div>
+<div class="feature-grid" style="margin-top:16px">
+<article class="feature-card"><h3>International orange</h3><p>Both recorders are painted international orange for easier identification.</p></article>
+<article class="feature-card"><h3>Reflective tape</h3><p>Reflective strips help locate the recorders if they are underwater.</p></article>
+<article class="feature-card"><h3>Underwater acoustic beacon</h3><p>An underwater acoustic beacon is attached to assist location.</p></article>
+</div>
+<div class="priority-block source"><span class="priority-marker source">Source Detail</span><h3>Operation and synchronisation</h3><ul class="clean-list"><li>The CVR uses several microphones and records ambient cockpit noises, including a possible malfunction.</li><li>A time signal is transmitted to the CVR for synchronisation.</li><li>The FDR automatically starts when one engine is running and stops 5 minutes after the last engine shuts down.</li><li>The underwater acoustic beacon is battery powered, with an expected battery life of 6 years.</li></ul></div>
+</div>
+<div class="complete-row"><label class="complete-label"><input class="topic-check" data-topic-id="recorders" type="checkbox"/> Topic complete</label></div>
+</section>
+<section aria-labelledby="review-title" class="section-card revision-utility" data-search-zone="utility" data-topic="quick review rapid recall summary comparison values systems" id="review">
+<div class="section-head"><span class="section-number">R</span><span><span class="section-kicker">Fast consolidation</span><h2 class="section-title" id="review-title">Quick Exam Review</h2></span><button aria-controls="body-review" aria-expanded="true" aria-label="Collapse Quick Exam Review" class="section-collapse" type="button"><span aria-hidden="true" class="section-toggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button></div>
+<div class="section-body" id="body-review">
+<div class="review-core-banner"><span class="priority-marker core">Core Revision</span><p>Rapid chapter summary: supporting and specific source details are intentionally excluded here.</p></div>
+<div class="review-table-wrap">
+<table class="review-table">
+<caption class="sr-only">Quick review of ATA 23 communication systems</caption>
+<thead><tr><th scope="col">System</th><th scope="col">Main purpose</th><th scope="col">High-value association</th></tr></thead>
+<tbody>
+<tr><td><span class="system-pill">VHF</span></td><td>Short-range ATC and air-to-air voice communication</td><td>118.0–136.975 MHz · line-of-sight</td></tr>
+<tr><td><span class="system-pill">HF</span></td><td>Long-distance / transoceanic communication</td><td>2–25 MHz · ionospheric refraction</td></tr>
+<tr><td><span class="system-pill">SELCAL</span></td><td>Alerts the flight crew to an incoming call</td><td>Panel illumination + tone</td></tr>
+<tr><td><span class="system-pill">SATCOM</span></td><td>Satellite-relayed operational communication and passenger internet</td><td>Aircraft ↔ satellite ↔ ground station</td></tr>
+<tr><td><span class="system-pill">CPDLC</span></td><td>Two-way ATC text communication</td><td>Alternative to voice communication</td></tr>
+<tr><td><span class="system-pill">Audio</span></td><td>Integrates communication and warning audio</td><td>Transmit · receive · monitor · adjust</td></tr>
+<tr><td><span class="system-pill">Interphone</span></td><td>Flight-deck, cabin and ground-personnel communication</td><td>Internal links + exterior jacks</td></tr>
+<tr><td><span class="system-pill">ELT</span></td><td>Emergency location and rescue alerting</td><td>406.025 MHz · 5 W · at least 24 h</td></tr>
+<tr><td><span class="system-pill">CVR</span></td><td>Records cockpit audio</td><td>Maximum 2 hours · overwrites old material</td></tr>
+<tr><td><span class="system-pill">FDR</span></td><td>Records flight and operational parameters</td><td>About 1,000 parameters · 25 hours</td></tr>
+</tbody>
+</table>
+</div>
+<h3 class="subheading">Rapid Recall</h3>
+<div class="recall-grid">
+<div class="recall-card"><strong>VHF</strong><span>Line-of-sight</span></div>
+<div class="recall-card"><strong>HF</strong><span>Ionosphere / long range</span></div>
+<div class="recall-card"><strong>SELCAL</strong><span>Light + tone</span></div>
+<div class="recall-card"><strong>SATCOM</strong><span>Satellite relay</span></div>
+<div class="recall-card"><strong>CPDLC</strong><span>Text with ATC</span></div>
+<div class="recall-card"><strong>Interphone</strong><span>Cabin / ground communication</span></div>
+<div class="recall-card"><strong>ELT</strong><span>Emergency signal</span></div>
+<div class="recall-card"><strong>CVR</strong><span>Voices and cockpit sounds</span></div>
+<div class="recall-card"><strong>FDR</strong><span>Flight parameters</span></div>
+</div>
+</div>
+</section>
+<section aria-labelledby="flashcards-title" class="section-card revision-utility" data-search-zone="utility" data-topic="flashcards active recall questions answers definitions values processes core revision source detail specific source note" id="flashcards">
+<div class="section-head"><span class="section-number">F</span><span><span class="section-kicker">Active recall</span><h2 class="section-title" id="flashcards-title">Flashcards</h2></span><button aria-controls="body-flashcards" aria-expanded="true" aria-label="Collapse Flashcards" class="section-collapse" type="button"><span aria-hidden="true" class="section-toggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button></div>
+<div class="section-body" id="body-flashcards"><div class="flashcard-intro"><div><p>Use 24 source-grounded cards for active recall. Select a card to reveal its answer.</p><p class="utility-note">19 Core Revision cards, 4 Source Detail cards and 1 Specific Source Note card keep the deck weighted toward high-value recall.</p></div><div aria-label="Flashcard controls" class="flashcard-tools"><button class="secondary-action" id="revealCards" type="button">Reveal all</button><button class="reset-btn" id="resetCards" type="button">Reset cards</button></div></div><div class="flash-grid" id="flashcardGrid"><button aria-label="Flashcard 1 of 24: Name the main communication relationships described for large aircraft." aria-pressed="false" class="flashcard" data-priority="core" data-topic="Overview" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · Overview</span><span class="card-priority core">Core Revision</span><strong>Name the main communication relationships described for large aircraft.</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · Overview</span><span class="card-priority core">Core Revision</span><span class="flash-answer">ATC, other aircraft, ground operations, flight deck ↔ cabin, flight deck ↔ ground crew, and satellite communication including passenger internet.</span></span></span></button><button aria-label="Flashcard 2 of 24: Expand the acronym VHF." aria-pressed="false" class="flashcard" data-priority="core" data-topic="VHF" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · VHF</span><span class="card-priority core">Core Revision</span><strong>Expand the acronym VHF.</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · VHF</span><span class="card-priority core">Core Revision</span><span class="flash-answer">Very High Frequency.</span></span></span></button><button aria-label="Flashcard 3 of 24: Recall the complete VHF frequency range." aria-pressed="false" class="flashcard" data-priority="core" data-topic="VHF" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · VHF</span><span class="card-priority core">Core Revision</span><strong>Recall the complete VHF frequency range.</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · VHF</span><span class="card-priority core">Core Revision</span><span class="flash-answer">118.0–136.975 MHz.</span></span></span></button><button aria-label="Flashcard 4 of 24: Complete the pair: channel spacing = ___; designated channels = ___." aria-pressed="false" class="flashcard" data-priority="core" data-topic="VHF" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · VHF</span><span class="card-priority core">Core Revision</span><strong>Complete the pair: channel spacing = ___; designated channels = ___.</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · VHF</span><span class="card-priority core">Core Revision</span><span class="flash-answer">25 kHz spacing and 720 separate channels.</span></span></span></button><button aria-label="Flashcard 5 of 24: State the key VHF operating facts." aria-pressed="false" class="flashcard" data-priority="core" data-topic="VHF" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · VHF</span><span class="card-priority core">Core Revision</span><strong>State the key VHF operating facts.</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · VHF</span><span class="card-priority core">Core Revision</span><span class="flash-answer">Line-of-sight; each party transmits and receives on the same channel; only one party can transmit at a time; typically a minimum of two radios are installed for redundancy.</span></span></span></button><button aria-label="Flashcard 6 of 24: What is the HF frequency range and main use?" aria-pressed="false" class="flashcard" data-priority="core" data-topic="HF" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · HF</span><span class="card-priority core">Core Revision</span><strong>What is the HF frequency range and main use?</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · HF</span><span class="card-priority core">Core Revision</span><span class="flash-answer">2–25 MHz; some transoceanic aircraft may use it for long-distance communication with an operator's base station.</span></span></span></button><button aria-label="Flashcard 7 of 24: Why can HF extend beyond line-of-sight, and how does this contrast with VHF?" aria-pressed="false" class="flashcard" data-priority="core" data-topic="VHF vs HF" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · VHF vs HF</span><span class="card-priority core">Core Revision</span><strong>Why can HF extend beyond line-of-sight, and how does this contrast with VHF?</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · VHF vs HF</span><span class="card-priority core">Core Revision</span><span class="flash-answer">HF waves are refracted by the ionosphere and extend beyond line-of-sight. VHF is relatively short range and line-of-sight.</span></span></span></button><button aria-label="Flashcard 8 of 24: What two flight-deck indications occur when SELCAL receives a ground call?" aria-pressed="false" class="flashcard" data-priority="core" data-topic="SELCAL" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · SELCAL</span><span class="card-priority core">Core Revision</span><strong>What two flight-deck indications occur when SELCAL receives a ground call?</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · SELCAL</span><span class="card-priority core">Core Revision</span><span class="flash-answer">The SELCAL panel illuminates and a tone is heard. SELCAL works with VHF or HF.</span></span></span></button><button aria-label="Flashcard 9 of 24: Reconstruct the SATCOM relay path and name two uses." aria-pressed="false" class="flashcard" data-priority="core" data-topic="SATCOM" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · SATCOM</span><span class="card-priority core">Core Revision</span><strong>Reconstruct the SATCOM relay path and name two uses.</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · SATCOM</span><span class="card-priority core">Core Revision</span><span class="flash-answer">Aircraft ↔ orbiting satellite ↔ ground station. Uses include enroute operational communication and passenger internet.</span></span></span></button><button aria-label="Flashcard 10 of 24: What does the supplied source state about INMARSAT?" aria-pressed="false" class="flashcard" data-priority="source" data-topic="SATCOM" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · SATCOM</span><span class="card-priority source">Source Detail</span><strong>What does the supplied source state about INMARSAT?</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · SATCOM</span><span class="card-priority source">Source Detail</span><span class="flash-answer">It is a commercially available SATCOM system that includes ten orbiting satellites and provides different services.</span></span></span></button><button aria-label="Flashcard 11 of 24: What is CPDLC and how is the message presented?" aria-pressed="false" class="flashcard" data-priority="core" data-topic="CPDLC" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · CPDLC</span><span class="card-priority core">Core Revision</span><strong>What is CPDLC and how is the message presented?</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · CPDLC</span><span class="card-priority core">Core Revision</span><span class="flash-answer">A two-way controller–pilot data-link system. Short text messages are shown on a flight-deck visual display as an alternative to voice communication.</span></span></span></button><button aria-label="Flashcard 12 of 24: Recall controller message types and pilot actions supported by CPDLC." aria-pressed="false" class="flashcard" data-priority="core" data-topic="CPDLC" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · CPDLC</span><span class="card-priority core">Core Revision</span><strong>Recall controller message types and pilot actions supported by CPDLC.</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · CPDLC</span><span class="card-priority core">Core Revision</span><span class="flash-answer">Controllers can send altitude, course, speed and radio-frequency assignments and information requests. Pilots can respond, request or receive clearances, and report information.</span></span></span></button><button aria-label="Flashcard 13 of 24: What sources does the aircraft audio system integrate, and what can the pilot select?" aria-pressed="false" class="flashcard" data-priority="core" data-topic="Audio" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · Audio</span><span class="card-priority core">Core Revision</span><strong>What sources does the aircraft audio system integrate, and what can the pilot select?</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · Audio</span><span class="card-priority core">Core Revision</span><span class="flash-answer">Crew and ground intercoms, cabin communication, radio selections, and crew-alert tones/messages. The pilot selects which audio source to transmit, receive, monitor or adjust.</span></span></span></button><button aria-label="Flashcard 14 of 24: List the six typical audio-system component groups." aria-pressed="false" class="flashcard" data-priority="core" data-topic="Audio" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · Audio</span><span class="card-priority core">Core Revision</span><strong>List the six typical audio-system component groups.</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · Audio</span><span class="card-priority core">Core Revision</span><span class="flash-answer">Audio electronics control unit; audio control panels; flight-compartment and cabin speakers; microphones and headsets; push-to-talk switches; external ground interphone jacks.</span></span></span></button><button aria-label="Flashcard 15 of 24: Which three communication links are provided by the service interphone?" aria-pressed="false" class="flashcard" data-priority="core" data-topic="Interphone" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · Interphone</span><span class="card-priority core">Core Revision</span><strong>Which three communication links are provided by the service interphone?</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · Interphone</span><span class="card-priority core">Core Revision</span><span class="flash-answer">Flight deck ↔ passenger cabin, flight deck ↔ ground personnel, and passenger cabin ↔ ground personnel.</span></span></span></button><button aria-label="Flashcard 16 of 24: Name the typical exterior interphone-jack areas retained in the revision notes." aria-pressed="false" class="flashcard" data-priority="core" data-topic="Interphone" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · Interphone</span><span class="card-priority core">Core Revision</span><strong>Name the typical exterior interphone-jack areas retained in the revision notes.</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · Interphone</span><span class="card-priority core">Core Revision</span><span class="flash-answer">Fueling station, cargo bays, wheel wells, equipment bays, engines and the APU area.</span></span></span></button><button aria-label="Flashcard 17 of 24: How does the ground crew call system attract attention in both directions?" aria-pressed="false" class="flashcard" data-priority="core" data-topic="Interphone" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · Interphone</span><span class="card-priority core">Core Revision</span><strong>How does the ground crew call system attract attention in both directions?</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · Interphone</span><span class="card-priority core">Core Revision</span><span class="flash-answer">Ground crew can create audible and visual flight-deck alerts. The flight deck can call ground crew, with a horn on the external APU control panel sounding for attention.</span></span></span></button><button aria-label="Flashcard 18 of 24: Recall the ELT core value set: frequency, power and minimum operating time." aria-pressed="false" class="flashcard" data-priority="core" data-topic="ELT" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · ELT</span><span class="card-priority core">Core Revision</span><strong>Recall the ELT core value set: frequency, power and minimum operating time.</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · ELT</span><span class="card-priority core">Core Revision</span><span class="flash-answer">406.025 MHz; 5 watts; at least 24 hours.</span></span></span></button><button aria-label="Flashcard 19 of 24: Put the ELT alert chain in order after activation." aria-pressed="false" class="flashcard" data-priority="source" data-topic="ELT" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · ELT</span><span class="card-priority source">Source Detail</span><strong>Put the ELT alert chain in order after activation.</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · ELT</span><span class="card-priority source">Source Detail</span><span class="flash-answer">ELT transmission → low-earth-orbit or geostationary satellite → local user terminal → mission control processing → search-and-rescue notification.</span></span></span></button><button aria-label="Flashcard 20 of 24: When is ELT inspection required and what must be checked?" aria-pressed="false" class="flashcard" data-priority="source" data-topic="ELT" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · ELT</span><span class="card-priority source">Source Detail</span><strong>When is ELT inspection required and what must be checked?</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · ELT</span><span class="card-priority source">Source Detail</span><span class="flash-answer">Within 12 months of the previous inspection. Check installation, battery corrosion, controls, crash sensor and sufficient antenna signal; record the inspection and new battery-expiration date.</span></span></span></button><button aria-label="Flashcard 21 of 24: Where is a fixed-wing ELT typically installed, how is its sensor aligned, and which controls are on the flight deck?" aria-pressed="false" class="flashcard" data-priority="core" data-topic="ELT" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · ELT</span><span class="card-priority core">Core Revision</span><strong>Where is a fixed-wing ELT typically installed, how is its sensor aligned, and which controls are on the flight deck?</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · ELT</span><span class="card-priority core">Core Revision</span><span class="flash-answer">As far aft as practicable just forward of the empennage, sensor aligned with the longitudinal axis; ARM, TEST and manual activation controls.</span></span></span></button><button aria-label="Flashcard 22 of 24: State the supplied ELT signal-testing time and duration limits." aria-pressed="false" class="flashcard" data-priority="specific" data-topic="ELT" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · ELT</span><span class="card-priority specific">Specific Source Note</span><strong>State the supplied ELT signal-testing time and duration limits.</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · ELT</span><span class="card-priority specific">Specific Source Note</span><span class="flash-answer">Only from the top of each hour to five minutes after the hour, for no longer than three audible sweeps. Tower contact before testing is recommended.</span></span></span></button><button aria-label="Flashcard 23 of 24: Compare CVR and FDR storage and content." aria-pressed="false" class="flashcard" data-priority="core" data-topic="Recorders" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · Recorders</span><span class="card-priority core">Core Revision</span><strong>Compare CVR and FDR storage and content.</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · Recorders</span><span class="card-priority core">Core Revision</span><span class="flash-answer">CVR: cockpit conversation and ambient audio, maximum 2 hours, then overwrites. FDR: about 1,000 flight/operational parameters for 25 hours.</span></span></span></button><button aria-label="Flashcard 24 of 24: When does the FDR run, and how are the recorders identified and located?" aria-pressed="false" class="flashcard" data-priority="source" data-topic="Recorders" type="button"><span class="flashcard-inner"><span class="flash-face flash-front"><span class="flash-label">Question · Recorders</span><span class="card-priority source">Source Detail</span><strong>When does the FDR run, and how are the recorders identified and located?</strong><span class="flash-hint">Select to reveal</span></span><span class="flash-face flash-back"><span class="flash-label">Answer · Recorders</span><span class="card-priority source">Source Detail</span><span class="flash-answer">It starts when one engine is running and stops 5 minutes after the last engine shuts down. Recorders are international orange with reflective tape and an underwater acoustic beacon whose battery has an expected 6-year life.</span></span></span></button></div></div>
+</section>
+<section aria-labelledby="quiz-title" class="section-card revision-utility" data-search-zone="utility" data-topic="quiz quick check exam mode questions weak topics retry missed" id="quiz">
+<div class="section-head"><span class="section-number">Q</span><span><span class="section-kicker">Knowledge check</span><h2 class="section-title" id="quiz-title">Exam Quiz</h2></span><button aria-controls="body-quiz" aria-expanded="true" aria-label="Collapse Exam Quiz" class="section-collapse" type="button"><span aria-hidden="true" class="section-toggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button></div>
+<div class="section-body" id="body-quiz">
+<div class="quiz-intro">
+<div><p>Choose a 10-question Core Revision Quick Check or the complete 30-question Exam Mode.</p><p class="utility-note">Exam Mode adds important Source Detail and one carefully separated Specific Source Note. Feedback identifies weak topics and links back to study sections.</p></div>
+</div>
+<div aria-label="Choose quiz mode" class="quiz-mode-grid" id="quizModePanel">
+<button class="quiz-mode-card" data-quiz-mode="quick" type="button">
+<span class="mode-label">Quick Check</span>
+<strong>10 questions</strong>
+<span>Core Revision mastery across the major topics; no low-priority trivia.</span>
+</button>
+<button class="quiz-mode-card" data-quiz-mode="exam" type="button">
+<span class="mode-label">Exam Mode</span>
+<strong>30 questions</strong>
+<span>Broader source mastery with Core Revision, important Source Detail and selected specific material.</span>
+</button>
+</div>
+<div hidden="" id="quizWorkspace">
+<div class="quiz-meta">
+<div>
+<span class="mode-label" id="quizModeLabel">Quiz</span>
+<strong id="quizQuestionCount">0 questions</strong>
+</div>
+<div class="quiz-meta-actions">
+<span aria-live="polite" id="quizAnswered">0 answered</span>
+<button class="secondary-action" id="changeQuizMode" type="button">Change mode</button>
+</div>
+</div>
+<form id="quizForm" novalidate="">
+<div class="quiz-list" id="quizList"></div>
+<div class="quiz-actions">
+<button class="quiz-submit" id="submitQuiz" type="submit">Check answers</button>
+<button class="secondary-action" id="resetQuiz" type="button">Reset quiz</button>
+</div>
+</form>
+<div aria-live="polite" class="quiz-results-panel" hidden="" id="quizResults" tabindex="-1">
+<div class="score-summary" id="scoreSummary"></div>
+<div id="weakTopics"></div>
+<div class="quiz-result-actions">
+<button class="quiz-submit" hidden="" id="retryMissed" type="button">Retry missed questions</button>
+<a class="secondary-action link-action" href="#review">Review quick summary</a>
+</div>
+</div>
+</div>
+<div class="print-only print-question-bank" id="printQuestionBank"><h3>Exam Question Bank — Questions and Answers</h3><p>The printed version includes every question, all options, the correct answer, its learning priority and the source-grounded explanation.</p><ol id="printQuestionList"></ol></div></div>
+</section>
+<footer class="footer">
+<strong>11.5.2 Avionics Systems – Communications (ATA 23)</strong><br/>Priority-layered interactive revision page created only from the supplied original source and revision notes. Use the print button for a clean revision booklet or PDF.
+      </footer>
+</main>
+</div>
+<button aria-label="Back to top" class="back-top" id="backTop" type="button">
+<svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="m18 15-6-6-6 6"></path></svg>
+</button>
+<script>
+(() => {
+  'use strict';
+
+  const root = document.documentElement;
+  const body = document.body;
+  const KEY_BASE = 'revision-11-5-2-ata23-communications';
+  const STORAGE_KEYS = {
+    theme: `${KEY_BASE}-theme`,
+    progress: `${KEY_BASE}-progress`
+  };
+  const QUIZ_QUESTIONS = [{"id":"q01","topic":"Overview","topic_id":"overview","level":"Recall","question":"Which group best reflects the communication uses described for large aircraft?","options":["Only VHF and HF radio communication","ATC, other aircraft, ground operations, cabin, ground crew and satellite services","Only emergency-location and flight-recorder functions","Only passenger internet through SATCOM"],"correct":1,"explanation":"The supplied material includes ATC and air-to-air communication, ground operations, flight deck–cabin and flight deck–ground links, plus SATCOM and passenger internet.","priority":"core"},{"id":"q02","topic":"VHF","topic_id":"vhf","level":"Recall","question":"What is the stated VHF frequency range?","options":["2–25 MHz","406.025 MHz","118.0–136.975 MHz","25 kHz"],"correct":2,"explanation":"The supplied source gives the VHF range as 118.0–136.975 MHz.","priority":"core"},{"id":"q03","topic":"VHF","topic_id":"vhf","level":"Multi-fact recall","question":"Which pairing correctly describes VHF channel allocation?","options":["25 kHz spacing and 720 designated channels","5 W power and at least 24 hours","2 hours and about 1,000 parameters","Every 50 seconds and 406.025 MHz"],"correct":0,"explanation":"VHF uses 25 kHz spacing, with 720 separate and distinct channels designated in the stated range.","priority":"core"},{"id":"q04","topic":"VHF","topic_id":"vhf","level":"Understanding","question":"Why are a minimum of two VHF radios typically installed?","options":["To provide long-distance communication beyond line-of-sight","To record cockpit audio","To provide passenger internet","For redundancy"],"correct":3,"explanation":"The source states that there are typically a minimum of two VHF radios installed for redundancy.","priority":"core"},{"id":"q05","topic":"VHF","topic_id":"vhf","level":"Operating principle","question":"Which statement correctly describes VHF channel use?","options":["Each party transmits on a different channel and both transmit together","Each party transmits and receives on the same channel, and only one party transmits at a time","The signal is stored in a satellite before every transmission","The radio is used only through exterior interphone jacks"],"correct":1,"explanation":"When using VHF, each party transmits and receives on the same channel; only one party can transmit at any one time.","priority":"core"},{"id":"q06","topic":"VHF","topic_id":"vhf","level":"Relationship","question":"Where is a transport-aircraft VHF radio typically located?","options":["Just forward of the empennage","On the external APU control panel","In an avionics bay","Inside the underwater acoustic beacon"],"correct":2,"explanation":"The source places the VHF radio in an avionics bay, connected to flight-deck tuning/display and audio-control equipment.","priority":"source"},{"id":"q07","topic":"HF","topic_id":"hf","level":"Multi-fact recall","question":"Which statement correctly combines the HF range and typical purpose?","options":["2–25 MHz for long-distance or transoceanic communication","118.0–136.975 MHz for ELT distress signalling","406.025 MHz for passenger internet","25 kHz for cockpit voice recording"],"correct":0,"explanation":"HF operates between 2 and 25 MHz and may be used by some transoceanic aircraft for long-distance communication with an operator's base station.","priority":"core"},{"id":"q08","topic":"HF","topic_id":"hf","level":"Understanding","question":"What extends HF communication beyond line-of-sight?","options":["Reflective tape","A ground crew call horn","A cockpit visual display","Refraction by the ionosphere"],"correct":3,"explanation":"The supplied material states that HF radio waves are refracted by the ionosphere, extending their range beyond line-of-sight.","priority":"core"},{"id":"q09","topic":"SELCAL","topic_id":"selcal","level":"Recall","question":"What occurs on the flight deck when SELCAL receives a ground call?","options":["The FDR stops and the CVR overwrites data","The SELCAL panel illuminates and a tone is heard","The ELT transmits every 50 seconds","The external APU horn sounds to gain ground-crew attention"],"correct":1,"explanation":"SELCAL alerts the crew through an illuminated flight-deck panel and an audible tone.","priority":"core"},{"id":"q10","topic":"SELCAL","topic_id":"selcal","level":"Relationship","question":"SELCAL works in conjunction with which radio systems?","options":["CVR or FDR","ELT or underwater beacon","VHF or HF","Interphone or cabin speaker only"],"correct":2,"explanation":"The original source states that SELCAL works in conjunction with VHF or HF radio.","priority":"core"},{"id":"q11","topic":"SATCOM","topic_id":"satcom","level":"Sequence","question":"Which sequence represents the SATCOM relay relationship?","options":["Aircraft → orbiting satellite → ground station","Aircraft → ionosphere → avionics bay","Flight deck → CVR → FDR","Ground crew → ELT → underwater beacon"],"correct":0,"explanation":"SATCOM uses ground stations and orbiting satellites to relay transmissions to and from the aircraft.","priority":"core"},{"id":"q12","topic":"SATCOM","topic_id":"satcom","level":"Understanding","question":"Which uses of SATCOM are stated in the supplied source?","options":["Only crash-sensor testing","Only cockpit voice storage","Only exterior interphone calls","Enroute operational communication and passenger internet"],"correct":3,"explanation":"Airline operators use SATCOM for enroute communication with ground stations, and it is also used to connect passengers to the internet.","priority":"core"},{"id":"q13","topic":"SATCOM","topic_id":"satcom","level":"Recall","question":"What does the supplied source state about INMARSAT?","options":["It is the flight-deck audio control panel","It is a commercially available system described as including ten orbiting satellites","It is the ELT local user terminal","It is an underwater acoustic beacon"],"correct":1,"explanation":"INMARSAT is given as a commercially available SATCOM system including ten orbiting satellites and providing different services.","priority":"source"},{"id":"q14","topic":"CPDLC","topic_id":"cpdlc","level":"Definition","question":"Which description best defines CPDLC?","options":["An intercom-type system linking the flight deck, cabin and ground personnel","A battery-powered crash transmitter","A two-way controller–pilot data-link system using short text messages as an alternative to voice","An audio recorder with a maximum of two hours of storage"],"correct":2,"explanation":"CPDLC is a two-way data-link system through which controllers and pilots exchange short text messages as an alternative to voice communication.","priority":"core"},{"id":"q15","topic":"CPDLC","topic_id":"cpdlc","level":"Classification","question":"Which item is specifically listed as an ATC instruction that can be sent through CPDLC?","options":["Altitude assignment","Battery corrosion","Underwater acoustic beacon","Exterior interphone jacks"],"correct":0,"explanation":"Altitude assignments are among the listed CPDLC instructions, alongside course, speed and radio-frequency assignments.","priority":"core"},{"id":"q16","topic":"CPDLC","topic_id":"cpdlc","level":"Relationship","question":"Which action is available to pilots through CPDLC?","options":["Transmit a digital distress signal every 50 seconds","Record about 1,000 flight and operational parameters","Create audible and visual flight-deck alerts for a ground crew call","Respond to messages and request or receive clearances"],"correct":3,"explanation":"Pilots can respond to messages, request or receive clearances, and report information through CPDLC.","priority":"core"},{"id":"q17","topic":"Audio","topic_id":"audio","level":"Understanding","question":"Which statement best describes what the pilot can do through the aircraft audio system?","options":["Select which audio source to transmit, receive, monitor or adjust","Record cockpit audio for a maximum of two hours","Transmit a digital distress signal on 406.025 MHz","Store 25 hours of flight and operational parameters"],"correct":0,"explanation":"The revision notes state that the pilot selects which audio source to transmit, receive, monitor or adjust.","priority":"core"},{"id":"q18","topic":"Audio","topic_id":"audio","level":"Component recall","question":"Which item is listed as a typical audio-system component?","options":["Mission control center","Geostationary satellite","Audio electronics control unit","Reflective tape"],"correct":2,"explanation":"An audio electronics control unit is one of the typical components listed for the aircraft audio system.","priority":"core"},{"id":"q19","topic":"Interphone","topic_id":"interphone","level":"Relationship","question":"Which areas are connected by the service interphone system?","options":["Flight deck, passenger cabin and ground personnel","Only the CVR and FDR","Only satellites and local user terminals","Only ATC and other aircraft"],"correct":0,"explanation":"The service interphone links the flight deck and passenger cabin and connects both areas with ground personnel outside the aircraft.","priority":"core"},{"id":"q20","topic":"Interphone","topic_id":"interphone","level":"Recall","question":"Which location is included in the source's list of exterior interphone-jack areas?","options":["Mission control center","Orbiting satellite","Cockpit visual display","Tail cone"],"correct":3,"explanation":"Tail cone is one of the listed exterior jack locations, along with fueling, cargo, wheel-well, equipment-bay, engine-nacelle and APU areas.","priority":"source"},{"id":"q21","topic":"Interphone","topic_id":"interphone","level":"Understanding","question":"What happens when ground crew use the ground crew call system to contact the flight deck?","options":["The FDR stops five minutes later","Audible and visual alerts are created on the flight deck","The ELT transmits three audible sweeps","The VHF radio changes to 406.025 MHz"],"correct":1,"explanation":"The ground crew call system creates audible and visual flight-deck alerts when ground crew wish to speak.","priority":"core"},{"id":"q22","topic":"ELT","topic_id":"elt","level":"Multi-fact recall","question":"Which set correctly states the ELT frequency, power and minimum operating time?","options":["118.0–136.975 MHz; 25 kHz; two hours","2–25 MHz; about 1,000 parameters; 25 hours","406.025 MHz; 5 W; at least 24 hours","406.025 MHz; 720 channels; six years"],"correct":2,"explanation":"The supplied material states 406.025 MHz at 5 watts for at least 24 hours.","priority":"core"},{"id":"q23","topic":"ELT","topic_id":"elt","level":"Sequence","question":"Which satellite types are stated as receiving ELT signals?","options":["Low-earth-orbiting and geostationary satellites","Ground stations and local user terminals","VHF and HF radios","Cockpit voice and flight data recorders"],"correct":0,"explanation":"The supplied source identifies low-earth-orbiting and geostationary satellites as the two types used.","priority":"source"},{"id":"q24","topic":"ELT","topic_id":"elt","level":"Rule recall","question":"Within what interval must an ELT be inspected according to the supplied source?","options":["Every 50 seconds","Five minutes after the last engine shutdown","At least every 24 hours","Within 12 months of the previous inspection"],"correct":3,"explanation":"The source states that ELTs must be inspected within 12 months of the previous inspection.","priority":"source"},{"id":"q25","topic":"ELT","topic_id":"elt","level":"Inspection recall","question":"Which condition is specifically included in an ELT inspection?","options":["VHF channel spacing","Battery corrosion","CPDLC route approval","CVR ambient-noise recording"],"correct":1,"explanation":"Battery corrosion is specifically listed, together with installation, controls, crash sensor and sufficient signal at the antenna.","priority":"source"},{"id":"q26","topic":"ELT","topic_id":"elt","level":"Installation relationship","question":"Which statement correctly describes typical fixed-wing ELT installation?","options":["In an avionics bay, connected to a tuning and frequency display head","At a fueling station, as an exterior interphone jack","As far aft as practicable just forward of the empennage, with the G-force sensor aligned to the longitudinal axis","At a ground station, with a local user terminal"],"correct":2,"explanation":"The ELT is typically installed far aft, just forward of the empennage, with the built-in G-force sensor aligned with the aircraft's longitudinal axis.","priority":"core"},{"id":"q27","topic":"ELT","topic_id":"elt","level":"Rule and limit","question":"Which statement matches the supplied limits for intentional ELT signal activation during testing?","options":["Only from the top of the hour to five minutes after, for no longer than three audible sweeps","At any time for at least 24 hours","Only five minutes after engine shutdown for 25 hours","Every 50 seconds until all VHF channels are checked"],"correct":0,"explanation":"The source limits activation to the first five minutes after the hour and no longer than three audible sweeps; tower contact before testing is recommended.","priority":"specific"},{"id":"q28","topic":"Recorders","topic_id":"recorders","level":"Comparison","question":"Which storage comparison is correct?","options":["CVR: 25 hours; FDR: two hours","CVR: at least 24 hours; FDR: six years","CVR: every 50 seconds; FDR: 12 months","CVR: maximum two hours; FDR: 25 hours"],"correct":3,"explanation":"The CVR stores a maximum of two hours before overwriting older material, while the FDR stores 25 hours of data.","priority":"core"},{"id":"q29","topic":"Recorders","topic_id":"recorders","level":"Sequence","question":"When is the FDR automatically operating?","options":["Only while SELCAL is illuminated","From when one engine is running until five minutes after the last engine shuts down","Only during the first five minutes of each hour","Only after an ELT crash activation"],"correct":1,"explanation":"The FDR is automatically switched on when one engine is running and stops five minutes after the last engine shutdown.","priority":"source"},{"id":"q30","topic":"Recorders","topic_id":"recorders","level":"Identification","question":"Which combination helps identify or locate the recorders after an accident?","options":["A SELCAL light, audio panel and PTT switch","A VHF tuning head, data bus and avionics bay","International-orange paint, reflective tape and an underwater acoustic beacon","A local user terminal, mission control center and APU horn"],"correct":2,"explanation":"The recorders are painted international orange, carry reflective tape and have an attached underwater acoustic beacon.","priority":"core"}];
+  const QUICK_IDS = ['q01','q02','q08','q09','q11','q14','q17','q19','q22','q28'];
+  const quizById = new Map(QUIZ_QUESTIONS.map(question => [question.id, question]));
+
+  const safeStorage = {
+    get(key) {
+      try { return window.localStorage.getItem(key); } catch (error) { return null; }
+    },
+    set(key, value) {
+      try { window.localStorage.setItem(key, value); } catch (error) { /* Storage is optional. */ }
+    },
+    remove(key) {
+      try { window.localStorage.removeItem(key); } catch (error) { /* Storage is optional. */ }
+    }
+  };
+
+  const byId = id => document.getElementById(id);
+  const themeButton = byId('themeButton');
+  const menuButton = byId('menuButton');
+  const sidebar = byId('sidebar');
+  const printButton = byId('printButton');
+  const backTop = byId('backTop');
+  const searchInput = byId('searchInput');
+  const searchStatus = byId('searchStatus');
+  const noResults = byId('noResults');
+  const navLinks = [...document.querySelectorAll('.nav-link')];
+  const sectionCards = [...document.querySelectorAll('.section-card')];
+  const studySections = [...document.querySelectorAll('.topic-section')];
+  const utilitySections = [...document.querySelectorAll('.revision-utility')];
+  const topicChecks = [...document.querySelectorAll('.topic-check')];
+  const progressText = byId('progressText');
+  const progressFill = byId('progressFill');
+  const systemTheme = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+  function resolveTheme(preference) {
+    if (preference === 'dark' || preference === 'light') return preference;
+    return systemTheme && systemTheme.matches ? 'dark' : 'light';
+  }
+
+  function themeIcon(preference, resolved) {
+    if (preference === 'system') {
+      return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>';
+    }
+    if (resolved === 'dark') {
+      return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>';
+    }
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>';
+  }
+
+  function applyTheme(preference, persist = true) {
+    const allowed = ['system', 'light', 'dark'];
+    const value = allowed.includes(preference) ? preference : 'system';
+    const resolved = resolveTheme(value);
+    root.dataset.theme = resolved;
+    root.dataset.themePreference = value;
+    if (persist) safeStorage.set(STORAGE_KEYS.theme, value);
+    if (themeButton) {
+      const next = value === 'system' ? 'light' : value === 'light' ? 'dark' : 'system';
+      themeButton.setAttribute('aria-label', `Theme: ${value}. Switch to ${next} theme setting`);
+      themeButton.setAttribute('title', `Theme: ${value}`);
+      themeButton.innerHTML = themeIcon(value, resolved);
+    }
+  }
+
+  applyTheme(safeStorage.get(STORAGE_KEYS.theme) || 'system', false);
+  themeButton?.addEventListener('click', () => {
+    const current = root.dataset.themePreference || 'system';
+    applyTheme(current === 'system' ? 'light' : current === 'light' ? 'dark' : 'system');
+  });
+  if (systemTheme) {
+    const updateSystemTheme = () => {
+      if ((root.dataset.themePreference || 'system') === 'system') applyTheme('system', false);
+    };
+    if (typeof systemTheme.addEventListener === 'function') systemTheme.addEventListener('change', updateSystemTheme);
+    else if (typeof systemTheme.addListener === 'function') systemTheme.addListener(updateSystemTheme);
+  }
+
+  printButton?.addEventListener('click', () => window.print());
+
+  function closeMobileNav() {
+    body.classList.remove('nav-open');
+    menuButton?.setAttribute('aria-expanded', 'false');
+    menuButton?.setAttribute('aria-label', 'Open study navigation');
+  }
+
+  menuButton?.addEventListener('click', () => {
+    const open = body.classList.toggle('nav-open');
+    menuButton.setAttribute('aria-expanded', String(open));
+    menuButton.setAttribute('aria-label', open ? 'Close study navigation' : 'Open study navigation');
+  });
+  document.addEventListener('click', event => {
+    if (window.innerWidth <= 860 && body.classList.contains('nav-open') && sidebar && !sidebar.contains(event.target) && menuButton && !menuButton.contains(event.target)) {
+      closeMobileNav();
+    }
+  });
+  navLinks.forEach(link => link.addEventListener('click', () => {
+    const targetId = (link.getAttribute('href') || '').replace(/^#/, '');
+    if (targetId) setSectionExpanded(targetId, true);
+    closeMobileNav();
+  }));
+
+  function setSectionExpanded(sectionId, expanded) {
+    const section = byId(sectionId);
+    if (!section) return;
+    const control = section.querySelector('.section-collapse');
+    const panel = control ? byId(control.getAttribute('aria-controls')) : null;
+    if (!control || !panel) return;
+    control.setAttribute('aria-expanded', String(expanded));
+    control.setAttribute('aria-label', `${expanded ? 'Collapse' : 'Expand'} ${section.querySelector('h2')?.textContent.trim() || 'section'}`);
+    panel.hidden = !expanded;
+  }
+
+  document.querySelectorAll('.section-collapse').forEach(control => {
+    control.addEventListener('click', () => {
+      const expanded = control.getAttribute('aria-expanded') === 'true';
+      const panel = byId(control.getAttribute('aria-controls'));
+      control.setAttribute('aria-expanded', String(!expanded));
+      control.setAttribute('aria-label', `${expanded ? 'Expand' : 'Collapse'} ${control.closest('section')?.querySelector('h2')?.textContent.trim() || 'section'}`);
+      if (panel) panel.hidden = expanded;
+    });
+  });
+
+  let savedProgress = {};
+  try { savedProgress = JSON.parse(safeStorage.get(STORAGE_KEYS.progress) || '{}') || {}; } catch (error) { savedProgress = {}; }
+  topicChecks.forEach(check => {
+    check.checked = Boolean(savedProgress[check.dataset.topicId]);
+    check.addEventListener('change', saveProgress);
+  });
+
+  function updateProgress() {
+    const complete = topicChecks.filter(check => check.checked).length;
+    const total = topicChecks.length;
+    const percentage = total ? Math.round((complete / total) * 100) : 0;
+    if (progressText) progressText.textContent = `${complete} / ${total} · ${percentage}%`;
+    if (progressFill) {
+      progressFill.style.width = `${percentage}%`;
+      progressFill.setAttribute('aria-valuenow', String(percentage));
+    }
+  }
+
+  function saveProgress() {
+    const progress = {};
+    topicChecks.forEach(check => { progress[check.dataset.topicId] = check.checked; });
+    safeStorage.set(STORAGE_KEYS.progress, JSON.stringify(progress));
+    updateProgress();
+  }
+  updateProgress();
+  byId('resetProgress')?.addEventListener('click', () => {
+    topicChecks.forEach(check => { check.checked = false; });
+    safeStorage.remove(STORAGE_KEYS.progress);
+    updateProgress();
+  });
+
+  function sectionMatches(section, query) {
+    const haystack = `${section.dataset.topic || ''} ${section.textContent || ''}`.toLocaleLowerCase();
+    return !query || haystack.includes(query);
+  }
+
+  searchInput?.addEventListener('input', () => {
+    const query = searchInput.value.trim().toLocaleLowerCase();
+    let studyMatches = 0;
+    let utilityMatches = 0;
+    studySections.forEach(section => {
+      const match = sectionMatches(section, query);
+      section.classList.toggle('search-hidden', !match);
+      section.classList.toggle('search-hit', Boolean(query && match));
+      if (query && match) setSectionExpanded(section.id, true);
+      if (match) studyMatches += 1;
+    });
+    utilitySections.forEach(section => {
+      const match = sectionMatches(section, query);
+      section.classList.toggle('search-hidden', !match);
+      section.classList.toggle('search-hit', Boolean(query && match));
+      if (query && match) setSectionExpanded(section.id, true);
+      if (match) utilityMatches += 1;
+    });
+    const total = studyMatches + utilityMatches;
+    if (noResults) noResults.classList.toggle('visible', Boolean(query && total === 0));
+    if (searchStatus) {
+      if (!query) searchStatus.textContent = '';
+      else if (!total) searchStatus.textContent = 'No matching study content';
+      else searchStatus.textContent = `${studyMatches} study topic${studyMatches === 1 ? '' : 's'} · ${utilityMatches} revision tool${utilityMatches === 1 ? '' : 's'} found`;
+    }
+  });
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      navLinks.forEach(link => {
+        const active = link.getAttribute('href') === `#${visible.target.id}`;
+        link.classList.toggle('active', active);
+        if (active) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+    }, { rootMargin: '-18% 0px -66% 0px', threshold: [0.05, 0.2, 0.5] });
+    sectionCards.filter(section => section.id).forEach(section => observer.observe(section));
+  }
+
+  window.addEventListener('scroll', () => backTop?.classList.toggle('visible', window.scrollY > 700), { passive: true });
+  backTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  const flashcards = [...document.querySelectorAll('.flashcard')];
+  function setCard(card, revealed) {
+    card.classList.toggle('flipped', revealed);
+    card.setAttribute('aria-pressed', String(revealed));
+  }
+  flashcards.forEach(card => card.addEventListener('click', () => setCard(card, !card.classList.contains('flipped'))));
+  byId('revealCards')?.addEventListener('click', () => flashcards.forEach(card => setCard(card, true)));
+  byId('resetCards')?.addEventListener('click', () => flashcards.forEach(card => setCard(card, false)));
+
+  const modePanel = byId('quizModePanel');
+  const workspace = byId('quizWorkspace');
+  const quizForm = byId('quizForm');
+  const quizList = byId('quizList');
+  const quizResults = byId('quizResults');
+  const scoreSummary = byId('scoreSummary');
+  const weakTopics = byId('weakTopics');
+  const retryMissed = byId('retryMissed');
+  const quizModeLabel = byId('quizModeLabel');
+  const quizQuestionCount = byId('quizQuestionCount');
+  const quizAnswered = byId('quizAnswered');
+  let currentQuestionIds = [];
+  let currentMode = '';
+  let lastMissedIds = [];
+  let attemptNumber = 0;
+
+  function createElement(tag, className, text) {
+    const element = document.createElement(tag);
+    if (className) element.className = className;
+    if (text !== undefined) element.textContent = text;
+    return element;
+  }
+
+  function renderPrintQuestionBank() {
+    const list = byId('printQuestionList');
+    if (!list) return;
+    const items = QUIZ_QUESTIONS.map(question => {
+      const li = createElement('li', 'print-question');
+      const heading = createElement('h4', '', question.question);
+      const priority = createElement('p', 'print-priority', `Priority: ${question.priority === 'core' ? 'Core Revision' : question.priority === 'source' ? 'Source Detail' : 'Specific Source Note'}`);
+      const options = document.createElement('ul');
+      question.options.forEach((option, index) => {
+        options.append(createElement('li', '', `${String.fromCharCode(65 + index)}. ${option}`));
+      });
+      const correct = createElement('p');
+      const correctLabel = document.createElement('strong');
+      correctLabel.textContent = 'Correct answer: ';
+      correct.append(correctLabel, document.createTextNode(`${String.fromCharCode(65 + question.correct)}. ${question.options[question.correct]}`));
+      const why = createElement('p');
+      const whyLabel = document.createElement('strong');
+      whyLabel.textContent = 'Why: ';
+      why.append(whyLabel, document.createTextNode(question.explanation));
+      li.append(heading, priority, options, correct, why);
+      return li;
+    });
+    list.replaceChildren(...items);
+  }
+  renderPrintQuestionBank();
+
+  function updateAnsweredCount() {
+    if (!quizList || !quizAnswered) return;
+    const answered = quizList.querySelectorAll('input[type="radio"]:checked').length;
+    quizAnswered.textContent = `${answered} of ${currentQuestionIds.length} answered`;
+  }
+
+  function renderQuestion(question, index) {
+    const fieldset = createElement('fieldset', 'question');
+    fieldset.id = `quiz-${question.id}`;
+    fieldset.dataset.questionId = question.id;
+    fieldset.dataset.topicId = question.topic_id;
+
+    const legend = document.createElement('legend');
+    const qnum = createElement('span', 'qnum', String(index + 1));
+    legend.append(qnum, document.createTextNode(` ${question.question}`));
+    const badges = createElement('span', 'question-badges');
+    badges.append(
+      createElement('span', 'question-badge', question.topic),
+      createElement('span', 'question-badge', question.level),
+      createElement('span', `question-badge priority-${question.priority}`, question.priority === 'core' ? 'Core Revision' : question.priority === 'source' ? 'Source Detail' : 'Specific Source Note')
+    );
+    legend.append(badges);
+    fieldset.append(legend);
+
+    const options = createElement('div', 'options');
+    question.options.forEach((option, optionIndex) => {
+      const label = createElement('label', 'option');
+      label.dataset.optionIndex = String(optionIndex);
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = `attempt-${attemptNumber}-${question.id}`;
+      input.value = String(optionIndex);
+      input.addEventListener('change', updateAnsweredCount);
+      const letter = createElement('span', 'option-letter', `${String.fromCharCode(65 + optionIndex)}.`);
+      const text = createElement('span', 'option-text', option);
+      label.append(input, letter, text);
+      options.append(label);
+    });
+    fieldset.append(options);
+    const feedback = createElement('div', 'feedback-detail');
+    feedback.hidden = true;
+    feedback.setAttribute('aria-live', 'polite');
+    fieldset.append(feedback);
+    return fieldset;
+  }
+
+  function startQuiz(mode, ids = null) {
+    if (!quizList || !workspace || !modePanel) return;
+    attemptNumber += 1;
+    currentMode = mode;
+    if (ids) currentQuestionIds = [...ids];
+    else currentQuestionIds = mode === 'quick' ? [...QUICK_IDS] : QUIZ_QUESTIONS.map(question => question.id);
+    quizList.replaceChildren(...currentQuestionIds.map((id, index) => renderQuestion(quizById.get(id), index)));
+    modePanel.hidden = true;
+    workspace.hidden = false;
+    quizResults.hidden = true;
+    lastMissedIds = [];
+    if (retryMissed) retryMissed.hidden = true;
+    const modeName = mode === 'quick' ? 'Quick Check' : mode === 'exam' ? 'Exam Mode' : 'Retry Missed Questions';
+    if (quizModeLabel) quizModeLabel.textContent = modeName;
+    if (quizQuestionCount) quizQuestionCount.textContent = `${currentQuestionIds.length} question${currentQuestionIds.length === 1 ? '' : 's'}`;
+    updateAnsweredCount();
+    workspace.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  document.querySelectorAll('[data-quiz-mode]').forEach(button => {
+    button.addEventListener('click', () => startQuiz(button.dataset.quizMode));
+  });
+
+  byId('changeQuizMode')?.addEventListener('click', () => {
+    if (workspace) workspace.hidden = true;
+    if (modePanel) modePanel.hidden = false;
+    if (quizList) quizList.replaceChildren();
+    if (quizResults) quizResults.hidden = true;
+    modePanel?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  function feedbackLine(label, value, className = '') {
+    const p = createElement('p', className);
+    const strong = document.createElement('strong');
+    strong.textContent = `${label}: `;
+    p.append(strong, document.createTextNode(value));
+    return p;
+  }
+
+  function gradeQuiz(event) {
+    event.preventDefault();
+    if (!quizList || !currentQuestionIds.length) return;
+    let score = 0;
+    const missesByTopic = new Map();
+    lastMissedIds = [];
+
+    currentQuestionIds.forEach(id => {
+      const question = quizById.get(id);
+      const fieldset = byId(`quiz-${id}`);
+      if (!question || !fieldset) return;
+      const selected = fieldset.querySelector('input:checked');
+      const selectedIndex = selected ? Number(selected.value) : -1;
+      const correct = selectedIndex === question.correct;
+      if (correct) score += 1;
+      else {
+        lastMissedIds.push(id);
+        const current = missesByTopic.get(question.topic_id) || { name: question.topic, count: 0 };
+        current.count += 1;
+        missesByTopic.set(question.topic_id, current);
+      }
+
+      fieldset.classList.remove('correct', 'incorrect');
+      fieldset.classList.add('graded', correct ? 'correct' : 'incorrect');
+      fieldset.querySelectorAll('input').forEach(input => { input.disabled = true; });
+      fieldset.querySelectorAll('.option').forEach(label => {
+        const optionIndex = Number(label.dataset.optionIndex);
+        label.classList.toggle('answer-correct', optionIndex === question.correct);
+        label.classList.toggle('answer-selected-wrong', selectedIndex === optionIndex && !correct);
+      });
+
+      const feedback = fieldset.querySelector('.feedback-detail');
+      feedback.hidden = false;
+      feedback.replaceChildren(
+        feedbackLine('Your answer', selectedIndex >= 0 ? `${String.fromCharCode(65 + selectedIndex)}. ${question.options[selectedIndex]}` : 'No answer selected', correct ? 'correct-line' : 'wrong-line'),
+        feedbackLine('Correct answer', `${String.fromCharCode(65 + question.correct)}. ${question.options[question.correct]}`, 'correct-line'),
+        feedbackLine('Why', question.explanation)
+      );
+    });
+
+    const total = currentQuestionIds.length;
+    const percentage = total ? Math.round((score / total) * 100) : 0;
+    let message = 'Review the missed topics, then retry the incorrect questions.';
+    if (percentage === 100) message = 'All answers are correct.';
+    else if (percentage >= 80) message = 'Strong result; focus on the remaining missed points.';
+    else if (percentage >= 60) message = 'A sound base; targeted review should improve recall.';
+
+    if (scoreSummary) {
+      scoreSummary.innerHTML = '';
+      const ring = createElement('div', 'score-ring', `${percentage}%`);
+      ring.style.setProperty('--score-angle', `${percentage * 3.6}deg`);
+      const copy = createElement('div', 'score-copy');
+      copy.append(createElement('h3', '', `Score: ${score} / ${total}`), createElement('p', '', message));
+      scoreSummary.append(ring, copy);
+    }
+
+    if (weakTopics) {
+      weakTopics.innerHTML = '';
+      if (!missesByTopic.size) {
+        weakTopics.append(createElement('div', 'all-strong', 'No weak topics identified in this attempt.'));
+      } else {
+        const wrapper = createElement('div', 'weak-topics');
+        wrapper.append(createElement('h3', '', 'Topics to Review'));
+        const list = createElement('ul', 'weak-topic-list');
+        [...missesByTopic.entries()].sort((a, b) => b[1].count - a[1].count || a[1].name.localeCompare(b[1].name)).forEach(([topicId, item]) => {
+          const li = document.createElement('li');
+          const link = createElement('a', 'weak-topic-link');
+          link.href = `#${topicId}`;
+          link.append(createElement('span', '', item.name), createElement('span', '', `${item.count} missed`));
+          link.addEventListener('click', () => setSectionExpanded(topicId, true));
+          li.append(link);
+          list.append(li);
+        });
+        wrapper.append(list);
+        weakTopics.append(wrapper);
+      }
+    }
+
+    if (retryMissed) retryMissed.hidden = lastMissedIds.length === 0;
+    if (quizResults) {
+      quizResults.hidden = false;
+      quizResults.focus({ preventScroll: true });
+      quizResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  quizForm?.addEventListener('submit', gradeQuiz);
+  byId('resetQuiz')?.addEventListener('click', () => {
+    if (currentQuestionIds.length) startQuiz(currentMode === 'retry' ? 'retry' : currentMode, currentQuestionIds);
+  });
+  retryMissed?.addEventListener('click', () => {
+    if (lastMissedIds.length) startQuiz('retry', lastMissedIds);
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 860) closeMobileNav();
+  });
+})();
+</script>
+</body>
+</html>
