@@ -283,30 +283,30 @@
         </div>
       </div>
       <div class="hero-stats" aria-label="Course summary">
-        <div class="hero-stat"><strong>1</strong><span>Chapter available</span></div>
-        <div class="hero-stat"><strong>10</strong><span>Core topics</span></div>
-        <div class="hero-stat"><strong>24</strong><span>Flashcards</span></div>
-        <div class="hero-stat"><strong>30</strong><span>Exam questions</span></div>
+        <div class="hero-stat"><strong>2</strong><span>Chapters available</span></div>
+        <div class="hero-stat"><strong>17</strong><span>Core topics</span></div>
+        <div class="hero-stat"><strong>36</strong><span>Flashcards</span></div>
+        <div class="hero-stat"><strong>44</strong><span>Exam questions</span></div>
       </div>
     </section>
 
     <section class="progress-panel" aria-labelledby="progressTitle">
       <div>
         <span class="progress-kicker">Your progress</span>
-        <h2 id="progressTitle">ATA 23 · Communications</h2>
-        <p id="progressMessage">Start the chapter and mark topics complete as you revise.</p>
+        <h2 id="progressTitle">Course progress</h2>
+        <p id="progressMessage">Start a chapter and mark topics complete as you revise.</p>
         <div class="progress-wrap">
           <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="courseProgressFill"></div></div>
-          <div class="progress-text" id="courseProgressText">0 / 10</div>
+          <div class="progress-text" id="courseProgressText">0 / 17</div>
         </div>
       </div>
-      <a class="btn ghost" id="progressContinue" href="chapters/ata23/">Start chapter →</a>
+      <a class="btn ghost" id="progressContinue" href="chapters/ata23/">Start course →</a>
     </section>
 
     <section id="chapters">
       <div class="section-head">
         <div><h2>Course chapters</h2><p>Choose a chapter to continue your revision.</p></div>
-        <span class="count">1 chapter available</span>
+        <span class="count">2 chapters available</span>
       </div>
 
       <div class="grid">
@@ -320,6 +320,18 @@
             <div class="stat"><strong>30</strong><span>Exam questions</span></div>
           </div>
           <a class="btn" id="chapterButton" href="chapters/ata23/">Open chapter →</a>
+        </article>
+
+        <article class="chapter available">
+          <div class="chapter-top"><span class="ata">ATA 34</span><span class="status">Available</span></div>
+          <h3>Navigation Systems</h3>
+          <p>VOR, ADF, ILS, DME, FMS, GPS, surveillance, weather detection and avionics navigation systems.</p>
+          <div class="stats">
+            <div class="stat"><strong>7</strong><span>Core topics</span></div>
+            <div class="stat"><strong>12</strong><span>Flashcards</span></div>
+            <div class="stat"><strong>14</strong><span>Exam questions</span></div>
+          </div>
+          <a class="btn" id="navChapterButton" href="chapters/ata34/">Open chapter →</a>
         </article>
 
         <article class="chapter coming">
@@ -372,48 +384,98 @@
     (() => {
       'use strict';
 
-      const PROGRESS_KEY = 'revision-11-5-2-ata23-communications-progress';
-      const TOTAL_TOPICS = 10;
+      const ATA23_PROGRESS_KEY = 'revision-11-5-2-ata23-communications-progress';
+      const NAV_PROGRESS_KEY = 'navigation-systems-revision-v1:completed';
+      const ATA23_TOPICS = 10;
+      const NAV_TOPICS = 7;
+      const TOTAL_TOPICS = ATA23_TOPICS + NAV_TOPICS;
 
-      function readProgress() {
+      function readAta23Progress() {
         try {
-          const raw = window.localStorage.getItem(PROGRESS_KEY);
+          const raw = window.localStorage.getItem(ATA23_PROGRESS_KEY);
           const saved = raw ? JSON.parse(raw) : {};
-          const complete = Object.values(saved || {}).filter(Boolean).length;
-          return Math.min(complete, TOTAL_TOPICS);
+          return Math.min(Object.values(saved || {}).filter(Boolean).length, ATA23_TOPICS);
+        } catch (error) {
+          return 0;
+        }
+      }
+
+      function readNavProgress() {
+        try {
+          const raw = window.localStorage.getItem(NAV_PROGRESS_KEY);
+          const saved = raw ? JSON.parse(raw) : [];
+          return Math.min(Array.isArray(saved) ? saved.length : 0, NAV_TOPICS);
         } catch (error) {
           return 0;
         }
       }
 
       function updateCourseProgress() {
-        const complete = readProgress();
+        const ata23 = readAta23Progress();
+        const nav = readNavProgress();
+        const complete = ata23 + nav;
         const percentage = Math.round((complete / TOTAL_TOPICS) * 100);
+
         const fill = document.getElementById('courseProgressFill');
         const text = document.getElementById('courseProgressText');
         const message = document.getElementById('progressMessage');
         const progressContinue = document.getElementById('progressContinue');
         const heroContinue = document.getElementById('heroContinue');
         const chapterButton = document.getElementById('chapterButton');
+        const navChapterButton = document.getElementById('navChapterButton');
 
         if (fill) fill.style.width = `${percentage}%`;
         if (text) text.textContent = `${complete} / ${TOTAL_TOPICS} · ${percentage}%`;
 
+        if (chapterButton) {
+          chapterButton.textContent =
+            ata23 === 0 ? 'Open chapter →' :
+            ata23 >= ATA23_TOPICS ? 'Review chapter →' :
+            'Continue chapter →';
+        }
+
+        if (navChapterButton) {
+          navChapterButton.textContent =
+            nav === 0 ? 'Open chapter →' :
+            nav >= NAV_TOPICS ? 'Review chapter →' :
+            'Continue chapter →';
+        }
+
+        let nextHref = 'chapters/ata23/';
+        let nextLabel = 'ATA 23';
+
+        if (ata23 > 0 && ata23 < ATA23_TOPICS) {
+          nextHref = 'chapters/ata23/';
+          nextLabel = 'ATA 23';
+        } else if (nav > 0 && nav < NAV_TOPICS) {
+          nextHref = 'chapters/ata34/';
+          nextLabel = 'ATA 34';
+        } else if (ata23 >= ATA23_TOPICS && nav < NAV_TOPICS) {
+          nextHref = 'chapters/ata34/';
+          nextLabel = 'ATA 34';
+        }
+
+        if (progressContinue) progressContinue.href = nextHref;
+        if (heroContinue) heroContinue.href = nextHref;
+
         if (complete === 0) {
-          if (message) message.textContent = 'Start the chapter and mark topics complete as you revise.';
-          if (progressContinue) progressContinue.textContent = 'Start chapter →';
+          if (message) message.textContent = 'Two chapters are available. Start with Communications or Navigation Systems.';
+          if (progressContinue) progressContinue.textContent = 'Start ATA 23 →';
           if (heroContinue) heroContinue.textContent = 'Start ATA 23';
-          if (chapterButton) chapterButton.textContent = 'Open chapter →';
         } else if (complete >= TOTAL_TOPICS) {
-          if (message) message.textContent = 'Core topics complete. Use flashcards and the exam quiz to keep testing yourself.';
-          if (progressContinue) progressContinue.textContent = 'Review ATA 23 →';
-          if (heroContinue) heroContinue.textContent = 'Review ATA 23';
-          if (chapterButton) chapterButton.textContent = 'Review chapter →';
+          if (message) message.textContent = 'All available core topics are complete. Keep testing yourself with flashcards and exam questions.';
+          if (progressContinue) {
+            progressContinue.href = 'chapters/ata34/';
+            progressContinue.textContent = 'Review ATA 34 →';
+          }
+          if (heroContinue) {
+            heroContinue.href = 'chapters/ata34/';
+            heroContinue.textContent = 'Review ATA 34';
+          }
         } else {
-          if (message) message.textContent = `You have completed ${complete} of ${TOTAL_TOPICS} core topics. Continue where you left off.`;
-          if (progressContinue) progressContinue.textContent = 'Continue chapter →';
-          if (heroContinue) heroContinue.textContent = 'Continue ATA 23';
-          if (chapterButton) chapterButton.textContent = 'Continue chapter →';
+          if (message) message.textContent = `You have completed ${complete} of ${TOTAL_TOPICS} core topics across 2 chapters.`;
+          if (progressContinue) progressContinue.textContent = `Continue ${nextLabel} →`;
+          if (heroContinue) heroContinue.textContent = `Continue ${nextLabel}`;
         }
       }
 
