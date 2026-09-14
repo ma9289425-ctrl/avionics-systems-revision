@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Compact interactive revision guide for aircraft navigation systems.">
-  <title>Navigation Systems - Interactive Revision</title>
+  <meta name="description" content="Clear, compact ATA 34 aircraft navigation systems revision with explanations, flashcards, short-answer practice and exam questions.">
+  <title>ATA 34 Navigation Systems | Interactive Revision</title>
   <style>
     :root {
       color-scheme: light;
@@ -17,6 +17,8 @@
       --accent: #0d6474;
       --accent-2: #174a75;
       --accent-soft: #dff2f4;
+      --primary-bg: #174a75;
+      --primary-text: #ffffff;
       --warn: #8a4d0f;
       --warn-soft: #fff1dc;
       --success: #187348;
@@ -40,6 +42,8 @@
       --accent: #68c6d1;
       --accent-2: #8ec1ec;
       --accent-soft: #173941;
+      --primary-bg: #12647c;
+      --primary-text: #ffffff;
       --warn: #ffc66d;
       --warn-soft: #3f2c13;
       --success: #76d7a9;
@@ -146,6 +150,10 @@
 
     .tool-row { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
     .button, button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .35rem;
       border: 1px solid var(--line);
       border-radius: 10px;
       padding: .66rem .82rem;
@@ -156,9 +164,9 @@
     }
     .button:hover, button:hover { border-color: var(--accent); }
     .button.primary, button.primary {
-      background: var(--accent-2);
-      border-color: var(--accent-2);
-      color: white;
+      background: var(--primary-bg);
+      border-color: var(--primary-bg);
+      color: var(--primary-text);
       text-decoration: none;
     }
     .button.secondary { text-decoration: none; }
@@ -411,7 +419,7 @@
     .weak-list { display: grid; gap: .5rem; margin: .75rem 0; }
     .weak-link { display: flex; justify-content: space-between; gap: 1rem; text-align: left; }
 
-    .source-note { margin-top: 3rem; padding: 1rem; color: var(--muted); border-top: 1px solid var(--line); font-size: .86rem; }
+    .book-note { margin-top: 3rem; padding: 1rem; color: var(--muted); border-top: 1px solid var(--line); font-size: .86rem; }
     .back-top { position: fixed; right: 1rem; bottom: 1rem; z-index: 20; box-shadow: var(--shadow); }
 
     .no-results {
@@ -423,9 +431,170 @@
       background: var(--surface);
     }
 
+
+    .home-button {
+      width: 100%;
+      margin-top: .05rem;
+      text-decoration: none;
+    }
+
+    .chapter-code {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      margin-bottom: .7rem;
+      padding: .34rem .62rem;
+      border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-2);
+      font-size: .78rem;
+      font-weight: 850;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .learning-map {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: .75rem;
+      margin-bottom: .9rem;
+    }
+
+    .map-card {
+      position: relative;
+      padding: .95rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: linear-gradient(145deg, var(--surface), var(--surface-2));
+    }
+
+    .map-card b {
+      display: block;
+      margin-bottom: .25rem;
+      color: var(--accent-2);
+    }
+
+    .map-card span {
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .topic-intro {
+      margin: 0 0 .9rem;
+      padding: .8rem .95rem;
+      border-left: 4px solid var(--accent);
+      border-radius: 0 11px 11px 0;
+      background: var(--accent-soft);
+      color: var(--text);
+    }
+
+    .memory-line {
+      margin-top: .9rem;
+      padding: .8rem .95rem;
+      border: 1px dashed color-mix(in srgb, var(--accent) 55%, var(--line));
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--accent-soft) 65%, var(--surface));
+    }
+
+    .memory-line strong {
+      color: var(--accent-2);
+    }
+
+    .concept-flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .45rem;
+      margin-top: .85rem;
+      padding: .8rem;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--surface-2);
+    }
+
+    .flow-step {
+      flex: 1 1 145px;
+      min-width: 0;
+      padding: .65rem .75rem;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+      text-align: center;
+      font-size: .88rem;
+      font-weight: 750;
+    }
+
+    .flow-arrow {
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .practice-tools {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: .55rem;
+    }
+
+    .practice-summary {
+      color: var(--muted);
+      font-size: .86rem;
+      font-weight: 700;
+    }
+
+    .practice-item[data-review="correct"] {
+      border-color: color-mix(in srgb, var(--success) 65%, var(--line));
+    }
+
+    .practice-item[data-review="needs"] {
+      border-color: color-mix(in srgb, var(--warn) 70%, var(--line));
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--warn) 12%, transparent);
+    }
+
+    .question-help {
+      display: block;
+      margin: -.2rem 0 .55rem;
+      color: var(--muted);
+      font-size: .82rem;
+      font-weight: 650;
+    }
+
+    .quiz-note {
+      margin: 0 0 1rem;
+      padding: .75rem .85rem;
+      border-radius: 11px;
+      background: var(--accent-soft);
+      color: var(--text);
+      font-size: .9rem;
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: .22rem .48rem;
+      border-radius: 999px;
+      background: var(--surface-2);
+      color: var(--muted);
+      font-size: .76rem;
+      font-weight: 750;
+    }
+
+    .comparison-table td:first-child {
+      width: 22%;
+      font-weight: 800;
+      color: var(--accent-2);
+    }
+
+    .comparison-table td:nth-child(2) {
+      width: 35%;
+    }
+
     @media (max-width: 1050px) {
       .card-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .values-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .learning-map { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .flash-grid, .recall-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
@@ -449,7 +618,7 @@
       .main { padding-inline: .8rem; }
       .hero { border-radius: 18px; padding: 1.25rem; }
       .hero-visual { display: none; }
-      .card-grid, .values-strip, .flash-grid, .recall-grid { grid-template-columns: 1fr; }
+      .card-grid, .values-strip, .learning-map, .flash-grid, .recall-grid { grid-template-columns: 1fr; }
       .section-head { align-items: flex-start; flex-direction: column; }
       .recall-item { grid-template-columns: 1fr; gap: .2rem; }
       details.topic > summary { grid-template-columns: auto minmax(0, 1fr); }
@@ -465,7 +634,7 @@
 
     @media print {
       :root { --bg: #fff; --surface: #fff; --surface-2: #f4f4f4; --text: #000; --muted: #333; --line: #bbb; }
-      .sidebar, .mobile-bar, .hero-actions, .topic-actions, .section-head button, .practice-actions, .quiz-toolbar, .back-top, .search-status { display: none !important; }
+      .sidebar, .mobile-bar, .hero-actions, .topic-actions, .section-head button, .practice-actions, .practice-tools, .quiz-toolbar, .back-top, .search-status { display: none !important; }
       .main { margin: 0; padding: 0; }
       .content { max-width: none; }
       .hero { min-height: auto; box-shadow: none; border-radius: 0; grid-template-columns: 1fr; }
@@ -514,6 +683,7 @@
           <button id="themeToggle" type="button">Theme</button>
           <button id="printBtn" type="button">Print</button>
         </div>
+        <a class="button secondary home-button" href="../../" aria-label="Return to the Avionics Systems course hub">← Course hub</a>
       </div>
 
       <div class="progress-box">
@@ -526,6 +696,7 @@
         <h2>Review</h2>
         <a href="#overview">Overview</a>
         <a href="#quick-review">Quick Review</a>
+        <a href="#common-confusions">Common Confusions</a>
         <h2>Core topics</h2>
         <a href="#topic-radio">Radio Navigation</a>
         <a href="#topic-ils">ILS & Guidance</a>
@@ -546,17 +717,19 @@
       <div class="content">
         <header class="hero" id="overview">
           <div>
-            <p class="eyebrow">Compact exam revision</p>
+            <span class="chapter-code">ATA 34 · Interactive revision</span>
             <h1>Navigation Systems</h1>
-            <p>A focused guide to radio navigation, landing guidance, satellite and inertial systems, surveillance, weather detection, data links, and avionics testing.</p>
+            <p>Understand what each system tells the pilot, how the signal or data is produced, the key indications to recognise, and the values worth remembering for assessment.</p>
             <div class="hero-actions">
               <a class="button primary" href="#topic-radio">Start Revision</a>
               <a class="button secondary" href="#quiz">Take Quick Check</a>
+              <a class="button secondary" href="../../">Course hub</a>
             </div>
             <div class="meta-row">
               <span class="pill">7 core topics</span>
               <span class="pill">12 flashcards</span>
-              <span class="pill">Quick + exam modes</span>
+              <span class="pill">8 short answers</span>
+              <span class="pill">14 exam questions</span>
               <span class="pill">Works offline</span>
             </div>
           </div>
@@ -598,30 +771,60 @@
 
         <section id="quick-review" class="searchable-section">
           <div class="section-head">
-            <div><div class="kicker">Before the details</div><h2>Quick Review</h2><p>The shortest high-value map of the chapter.</p></div>
+            <div><div class="kicker">Before the details</div><h2>Quick Review</h2><p>Build the chapter map first, then open the detailed topics you need.</p></div>
           </div>
+
+          <div class="learning-map" aria-label="Navigation systems study map">
+            <div class="map-card searchable"><b>1. Ground radio aids</b><span>VOR and ADF give direction; DME gives distance; ILS guides the approach.</span></div>
+            <div class="map-card searchable"><b>2. Position and management</b><span>RNAV, FMS, GPS, WAAS and IRS calculate, organise and display navigation.</span></div>
+            <div class="map-card searchable"><b>3. Surveillance and safety</b><span>Transponders, TCAS and ADS-B help ATC and nearby aircraft identify traffic.</span></div>
+            <div class="map-card searchable"><b>4. Environment and maintenance</b><span>Weather, radio altitude, ACARS, installation and test equipment support safe operation.</span></div>
+          </div>
+
           <div class="card-grid" id="quickCards">
-            <div class="mini-card searchable"><strong>VOR</strong><span>Radial, CDI and TO/FROM guidance.</span></div>
-            <div class="mini-card searchable"><strong>ADF / NDB</strong><span>Bearing to a non-directional beacon.</span></div>
-            <div class="mini-card searchable"><strong>DME</strong><span>Pulse-timing distance; normally slant distance.</span></div>
-            <div class="mini-card searchable"><strong>ILS</strong><span>Localizer = lateral; glideslope = vertical.</span></div>
-            <div class="mini-card searchable"><strong>GPS / WAAS</strong><span>Satellite position with ground-derived correction.</span></div>
-            <div class="mini-card searchable"><strong>INS / IRS</strong><span>Self-contained position from measured acceleration.</span></div>
-            <div class="mini-card searchable"><strong>TCAS</strong><span>TA warns; RA commands vertical avoidance.</span></div>
-            <div class="mini-card searchable"><strong>ADS-B</strong><span>OUT broadcasts; IN receives traffic information.</span></div>
-            <div class="mini-card searchable"><strong>Weather radar</strong><span>Shows precipitation intensity, not dry-air turbulence.</span></div>
-            <div class="mini-card searchable"><strong>Radio altimeter</strong><span>Height above terrain directly below the aircraft.</span></div>
-            <div class="mini-card searchable"><strong>ACARS</strong><span>Digital aircraft-ground messages through the CMU.</span></div>
-            <div class="mini-card searchable"><strong>BITE</strong><span>Built-in fault monitoring and isolation support.</span></div>
+            <div class="mini-card searchable"><strong>VOR</strong><span>Select a course with the OBS; use the CDI and TO/FROM indication to stay on it.</span></div>
+            <div class="mini-card searchable"><strong>ADF / NDB</strong><span>The ADF needle indicates the direction of the tuned non-directional beacon.</span></div>
+            <div class="mini-card searchable"><strong>DME</strong><span>Measures aircraft-to-station distance by pulse timing; the display is normally slant distance.</span></div>
+            <div class="mini-card searchable"><strong>ILS</strong><span>Localizer gives lateral guidance; glideslope gives vertical guidance.</span></div>
+            <div class="mini-card searchable"><strong>GPS / WAAS</strong><span>GPS calculates position from satellites; WAAS supplies corrections to improve accuracy.</span></div>
+            <div class="mini-card searchable"><strong>INS / IRS</strong><span>Self-contained inertial navigation continues without a continuous external radio signal.</span></div>
+            <div class="mini-card searchable"><strong>TCAS</strong><span>A TA warns about traffic; an RA commands a vertical avoidance action.</span></div>
+            <div class="mini-card searchable"><strong>ADS-B</strong><span>OUT broadcasts own-aircraft data; IN receives traffic or ground-provided information.</span></div>
+            <div class="mini-card searchable"><strong>Weather radar</strong><span>Shows precipitation intensity; it does not detect dry-air turbulence.</span></div>
+            <div class="mini-card searchable"><strong>Radio altimeter</strong><span>Measures height above the terrain directly beneath the aircraft.</span></div>
+            <div class="mini-card searchable"><strong>ACARS</strong><span>Transfers digital messages between the aircraft and ground through the CMU.</span></div>
+            <div class="mini-card searchable"><strong>BITE</strong><span>Monitors systems, records faults and helps maintenance personnel isolate problems.</span></div>
           </div>
-          <div class="values-strip">
-            <div class="value-card searchable"><b>108.0 MHz</b><small>Typical VOT test frequency</small></div>
+
+          <div class="values-strip" aria-label="Important values">
+            <div class="value-card searchable"><b>108.0 MHz</b><small>Typical VOT check frequency</small></div>
             <div class="value-card searchable"><b>±4°</b><small>Maximum VOR test error</small></div>
-            <div class="value-card searchable"><b>~3°</b><small>Typical ILS glideslope</small></div>
+            <div class="value-card searchable"><b>108.10–111.95 MHz</b><small>ILS localizer range</small></div>
+            <div class="value-card searchable"><b>329.3–335.0 MHz</b><small>Glideslope range</small></div>
+            <div class="value-card searchable"><b>≈ 3°</b><small>Normal glideslope angle</small></div>
             <div class="value-card searchable"><b>1030 / 1090 MHz</b><small>Interrogation / reply</small></div>
-            <div class="value-card searchable"><b>1-3 m</b><small>WAAS position error stated in source</small></div>
+            <div class="value-card searchable"><b>1–3 m</b><small>WAAS lateral and vertical accuracy stated in the book</small></div>
+            <div class="value-card searchable"><b>Below ≈ 2,500 ft</b><small>Main radio-altimeter operating region</small></div>
           </div>
           <div id="searchNoResults" class="no-results" hidden>No matching study content. Try a system name, acronym, function, or value.</div>
+        </section>
+
+        <section id="common-confusions">
+          <div class="section-head">
+            <div><div class="kicker">Do not mix these up</div><h2>Common Confusions</h2><p>These distinctions make the rest of the chapter much easier to understand.</p></div>
+          </div>
+          <div class="table-wrap">
+            <table class="compact-table comparison-table">
+              <thead><tr><th>Pair</th><th>First idea</th><th>Second idea</th></tr></thead>
+              <tbody>
+                <tr><td>VOR radial vs ADF bearing</td><td>A VOR radial is a line extending <strong>from</strong> the VOR station.</td><td>An ADF needle points <strong>toward</strong> the tuned NDB.</td></tr>
+                <tr><td>Flight director vs autopilot</td><td>The flight director displays the attitude or manoeuvre required.</td><td>The autopilot moves the aircraft controls automatically through servos.</td></tr>
+                <tr><td>Transponder vs TCAS vs ADS-B</td><td>A transponder replies to interrogation; TCAS assesses nearby traffic.</td><td>ADS-B OUT broadcasts own data, while ADS-B IN receives traffic information.</td></tr>
+                <tr><td>Pressure altimeter vs radio altimeter</td><td>A pressure altimeter derives altitude from air pressure.</td><td>A radio altimeter measures actual height above terrain directly below the aircraft.</td></tr>
+                <tr><td>FMC vs CDU</td><td>The FMC is the main flight-management computer.</td><td>The CDU is the pilot interface used to enter and display FMS information.</td></tr>
+              </tbody>
+            </table>
+          </div>
         </section>
 
         <section id="core-topics">
@@ -634,40 +837,46 @@
               <summary><span class="topic-index">01</span><span class="topic-title">Radio Navigation<small>VOR, ADF, DME and RNAV</small></span><span class="chevron">⌄</span></summary>
               <div class="topic-body">
                 <div class="topic-actions"><button class="complete-btn small" type="button" data-complete="radio" aria-pressed="false">Mark complete</button></div>
+                <p class="topic-intro"><strong>Start with the question each system answers:</strong> VOR gives course/radial information, ADF gives the direction of a beacon, DME gives distance, and RNAV creates a usable route between waypoints.</p>
                 <div class="topic-columns">
                   <div class="note must-know">
-                    <h3>VOR</h3>
+                    <h3>VOR — course and radial</h3>
                     <ul>
-                      <li>Ground station transmits 360° radials; the receiver shows bearing information, course deviation and TO/FROM.</li>
-                      <li>OBS selects the course; CDI shows lateral deviation.</li>
-                      <li>VOT: tune 108.0 MHz, center CDI, expect 0° FROM or 180° TO; error must not exceed ±4°.</li>
+                      <li>A ground VOR transmits 360 radials. A radial identifies a line extending <strong>from</strong> the station.</li>
+                      <li>The <strong>OBS</strong> selects the desired course; the <strong>CDI</strong> shows lateral deviation; the flag indicates <strong>TO</strong> or <strong>FROM</strong>.</li>
+                      <li>An airport VOR may be called a TVOR. A combined VOR and TACAN installation is a VORTAC.</li>
+                      <li><strong>VOT check:</strong> tune 108.0 MHz, centre the CDI and expect 0° FROM or 180° TO. Error must not exceed ±4°.</li>
                     </ul>
                   </div>
                   <div class="note">
-                    <h3>ADF / NDB</h3>
+                    <h3>ADF / NDB — direction to a beacon</h3>
                     <ul>
-                      <li>Loop antenna senses direction; the sense antenna removes 180° ambiguity.</li>
-                      <li>A movable-card indicator can show magnetic bearing to the station.</li>
-                      <li>Correct antenna alignment with the aircraft longitudinal axis is important.</li>
+                      <li>The receiver is tuned to an NDB, and the indication shows the direction of the station.</li>
+                      <li>The loop antenna senses direction; the sense antenna removes the 180° ambiguity.</li>
+                      <li>ADF information may appear on a dedicated indicator or an RMI.</li>
+                      <li>Correct antenna alignment with the aircraft longitudinal axis is important for accurate indication.</li>
                     </ul>
                   </div>
                   <div class="note">
-                    <h3>DME</h3>
+                    <h3>DME — distance</h3>
                     <ul>
-                      <li>Operates in 962-1213 MHz and calculates distance from pulse travel time.</li>
-                      <li>Normally displays slant distance, which exceeds ground distance when the aircraft is high and close to the station.</li>
-                      <li>DME HOLD keeps one DME station while the VOR frequency is changed.</li>
+                      <li>DME operates in the 962–1213 MHz range and calculates distance from the travel time of interrogation and reply pulses.</li>
+                      <li>The display is normally <strong>slant distance</strong>, not horizontal ground distance.</li>
+                      <li>When the aircraft is high and close to the station, the displayed distance can be noticeably greater than the ground distance.</li>
+                      <li><strong>DME HOLD</strong> keeps the selected DME station while the VOR frequency is changed.</li>
                     </ul>
                   </div>
                   <div class="note">
-                    <h3>RNAV</h3>
+                    <h3>RNAV — waypoint navigation</h3>
                     <ul>
-                      <li>Allows point-to-point navigation without directly overflying ground aids.</li>
-                      <li>Waypoints may use coordinates or a VOR radial plus distance.</li>
-                      <li>VOR-based RNAV can create calculated “phantom” waypoints.</li>
+                      <li>RNAV allows point-to-point navigation without flying directly over every ground station.</li>
+                      <li>A waypoint may be defined by latitude/longitude or by a VOR radial plus distance.</li>
+                      <li>VOR-based RNAV can create a calculated “phantom” waypoint.</li>
+                      <li>The supporting VOR stations still need to be within usable line-of-sight range.</li>
                     </ul>
                   </div>
                 </div>
+                <div class="memory-line"><strong>Memory line:</strong> VOR = course/radial · ADF = direction to station · DME = distance · RNAV = computed waypoint route.</div>
               </div>
             </details>
 
@@ -675,22 +884,32 @@
               <summary><span class="topic-index">02</span><span class="topic-title">ILS & Flight Guidance<small>Localizer, glideslope, markers and flight director</small></span><span class="chevron">⌄</span></summary>
               <div class="topic-body">
                 <div class="topic-actions"><button class="complete-btn small" type="button" data-complete="ils" aria-pressed="false">Mark complete</button></div>
+                <p class="topic-intro"><strong>ILS provides two kinds of approach guidance:</strong> the localizer keeps the aircraft aligned with the runway centreline, while the glideslope keeps it on the required descent path.</p>
                 <div class="table-wrap">
                   <table class="compact-table">
-                    <thead><tr><th>Element</th><th>Main purpose</th><th>Key source value</th></tr></thead>
+                    <thead><tr><th>Element</th><th>Main purpose</th><th>Key information</th></tr></thead>
                     <tbody>
-                      <tr><td><strong>Localizer</strong></td><td>Lateral guidance to runway centreline</td><td>108.10-111.95 MHz; 90/150 Hz modulation</td></tr>
-                      <tr><td><strong>Glideslope</strong></td><td>Vertical guidance to touchdown area</td><td>329.3-335.0 MHz; approximately 3°</td></tr>
-                      <tr><td><strong>Outer marker</strong></td><td>Final approach fix indication</td><td>400 Hz; blue light</td></tr>
-                      <tr><td><strong>Middle marker</strong></td><td>Near decision-height region</td><td>1,300 Hz; amber light</td></tr>
-                      <tr><td><strong>Inner marker</strong></td><td>Close to threshold / decision region</td><td>3,000 Hz; white light</td></tr>
+                      <tr><td><strong>Localizer</strong></td><td>Lateral guidance to the runway centreline</td><td>108.10–111.95 MHz; 90/150 Hz modulation</td></tr>
+                      <tr><td><strong>Glideslope</strong></td><td>Vertical guidance to the touchdown area</td><td>329.3–335.0 MHz; approximately 3°; antenna about 1,000 ft from the threshold</td></tr>
+                      <tr><td><strong>Outer marker</strong></td><td>Position indication on final approach</td><td>75 MHz carrier; 400 Hz audio; blue light</td></tr>
+                      <tr><td><strong>Middle marker</strong></td><td>Position near the decision-height region</td><td>75 MHz carrier; 1,300 Hz audio; amber light; about 3,500 ft from the runway</td></tr>
+                      <tr><td><strong>Inner marker</strong></td><td>Position close to the threshold / decision region</td><td>75 MHz carrier; 3,000 Hz audio; white light</td></tr>
                     </tbody>
                   </table>
                 </div>
                 <div class="topic-columns" style="margin-top:.9rem;">
-                  <div class="note exam-note"><h3>Correction rule</h3><p>150 Hz dominance moves the localizer CDI left, so correct left. 90 Hz dominance moves it right, so correct right.</p></div>
-                  <div class="note"><h3>Flight director</h3><p>It computes and displays the required attitude with command bars. The pilot follows the commands; an autopilot moves the controls automatically.</p></div>
+                  <div class="note exam-note">
+                    <h3>Localizer correction rule</h3>
+                    <p><strong>150 Hz stronger:</strong> CDI moves left, so correct left. <strong>90 Hz stronger:</strong> CDI moves right, so correct right.</p>
+                    <p>The indication tells the pilot which side of the runway centreline the aircraft is on.</p>
+                  </div>
+                  <div class="note">
+                    <h3>Flight director vs autopilot</h3>
+                    <p>The flight director calculates and displays the required attitude using command bars. The pilot follows those commands.</p>
+                    <p>An autopilot goes further by moving the flight controls automatically through servos.</p>
+                  </div>
                 </div>
+                <div class="memory-line"><strong>Memory line:</strong> Localizer = left/right · Glideslope = up/down · Marker beacons = position along the approach.</div>
               </div>
             </details>
 
@@ -698,12 +917,52 @@
               <summary><span class="topic-index">03</span><span class="topic-title">FMS, GPS, WAAS & IRS<small>Management, satellite position and inertial reference</small></span><span class="chevron">⌄</span></summary>
               <div class="topic-body">
                 <div class="topic-actions"><button class="complete-btn small" type="button" data-complete="position" aria-pressed="false">Mark complete</button></div>
+                <p class="topic-intro"><strong>These systems work together:</strong> GPS and IRS provide position information, while the FMS organises the route, calculations, radio tuning and display of navigation data.</p>
                 <div class="topic-columns">
-                  <div class="note must-know"><h3>FMS</h3><p>The FMC is the main computer; the CDU is the flight-deck interface. The FMS coordinates navigation and other aircraft systems through data buses and includes BITE monitoring.</p></div>
-                  <div class="note"><h3>GPS</h3><p>Three satellites provide a two-dimensional fix. A fourth adds altitude for a three-dimensional fix. The source describes 24 satellites: 21 active and 3 spares.</p></div>
-                  <div class="note"><h3>WAAS</h3><p>Approximately 25 surveyed ground stations generate corrections that are retransmitted through geostationary satellites. The source states 1-3 m lateral and vertical error.</p></div>
-                  <div class="note"><h3>INS / IRS</h3><p>Self-contained navigation calculates position from acceleration after initialization. Modern IRS uses three ring-laser gyros and three solid-state accelerometers; GPS can initialize and correct it.</p></div>
+                  <div class="note must-know">
+                    <h3>FMS, FMC and CDU</h3>
+                    <ul>
+                      <li>The <strong>FMC</strong> is the main flight-management computer; the <strong>CDU</strong> is the pilot interface.</li>
+                      <li>The FMS exchanges information with other aircraft systems through data buses.</li>
+                      <li>It can store flight plans, calculate navigation information and automatically tune radio-navigation frequencies as the route progresses.</li>
+                      <li>Built-In Test Equipment (BITE) monitors operation and records faults for maintenance.</li>
+                    </ul>
+                  </div>
+                  <div class="note">
+                    <h3>GPS</h3>
+                    <ul>
+                      <li>GPS calculates range from signal travel time and the known position of each satellite.</li>
+                      <li>Three satellites provide a two-dimensional latitude/longitude fix.</li>
+                      <li>A fourth satellite adds altitude, producing a three-dimensional fix.</li>
+                      <li>The book describes 24 satellites: 21 active and 3 spares in six orbits.</li>
+                    </ul>
+                  </div>
+                  <div class="note">
+                    <h3>WAAS</h3>
+                    <ul>
+                      <li>Approximately 25 surveyed ground stations monitor GPS signals and calculate corrections.</li>
+                      <li>The corrections are sent through geostationary communication satellites to a WAAS-enabled receiver.</li>
+                      <li>The book gives approximately 1–3 m lateral and vertical position error.</li>
+                      <li>WAAS can support precision approach capability without conventional approach equipment at every airport.</li>
+                    </ul>
+                  </div>
+                  <div class="note">
+                    <h3>INS / IRS</h3>
+                    <ul>
+                      <li>The starting position is entered while the aircraft is stationary during initialization.</li>
+                      <li>Position is then calculated from measured acceleration; error can gradually accumulate with time.</li>
+                      <li>Modern IRS equipment uses three ring-laser gyros and three solid-state accelerometers.</li>
+                      <li>GPS may initialize or correct the IRS, while the inertial system can continue if GPS is unavailable.</li>
+                    </ul>
+                  </div>
                 </div>
+                <div class="concept-flow" aria-label="Position information flow">
+                  <span class="flow-step">GPS / IRS position</span><span class="flow-arrow">→</span>
+                  <span class="flow-step">FMC calculations</span><span class="flow-arrow">→</span>
+                  <span class="flow-step">CDU and flight displays</span><span class="flow-arrow">→</span>
+                  <span class="flow-step">Pilot / autoflight guidance</span>
+                </div>
+                <div class="memory-line"><strong>Memory line:</strong> GPS measures satellite ranges · IRS measures motion · FMS combines and manages the navigation solution.</div>
               </div>
             </details>
 
@@ -711,12 +970,38 @@
               <summary><span class="topic-index">04</span><span class="topic-title">Surveillance & Collision Avoidance<small>Transponder, TCAS and ADS-B</small></span><span class="chevron">⌄</span></summary>
               <div class="topic-body">
                 <div class="topic-actions"><button class="complete-btn small" type="button" data-complete="surveillance" aria-pressed="false">Mark complete</button></div>
+                <p class="topic-intro"><strong>Keep the roles separate:</strong> the transponder replies to surveillance interrogation, TCAS evaluates nearby traffic, and ADS-B continuously shares or receives aircraft data.</p>
                 <div class="topic-columns">
-                  <div class="note"><h3>ATC transponder</h3><ul><li>Ground interrogation: 1030 MHz; aircraft reply: 1090 MHz.</li><li>4,096 selectable codes; IDENT highlights the target.</li><li>ALT / Mode C transmits pressure altitude from an altitude encoder.</li></ul></div>
-                  <div class="note must-know"><h3>TCAS</h3><ul><li>TA = locate and assess nearby traffic.</li><li>RA = specific vertical evasive command.</li><li>Two TCAS II aircraft can coordinate opposite vertical actions.</li></ul></div>
-                  <div class="note"><h3>ADS-B OUT</h3><p>Combines GPS-derived position with altitude, velocity and time, then broadcasts it to other equipped aircraft and ground stations.</p></div>
-                  <div class="note"><h3>ADS-B IN</h3><p>Receives traffic or ground-provided information and displays it to the flight crew. Accurate ADS-B testing is essential because separation depends on correct data.</p></div>
+                  <div class="note">
+                    <h3>ATC transponder</h3>
+                    <ul>
+                      <li>Ground interrogation is transmitted on <strong>1030 MHz</strong>; the aircraft reply is transmitted on <strong>1090 MHz</strong>.</li>
+                      <li>A conventional unit provides 4,096 selectable codes. IDENT makes the target more noticeable on the controller's display.</li>
+                      <li>ALT / Mode C transmits pressure altitude supplied by an altitude encoder, normally in 100 ft increments.</li>
+                      <li>Mode S assigns a unique aircraft identity and permits selective interrogation.</li>
+                    </ul>
+                  </div>
+                  <div class="note must-know">
+                    <h3>TCAS</h3>
+                    <ul>
+                      <li>A <strong>Traffic Advisory (TA)</strong> warns the crew and helps them locate the traffic.</li>
+                      <li>A <strong>Resolution Advisory (RA)</strong> gives a specific vertical avoidance instruction.</li>
+                      <li>Two TCAS II aircraft can coordinate opposite vertical actions so their commands do not conflict.</li>
+                      <li>TCAS uses transponder interrogation and reply information to assess the threat.</li>
+                    </ul>
+                  </div>
+                  <div class="note">
+                    <h3>ADS-B OUT</h3>
+                    <p>Combines GPS-derived position with information such as altitude, velocity and time, then broadcasts it to suitably equipped aircraft and ground stations.</p>
+                    <p>It is automatic and does not wait for a conventional radar interrogation before broadcasting.</p>
+                  </div>
+                  <div class="note">
+                    <h3>ADS-B IN</h3>
+                    <p>Receives traffic or ground-provided information and presents it to the flight crew.</p>
+                    <p>Accurate testing is essential because traffic awareness and separation depend on correct position and status data.</p>
+                  </div>
                 </div>
+                <div class="memory-line"><strong>Memory line:</strong> Transponder = reply · TCAS = assess and advise · ADS-B OUT = transmit own data · ADS-B IN = receive traffic data.</div>
               </div>
             </details>
 
@@ -724,12 +1009,44 @@
               <summary><span class="topic-index">05</span><span class="topic-title">Weather Detection & Radio Altimeter<small>Radar, lightning, uplinked weather and AGL height</small></span><span class="chevron">⌄</span></summary>
               <div class="topic-body">
                 <div class="topic-actions"><button class="complete-btn small" type="button" data-complete="weather" aria-pressed="false">Mark complete</button></div>
+                <p class="topic-intro"><strong>Weather systems do not all sense the same thing:</strong> radar detects precipitation returns, lightning equipment detects electrical activity, and uplink services deliver remotely collected weather information.</p>
                 <div class="topic-columns">
-                  <div class="note must-know"><h3>Weather radar</h3><ul><li>Stronger precipitation gives stronger returns.</li><li>Typical coding: green light, yellow medium, red heavy, magenta intense/extreme.</li><li>Clouds may give no return; dry-air turbulence is not detectable.</li></ul></div>
-                  <div class="note exam-note"><h3>Radar safety</h3><p>Do not look into a transmitting antenna. Follow approved radome, hangar, building and refuelling precautions; maintenance is for qualified personnel.</p></div>
-                  <div class="note"><h3>Lightning / uplink</h3><p>Lightning systems estimate azimuth with a loop antenna and range from signal intensity. Remote weather can be sent by satellite or ground link for wider coverage.</p></div>
-                  <div class="note"><h3>Radio altimeter</h3><p>Measures height above terrain directly below the aircraft, mainly below 2,500 ft. It is more responsive than pressure altitude for low-level AGL information.</p></div>
+                  <div class="note must-know">
+                    <h3>Onboard weather radar</h3>
+                    <ul>
+                      <li>The antenna transmits short SHF pulses and listens for energy reflected by precipitation.</li>
+                      <li>Stronger precipitation generally gives a stronger return: green = light, yellow = medium, red = heavy and magenta = intense/extreme.</li>
+                      <li>Clouds may produce no useful return, and conventional radar does <strong>not</strong> detect dry-air turbulence.</li>
+                      <li>Ground returns and terrain clutter must be distinguished from weather.</li>
+                    </ul>
+                  </div>
+                  <div class="note exam-note">
+                    <h3>Radar safety</h3>
+                    <ul>
+                      <li>Do not look into a transmitting radar antenna.</li>
+                      <li>Follow approved procedures for hangars, buildings, refuelling areas and radome materials.</li>
+                      <li>Maintenance and operation must follow the equipment manufacturer's instructions and be performed by qualified personnel.</li>
+                    </ul>
+                  </div>
+                  <div class="note">
+                    <h3>Lightning and uplinked weather</h3>
+                    <ul>
+                      <li>A loop antenna gives lightning-strike azimuth; signal intensity is used to estimate range.</li>
+                      <li>The book describes dedicated lightning displays with a range of approximately 200 miles.</li>
+                      <li>Weather reports and radar imagery may also be sent from ground or satellite services for a wider-area picture.</li>
+                    </ul>
+                  </div>
+                  <div class="note">
+                    <h3>Radio altimeter</h3>
+                    <ul>
+                      <li>Measures height above the terrain directly below the aircraft rather than pressure altitude.</li>
+                      <li>It is mainly used below approximately 2,500 ft, especially during approaches and low-level flight.</li>
+                      <li>A selected decision height can trigger visual or aural warning.</li>
+                      <li>The information may also be used by ground-proximity warning systems.</li>
+                    </ul>
+                  </div>
                 </div>
+                <div class="memory-line"><strong>Memory line:</strong> Radar = precipitation · Lightning detector = electrical activity · Uplink = remote weather picture · Radio altimeter = true height above terrain.</div>
               </div>
             </details>
 
@@ -737,12 +1054,45 @@
               <summary><span class="topic-index">06</span><span class="topic-title">ACARS<small>Aircraft-ground digital data link</small></span><span class="chevron">⌄</span></summary>
               <div class="topic-body">
                 <div class="topic-actions"><button class="complete-btn small" type="button" data-complete="acars" aria-pressed="false">Mark complete</button></div>
+                <p class="topic-intro"><strong>ACARS is a messaging system, not a navigation sensor.</strong> It moves operational, traffic-control and administrative information between the aircraft and ground organisations.</p>
                 <div class="topic-columns">
-                  <div class="note must-know"><h3>Purpose</h3><p>ACARS exchanges digital messages between aircraft and ground stations. It began with VHF and may also use SATCOM.</p></div>
-                  <div class="note"><h3>CMU</h3><p>The Communications Management Unit routes external data and may select the most efficient available air-ground link.</p></div>
-                  <div class="note"><h3>Message groups</h3><p>Air Traffic Control, Aeronautical Operational Control, and Airline Administrative Control.</p></div>
-                  <div class="note"><h3>Example use</h3><p>Updated arrival information can be sent during descent; a touchdown report can be sent automatically to dispatch.</p></div>
+                  <div class="note must-know">
+                    <h3>Purpose and communication path</h3>
+                    <ul>
+                      <li>ACARS exchanges digital messages between aircraft and ground stations.</li>
+                      <li>Early systems mainly used VHF; newer installations may also use SATCOM.</li>
+                      <li>The system can send information automatically or allow the crew to exchange messages.</li>
+                    </ul>
+                  </div>
+                  <div class="note">
+                    <h3>CMU</h3>
+                    <p>The <strong>Communications Management Unit</strong> acts as the data router. It receives information from aircraft systems and directs it through the available air-ground communication link.</p>
+                    <p>Where several links are available, the CMU may select the most suitable one.</p>
+                  </div>
+                  <div class="note">
+                    <h3>Three message groups</h3>
+                    <ul>
+                      <li><strong>Air Traffic Control</strong></li>
+                      <li><strong>Aeronautical Operational Control</strong></li>
+                      <li><strong>Airline Administrative Control</strong></li>
+                    </ul>
+                  </div>
+                  <div class="note">
+                    <h3>Typical examples</h3>
+                    <ul>
+                      <li>Updated arrival information can be sent during descent.</li>
+                      <li>A touchdown or movement report can be transmitted automatically.</li>
+                      <li>Maintenance information may be sent before arrival so technicians can prepare.</li>
+                    </ul>
+                  </div>
                 </div>
+                <div class="concept-flow" aria-label="ACARS message flow">
+                  <span class="flow-step">Aircraft systems / crew</span><span class="flow-arrow">→</span>
+                  <span class="flow-step">CMU</span><span class="flow-arrow">→</span>
+                  <span class="flow-step">VHF or SATCOM</span><span class="flow-arrow">→</span>
+                  <span class="flow-step">ATC / operations / airline</span>
+                </div>
+                <div class="memory-line"><strong>Memory line:</strong> ACARS carries the message; the CMU routes it.</div>
               </div>
             </details>
 
@@ -750,12 +1100,44 @@
               <summary><span class="topic-index">07</span><span class="topic-title">Avionics Installation & Testing<small>Mounting, bonding, BITE and test equipment</small></span><span class="chevron">⌄</span></summary>
               <div class="topic-body">
                 <div class="topic-actions"><button class="complete-btn small" type="button" data-complete="maintenance" aria-pressed="false">Mark complete</button></div>
+                <p class="topic-intro"><strong>Reliable avionics depend on both correct installation and correct testing.</strong> A serviceable unit can still perform badly if mounting, cooling, bonding, wiring or calibration is wrong.</p>
                 <div class="topic-columns">
-                  <div class="note"><h3>Installation</h3><p>Secure mounting, clearance, cooling and moisture protection are essential. Shock mounts isolate vibration; non-conductive mounts may require a bonding jumper.</p></div>
-                  <div class="note must-know"><h3>BITE</h3><p>Continuously checks parameters, detects and helps isolate faults, and can store or transmit maintenance information. It does not replace all external testing.</p></div>
-                  <div class="note"><h3>General instruments</h3><p>Multimeter: voltage/current/resistance. Oscilloscope: voltage against time. TDR: cable open/short and distance to fault.</p></div>
-                  <div class="note exam-note"><h3>Testing rule</h3><p>Use manufacturer procedures and calibrated equipment. Test accuracy must be equal to or better than the accuracy required for the equipment under test.</p></div>
+                  <div class="note">
+                    <h3>Installation essentials</h3>
+                    <ul>
+                      <li>Use secure mounting and adequate clearance; protect equipment from excess heat and moisture.</li>
+                      <li>Shock mounts isolate vibration and landing loads.</li>
+                      <li>A mount that is too stiff transmits shock; one that is too soft allows excessive movement.</li>
+                      <li>Because shock-mount materials may be electrical insulators, a bonding jumper may be required to ground the equipment to aircraft structure.</li>
+                    </ul>
+                  </div>
+                  <div class="note must-know">
+                    <h3>BITE</h3>
+                    <ul>
+                      <li>Monitors signals and operating parameters.</li>
+                      <li>Detects and helps isolate faults.</li>
+                      <li>Stores, displays, prints or transmits maintenance information.</li>
+                      <li>It supports troubleshooting but does not replace all external testing, especially when faults involve several interacting systems.</li>
+                    </ul>
+                  </div>
                 </div>
+                <div class="table-wrap" style="margin-top:.9rem;">
+                  <table class="compact-table">
+                    <thead><tr><th>Test equipment</th><th>Main use</th></tr></thead>
+                    <tbody>
+                      <tr><td><strong>Multimeter</strong></td><td>Measures voltage, current and resistance; advanced units may also measure frequency, capacitance or temperature.</td></tr>
+                      <tr><td><strong>Oscilloscope</strong></td><td>Displays voltage against time so waveforms, spikes and signal behaviour can be examined.</td></tr>
+                      <tr><td><strong>TDR</strong></td><td>Finds opens or shorts in a transmission line and indicates the distance to the fault.</td></tr>
+                      <tr><td><strong>Pitot-static tester</strong></td><td>Applies controlled pressure for testing pitot-static instruments within aircraft limits.</td></tr>
+                      <tr><td><strong>Data-bus analyser</strong></td><td>Monitors, records and may transmit data to troubleshoot communication between avionics units.</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="note exam-note" style="margin-top:.9rem;">
+                  <h3>Testing and calibration rule</h3>
+                  <p>Follow the aircraft and equipment manufacturer's procedures. Test equipment must be calibrated, and its accuracy must be equal to or better than the accuracy required for the equipment being tested.</p>
+                </div>
+                <div class="memory-line"><strong>Memory line:</strong> Install correctly · bond correctly · test with the correct procedure · trust only calibrated equipment.</div>
               </div>
             </details>
           </div>
@@ -764,18 +1146,24 @@
         <section id="rapid-recall">
           <div class="section-head"><div><div class="kicker">One-minute review</div><h2>Rapid Recall</h2><p>Term → essential meaning.</p></div></div>
           <div class="recall-grid">
-            <div class="recall-item"><b>OBS</b><span>Selects VOR course.</span></div>
-            <div class="recall-item"><b>CDI</b><span>Shows course deviation.</span></div>
+            <div class="recall-item"><b>OBS</b><span>Selects the desired VOR course.</span></div>
+            <div class="recall-item"><b>CDI</b><span>Shows lateral deviation from the selected course.</span></div>
+            <div class="recall-item"><b>VOT</b><span>VOR ground test facility; typically checked on 108.0 MHz.</span></div>
+            <div class="recall-item"><b>ADF</b><span>Indicates the direction of the tuned NDB.</span></div>
+            <div class="recall-item"><b>DME</b><span>Pulse-timing distance, normally shown as slant distance.</span></div>
+            <div class="recall-item"><b>DME HOLD</b><span>Keeps one DME station while VOR tuning changes.</span></div>
             <div class="recall-item"><b>Localizer</b><span>Lateral ILS guidance.</span></div>
             <div class="recall-item"><b>Glideslope</b><span>Vertical ILS guidance.</span></div>
             <div class="recall-item"><b>FMC</b><span>Main FMS computer.</span></div>
-            <div class="recall-item"><b>CDU</b><span>Pilot interface to FMS.</span></div>
-            <div class="recall-item"><b>TA</b><span>Traffic advisory.</span></div>
-            <div class="recall-item"><b>RA</b><span>Vertical resolution advisory.</span></div>
-            <div class="recall-item"><b>CMU</b><span>Routes ACARS data.</span></div>
-            <div class="recall-item"><b>BITE</b><span>Built-in fault monitoring.</span></div>
-            <div class="recall-item"><b>TDR</b><span>Locates cable faults.</span></div>
-            <div class="recall-item"><b>Slant range</b><span>Direct aircraft-to-station distance.</span></div>
+            <div class="recall-item"><b>CDU</b><span>Pilot interface to the FMS.</span></div>
+            <div class="recall-item"><b>WAAS</b><span>Ground-derived corrections that improve GPS accuracy.</span></div>
+            <div class="recall-item"><b>IRS</b><span>Self-contained position and attitude from inertial sensors.</span></div>
+            <div class="recall-item"><b>Mode C</b><span>Transmits pressure altitude from the altitude encoder.</span></div>
+            <div class="recall-item"><b>TA</b><span>Traffic advisory: locate and assess the traffic.</span></div>
+            <div class="recall-item"><b>RA</b><span>Resolution advisory: follow a vertical avoidance command.</span></div>
+            <div class="recall-item"><b>ADS-B OUT / IN</b><span>Broadcast own data / receive traffic data.</span></div>
+            <div class="recall-item"><b>CMU</b><span>Routes ACARS aircraft-ground messages.</span></div>
+            <div class="recall-item"><b>BITE / TDR</b><span>Built-in fault monitoring / cable-fault location.</span></div>
           </div>
         </section>
 
@@ -785,13 +1173,21 @@
         </section>
 
         <section id="short-answer">
-          <div class="section-head"><div><div class="kicker">No answer options</div><h2>Short-Answer Practice</h2><p>Recall first, then reveal the model answer.</p></div></div>
+          <div class="section-head">
+            <div><div class="kicker">No answer options</div><h2>Short-Answer Practice</h2><p>Recall first, reveal the model answer, then save whether you knew it.</p></div>
+            <div class="practice-tools">
+              <span id="practiceSummary" class="practice-summary" aria-live="polite">0 marked</span>
+              <button id="showNeedsReview" class="small" type="button" aria-pressed="false">Show needs review</button>
+              <button id="clearPracticeMarks" class="small" type="button">Clear marks</button>
+            </div>
+          </div>
           <div class="practice-list" id="practiceList"></div>
         </section>
 
         <section id="quiz">
-          <div class="section-head"><div><div class="kicker">Check and retest</div><h2>Quick Check / Exam Mode</h2><p>Quick mode uses 7 questions; exam mode uses the full 14-question bank.</p></div></div>
+          <div class="section-head"><div><div class="kicker">Check and retest</div><h2>Quick Check / Exam Mode</h2><p>Quick Check gives one question from every core topic. Exam Mode uses all 14 questions.</p></div></div>
           <div class="quiz-shell">
+            <p class="quiz-note"><strong>Question types:</strong> some questions have one correct answer and some ask you to select every correct statement. Read the instruction shown under each question.</p>
             <div class="quiz-toolbar">
               <div class="mode-control"><label for="quizMode"><strong>Mode</strong></label><select id="quizMode"><option value="quick">Quick Check - 7</option><option value="exam">Exam Mode - 14</option></select></div>
               <div><button id="gradeQuiz" class="primary" type="button">Check answers</button> <button id="resetQuiz" type="button">Reset</button></div>
@@ -801,8 +1197,8 @@
           </div>
         </section>
 
-        <footer class="source-note">
-          This page is a concise revision aid derived only from the supplied Navigation Systems chapter and the approved Stage 1 revision text. It intentionally omits low-priority detail to keep revision fast.
+        <footer class="book-note">
+          Revision content is based on the supplied Navigation Systems book chapter. It is organised for understanding, recall and exam practice, with low-priority detail kept brief.
         </footer>
       </div>
     </main>
@@ -925,19 +1321,20 @@
       }
 
       const flashcards = [
-        ['VOR', 'What do the OBS and CDI do?', 'OBS selects the course; CDI shows lateral deviation from it.'],
-        ['VOR Test', 'What VOT frequency and maximum error are stated?', '108.0 MHz and no more than ±4°.'],
-        ['ADF', 'Why is a sense antenna added to the loop antenna?', 'To remove directional ambiguity and identify the correct direction to the station.'],
-        ['DME', 'Why can DME distance be greater than ground distance?', 'It normally shows slant distance from aircraft to station.'],
-        ['ILS', 'Which element gives lateral guidance and which gives vertical guidance?', 'Localizer gives lateral guidance; glideslope gives vertical guidance.'],
-        ['Markers', 'Match the marker lights: outer, middle, inner.', 'Outer blue; middle amber; inner white.'],
-        ['GPS', 'What changes when a fourth satellite is added?', 'Altitude can be calculated, producing a three-dimensional fix.'],
-        ['WAAS', 'How does WAAS improve GPS?', 'Surveyed ground stations calculate corrections that are retransmitted through geostationary satellites.'],
-        ['TCAS', 'What is the difference between a TA and an RA?', 'TA warns and helps locate traffic; RA gives a specific vertical avoidance command.'],
-        ['ADS-B', 'What is the OUT / IN distinction?', 'OUT broadcasts own aircraft data; IN receives traffic or ground-provided data.'],
-        ['Weather', 'What important hazard is not detected by conventional weather radar?', 'Dry-air turbulence.'],
-        ['Maintenance', 'What does a TDR tell the technician?', 'Whether a cable has an open or short and the distance to the fault.']
+        ['VOR', 'What do the OBS, CDI and TO/FROM indicator each tell you?', 'The OBS selects the course, the CDI shows lateral deviation, and TO/FROM shows whether the selected course leads toward or away from the station.'],
+        ['VOR Test', 'Give the normal VOT frequency, expected indications and maximum error.', 'Tune 108.0 MHz. After centering the CDI, expect 0° FROM or 180° TO. The error must not exceed ±4°.'],
+        ['ADF and DME', 'What different questions do ADF and DME answer?', 'ADF shows the direction of the tuned NDB; DME shows aircraft-to-station distance, normally as slant distance.'],
+        ['ILS', 'Which ILS element gives lateral guidance and which gives vertical guidance?', 'The localizer gives lateral guidance; the glideslope gives vertical guidance.'],
+        ['Marker Beacons', 'Match the outer, middle and inner markers with audio and light.', 'Outer: 400 Hz / blue. Middle: 1,300 Hz / amber. Inner: 3,000 Hz / white.'],
+        ['FMS', 'What is the difference between the FMC and CDU?', 'The FMC is the main flight-management computer; the CDU is the pilot interface used to enter and display information.'],
+        ['GPS', 'What changes when a fourth satellite is added to a three-satellite fix?', 'Altitude can be calculated, producing a three-dimensional position fix.'],
+        ['WAAS and IRS', 'How do WAAS and IRS support position information differently?', 'WAAS sends corrections that improve GPS accuracy. IRS calculates position from inertial sensors and can continue without a continuous external signal.'],
+        ['Surveillance', 'How do a transponder and TCAS differ?', 'The transponder replies to surveillance interrogation. TCAS uses traffic information to issue TAs and, on TCAS II, vertical RAs.'],
+        ['ADS-B', 'What is the difference between ADS-B OUT and ADS-B IN?', 'OUT broadcasts own-aircraft position and status; IN receives traffic or ground-provided information.'],
+        ['Weather and Height', 'What do weather radar and a radio altimeter measure?', 'Weather radar detects precipitation returns. A radio altimeter measures height above terrain directly beneath the aircraft.'],
+        ['Support Systems', 'What do the CMU, BITE and TDR each do?', 'The CMU routes ACARS messages; BITE monitors and helps isolate faults; a TDR locates transmission-line faults and their distance.']
       ];
+
       const flashGrid = document.getElementById('flashGrid');
       flashcards.forEach(([label, question, answer], index) => {
         const card = document.createElement('button');
@@ -953,6 +1350,7 @@
         });
         flashGrid.append(card);
       });
+
       document.getElementById('resetFlashcards').addEventListener('click', () => {
         flashGrid.querySelectorAll('.flashcard').forEach(card => {
           card.setAttribute('aria-expanded', 'false');
@@ -961,47 +1359,305 @@
       });
 
       const practices = [
-        ['radio', 'State the expected VOT indications after centering the CDI.', '0° with FROM, or 180° with TO. An RMI should indicate 180°.'],
-        ['ils', 'State the purpose of the localizer and glideslope.', 'Localizer provides lateral runway-centreline guidance; glideslope provides vertical guidance to the touchdown area.'],
-        ['ils', 'Give the three marker-beacon audio frequencies and light colours.', 'Outer: 400 Hz / blue. Middle: 1,300 Hz / amber. Inner: 3,000 Hz / white.'],
-        ['position', 'Explain the role of the FMC and CDU in an FMS.', 'The FMC is the main flight-management computer; the CDU is the pilot interface used to enter and display information.'],
-        ['surveillance', 'Differentiate ADS-B OUT from ADS-B IN.', 'OUT broadcasts own aircraft position and status; IN receives traffic or ground-provided information.'],
-        ['weather', 'Give two limitations or cautions for airborne weather radar.', 'Examples: dry-air turbulence is not detected; clouds may not return; ground clutter must be distinguished; transmitting-antenna safety precautions are required.'],
-        ['acars', 'Name the three ACARS message categories stated in the source.', 'Air Traffic Control, Aeronautical Operational Control, and Airline Administrative Control.'],
-        ['maintenance', 'Why may a bonding jumper be needed across a shock mount?', 'Shock-absorbing materials may be electrical insulators, so the jumper provides a grounding/current path to aircraft structure.']
+        {
+          topic: 'radio',
+          q: 'State the expected VOT indications after centering the CDI.',
+          a: 'The indication should be 0° with FROM or 180° with TO. An RMI should indicate 180°. The permitted error is no more than ±4°.'
+        },
+        {
+          topic: 'ils',
+          q: 'Explain the different jobs of the localizer, glideslope and marker beacons.',
+          a: 'The localizer gives lateral runway-centreline guidance, the glideslope gives vertical descent guidance, and the marker beacons identify positions along the approach.'
+        },
+        {
+          topic: 'position',
+          q: 'Explain how GPS, IRS and the FMS work together.',
+          a: 'GPS provides satellite-derived position, IRS provides self-contained inertial position and attitude, and the FMS uses this information to manage the route, calculations and displays.'
+        },
+        {
+          topic: 'surveillance',
+          q: 'Differentiate a transponder, TCAS and ADS-B.',
+          a: 'A transponder replies to ATC or airborne interrogation. TCAS assesses nearby traffic and issues TAs or RAs. ADS-B OUT broadcasts own data, while ADS-B IN receives traffic information.'
+        },
+        {
+          topic: 'weather',
+          q: 'Give two limitations of weather radar and explain what a radio altimeter measures.',
+          a: 'Examples of radar limitations: dry-air turbulence is not detected, clouds may not produce a useful return, and ground clutter must be distinguished. A radio altimeter measures height above terrain directly below the aircraft.'
+        },
+        {
+          topic: 'acars',
+          q: 'State the role of the CMU and name the three ACARS message groups.',
+          a: 'The CMU routes aircraft-ground data and may select the most suitable link. The groups are Air Traffic Control, Aeronautical Operational Control, and Airline Administrative Control.'
+        },
+        {
+          topic: 'maintenance',
+          q: 'Why may a bonding jumper be required across an avionics shock mount?',
+          a: 'Shock-absorbing material may be electrically insulating, so the bonding jumper provides an electrical ground path between the equipment and aircraft structure.'
+        },
+        {
+          topic: 'maintenance',
+          q: 'Match the multimeter, oscilloscope and TDR with their main uses.',
+          a: 'Multimeter: voltage, current and resistance. Oscilloscope: voltage against time and waveform behaviour. TDR: opens, shorts and distance to a transmission-line fault.'
+        }
       ];
+
+      const PRACTICE_KEY = `${NS}:practice-review`;
       const practiceList = document.getElementById('practiceList');
-      practices.forEach(([topic, question, answer], index) => {
+      const practiceSummary = document.getElementById('practiceSummary');
+      const showNeedsReview = document.getElementById('showNeedsReview');
+      const clearPracticeMarks = document.getElementById('clearPracticeMarks');
+      let practiceState = safeStorage.get(PRACTICE_KEY, {});
+      let needsFilterActive = false;
+
+      function setPracticeVisual(item, status) {
+        item.dataset.review = status || '';
+        item.querySelectorAll('.review-choice').forEach(button => {
+          button.setAttribute('aria-pressed', String(button.dataset.state === status));
+        });
+      }
+
+      function updatePracticeSummary() {
+        const values = Object.values(practiceState);
+        const correct = values.filter(value => value === 'correct').length;
+        const needs = values.filter(value => value === 'needs').length;
+        const unmarked = practices.length - correct - needs;
+        practiceSummary.textContent = `${correct} correct · ${needs} need review · ${unmarked} unmarked`;
+
+        practiceList.querySelectorAll('.practice-item').forEach(item => {
+          const status = practiceState[item.dataset.practiceId] || '';
+          setPracticeVisual(item, status);
+          item.hidden = needsFilterActive && status !== 'needs';
+        });
+
+        showNeedsReview.textContent = needsFilterActive ? 'Show all questions' : 'Show needs review';
+        showNeedsReview.setAttribute('aria-pressed', String(needsFilterActive));
+      }
+
+      practices.forEach((practice, index) => {
+        const id = `practice-${index + 1}`;
         const item = document.createElement('article');
         item.className = 'practice-item';
-        item.innerHTML = `<h3>${index + 1}. ${question}</h3><div class="practice-actions"><button type="button" class="small reveal-answer">Show answer</button><button type="button" class="small review-choice correct" aria-pressed="false">Mark correct</button><button type="button" class="small review-choice" aria-pressed="false">Needs review</button></div><div class="answer-panel"><strong>Model answer:</strong> ${answer}</div>`;
+        item.dataset.practiceId = id;
+        item.dataset.topic = practice.topic;
+        item.innerHTML = `<h3>${index + 1}. ${practice.q}</h3>
+          <div class="practice-actions">
+            <button type="button" class="small reveal-answer">Show answer</button>
+            <button type="button" class="small review-choice correct" data-state="correct" aria-pressed="false">Mark correct</button>
+            <button type="button" class="small review-choice" data-state="needs" aria-pressed="false">Needs review</button>
+          </div>
+          <div class="answer-panel"><strong>Model answer:</strong> ${practice.a}</div>`;
+
         const reveal = item.querySelector('.reveal-answer');
         reveal.addEventListener('click', () => {
           const shown = item.classList.toggle('revealed');
           reveal.textContent = shown ? 'Hide answer' : 'Show answer';
         });
-        const choices = item.querySelectorAll('.review-choice');
-        choices.forEach(choice => choice.addEventListener('click', () => {
-          choices.forEach(c => c.setAttribute('aria-pressed', String(c === choice && c.getAttribute('aria-pressed') !== 'true')));
-        }));
+
+        item.querySelectorAll('.review-choice').forEach(button => {
+          button.addEventListener('click', () => {
+            const next = button.dataset.state;
+            practiceState[id] = practiceState[id] === next ? '' : next;
+            if (!practiceState[id]) delete practiceState[id];
+            safeStorage.set(PRACTICE_KEY, practiceState);
+            updatePracticeSummary();
+          });
+        });
+
         practiceList.append(item);
       });
 
+      showNeedsReview.addEventListener('click', () => {
+        needsFilterActive = !needsFilterActive;
+        updatePracticeSummary();
+      });
+
+      clearPracticeMarks.addEventListener('click', () => {
+        practiceState = {};
+        safeStorage.set(PRACTICE_KEY, practiceState);
+        needsFilterActive = false;
+        updatePracticeSummary();
+      });
+
+      updatePracticeSummary();
+
       const quizBank = [
-        { topic: 'radio', q: 'Which frequency is normally selected for a VOT check?', options: ['75 MHz', '108.0 MHz', '1030 MHz', '1090 MHz'], answer: 1, why: 'The source states that most VOTs require tuning 108.0 MHz.' },
-        { topic: 'radio', q: 'What is the maximum permitted VOR error during the stated VOT test?', options: ['±1°', '±2°', '±4°', '±10°'], answer: 2, why: 'The stated limit is no more than ±4°.' },
-        { topic: 'ils', q: 'Which ILS element provides lateral guidance?', options: ['Glideslope', 'Localizer', 'DME', 'Marker beacon'], answer: 1, why: 'The localizer guides the aircraft to the runway centreline.' },
-        { topic: 'ils', q: 'Which marker uses 1,300 Hz and an amber light?', options: ['Outer', 'Middle', 'Inner', 'Compass locator'], answer: 1, why: 'The middle marker is modulated at 1,300 Hz and illuminates amber.' },
-        { topic: 'ils', q: 'What is the approximate normal glideslope angle stated?', options: ['1°', '2°', '3°', '5°'], answer: 2, why: 'The source gives approximately 3°.' },
-        { topic: 'radio', q: 'What does standard DME normally display?', options: ['Ground track', 'Slant distance', 'Magnetic heading', 'True airspeed'], answer: 1, why: 'DME normally shows the direct aircraft-to-station slant distance.' },
-        { topic: 'position', q: 'What does a fourth GPS satellite add to a three-satellite position solution?', options: ['VOR radial', 'Altitude', 'Weather data', 'Transponder code'], answer: 1, why: 'A fourth range permits altitude and therefore a three-dimensional fix.' },
-        { topic: 'position', q: 'What position error does the source state for WAAS?', options: ['1-3 m laterally and vertically', '10-30 m only laterally', '100 ft vertically', 'No stated improvement'], answer: 0, why: 'The source states 1-3 metres laterally and vertically.' },
-        { topic: 'position', q: 'What is the main computer in the FMS?', options: ['CDI', 'FMC', 'RMI', 'CMU'], answer: 1, why: 'The flight management computer (FMC) is the main FMS computer.' },
-        { topic: 'surveillance', q: 'Which frequency pair is used for interrogation and reply?', options: ['108 / 112 MHz', '329 / 335 MHz', '1030 / 1090 MHz', '962 / 1213 MHz'], answer: 2, why: 'Interrogations are at 1030 MHz and transponder replies at 1090 MHz.' },
-        { topic: 'surveillance', q: 'What does a TCAS resolution advisory provide?', options: ['A runway-centreline command', 'A specific vertical evasive action', 'A weather-radar tilt setting', 'A VOR frequency'], answer: 1, why: 'An RA instructs a specific vertical avoidance manoeuvre.' },
-        { topic: 'surveillance', q: 'What does ADS-B OUT do?', options: ['Receives nearby traffic only', 'Broadcasts own position and flight-status data', 'Measures terrain height', 'Tunes the localizer'], answer: 1, why: 'ADS-B OUT broadcasts GPS-derived position and other flight-status information.' },
-        { topic: 'weather', q: 'Which hazard is not detected by conventional airborne weather radar?', options: ['Heavy precipitation', 'Hail returns', 'Dry-air turbulence', 'Ground clutter'], answer: 2, why: 'The source explicitly states that dry-air turbulence is not detectable.' },
-        { topic: 'maintenance', q: 'Which instrument can indicate the distance to an open or short in a cable?', options: ['Multimeter', 'Oscilloscope', 'TDR', 'Radio altimeter'], answer: 2, why: 'A time domain reflectometer can identify a line fault and its distance.' }
+        {
+          topic: 'radio',
+          quick: true,
+          type: 'single',
+          q: 'Which statement correctly describes the VOR cockpit indications?',
+          options: [
+            'The OBS selects the course, the CDI shows deviation, and TO/FROM shows the course relationship to the station.',
+            'The CDI selects the course and the OBS measures distance.',
+            'TO/FROM shows aircraft height above the station.',
+            'The OBS removes ADF ambiguity.'
+          ],
+          answer: 0,
+          why: 'The OBS selects the desired VOR course, the CDI shows lateral deviation, and the TO/FROM indication shows whether that selected course leads toward or away from the station.'
+        },
+        {
+          topic: 'radio',
+          quick: false,
+          type: 'multi',
+          q: 'Which statements about ADF and DME are correct?',
+          options: [
+            'A sense antenna removes the 180° ambiguity of the ADF loop antenna.',
+            'DME normally displays slant distance.',
+            'DME HOLD can keep one DME station while the VOR frequency changes.',
+            'ADF measures height above terrain.'
+          ],
+          answer: [0, 1, 2],
+          why: 'ADF direction is resolved by the loop and sense antennas. DME uses pulse timing, normally shows slant distance, and may be held while VOR tuning changes.'
+        },
+        {
+          topic: 'ils',
+          quick: true,
+          type: 'single',
+          q: 'Which statement correctly matches the two main ILS guidance signals?',
+          options: [
+            'Localizer = lateral; glideslope = vertical.',
+            'Localizer = vertical; glideslope = distance.',
+            'Localizer = altitude; glideslope = heading.',
+            'Both provide only distance information.'
+          ],
+          answer: 0,
+          why: 'The localizer guides the aircraft left or right toward the runway centreline. The glideslope guides the aircraft vertically along the descent path.'
+        },
+        {
+          topic: 'ils',
+          quick: false,
+          type: 'multi',
+          q: 'Which marker-beacon pairings are correct?',
+          options: [
+            'Outer marker: 400 Hz and blue light.',
+            'Middle marker: 1,300 Hz and amber light.',
+            'Inner marker: 3,000 Hz and white light.',
+            'All marker beacons use a 1090 MHz carrier.'
+          ],
+          answer: [0, 1, 2],
+          why: 'The outer, middle and inner marker indications are 400 Hz/blue, 1,300 Hz/amber and 3,000 Hz/white. Their carrier is 75 MHz, not 1090 MHz.'
+        },
+        {
+          topic: 'position',
+          quick: true,
+          type: 'single',
+          q: 'What does a fourth GPS satellite add to a three-satellite solution?',
+          options: ['A VOR radial', 'Altitude and a three-dimensional fix', 'Weather-radar tilt', 'A transponder code'],
+          answer: 1,
+          why: 'Three satellites provide a two-dimensional latitude/longitude fix. A fourth range allows altitude to be calculated, producing a three-dimensional fix.'
+        },
+        {
+          topic: 'position',
+          quick: false,
+          type: 'multi',
+          q: 'Which statements about FMS, WAAS and IRS are correct?',
+          options: [
+            'The FMC is the main flight-management computer.',
+            'The CDU is the pilot interface to the FMS.',
+            'WAAS corrections are retransmitted through geostationary satellites.',
+            'IRS requires a continuous VOR signal to operate.',
+            'Three GPS satellites alone provide a three-dimensional fix.'
+          ],
+          answer: [0, 1, 2],
+          why: 'The FMC performs the main FMS computations, the CDU is the interface, and WAAS sends ground-derived corrections through geostationary satellites. IRS is self-contained, and three satellites provide only a two-dimensional fix.'
+        },
+        {
+          topic: 'surveillance',
+          quick: true,
+          type: 'single',
+          q: 'What does a TCAS Resolution Advisory provide?',
+          options: ['A VOR radial', 'A specific vertical avoidance instruction', 'A localizer frequency', 'A weather-radar colour code'],
+          answer: 1,
+          why: 'An RA gives a specific vertical evasive command. A TA only warns the crew and helps them locate the traffic.'
+        },
+        {
+          topic: 'surveillance',
+          quick: false,
+          type: 'multi',
+          q: 'Which surveillance statements are correct?',
+          options: [
+            'Ground interrogation is transmitted on 1030 MHz.',
+            'Aircraft transponder replies are transmitted on 1090 MHz.',
+            'Mode C can transmit pressure altitude from an altitude encoder.',
+            'ADS-B IN broadcasts the aircraft’s own position.'
+          ],
+          answer: [0, 1, 2],
+          why: 'Interrogation uses 1030 MHz, replies use 1090 MHz, and Mode C reports pressure altitude. ADS-B OUT, not IN, broadcasts own-aircraft information.'
+        },
+        {
+          topic: 'weather',
+          quick: true,
+          type: 'single',
+          q: 'Which hazard is not detected by conventional airborne weather radar?',
+          options: ['Heavy precipitation', 'Strong precipitation returns', 'Dry-air turbulence', 'Ground clutter'],
+          answer: 2,
+          why: 'Conventional weather radar detects reflected energy from precipitation. Dry-air turbulence produces no precipitation return for the radar to detect.'
+        },
+        {
+          topic: 'weather',
+          quick: false,
+          type: 'multi',
+          q: 'Which statements about weather and radio altitude are correct?',
+          options: [
+            'A radio altimeter measures height above terrain directly beneath the aircraft.',
+            'It is mainly used below approximately 2,500 ft.',
+            'Stronger precipitation normally produces stronger radar returns.',
+            'Every cloud produces a strong weather-radar return.'
+          ],
+          answer: [0, 1, 2],
+          why: 'Radio altitude is direct height above terrain and is especially useful at low altitude. Weather radar strength relates to precipitation, while clouds may produce little or no useful return.'
+        },
+        {
+          topic: 'acars',
+          quick: true,
+          type: 'single',
+          q: 'What is the main function of the ACARS Communications Management Unit (CMU)?',
+          options: [
+            'It routes aircraft-ground data and may select the available communication link.',
+            'It measures slant distance.',
+            'It generates TCAS resolution advisories.',
+            'It provides glideslope guidance.'
+          ],
+          answer: 0,
+          why: 'The CMU acts as the aircraft data router for ACARS and may choose the most suitable available air-ground link.'
+        },
+        {
+          topic: 'acars',
+          quick: false,
+          type: 'multi',
+          q: 'Which are ACARS message groups described in the book?',
+          options: [
+            'Air Traffic Control',
+            'Aeronautical Operational Control',
+            'Airline Administrative Control',
+            'Instrument Landing Control'
+          ],
+          answer: [0, 1, 2],
+          why: 'The three groups are Air Traffic Control, Aeronautical Operational Control, and Airline Administrative Control.'
+        },
+        {
+          topic: 'maintenance',
+          quick: true,
+          type: 'single',
+          q: 'Which instrument can identify an open or short and indicate its distance along a cable?',
+          options: ['Multimeter', 'Oscilloscope', 'Time Domain Reflectometer', 'Radio altimeter'],
+          answer: 2,
+          why: 'A Time Domain Reflectometer sends a signal into the line and uses the reflection to identify the type and distance of a fault.'
+        },
+        {
+          topic: 'maintenance',
+          quick: false,
+          type: 'multi',
+          q: 'Which avionics installation and testing statements are correct?',
+          options: [
+            'A bonding jumper may be needed across an electrically insulating shock mount.',
+            'Test equipment accuracy should be equal to or better than the required test accuracy.',
+            'BITE removes the need for every form of external testing.',
+            'An oscilloscope displays voltage variation against time.'
+          ],
+          answer: [0, 1, 3],
+          why: 'Bonding may be needed for a ground path, calibrated test equipment must meet or exceed the required accuracy, and an oscilloscope displays voltage over time. BITE supports troubleshooting but does not replace all external testing.'
+        }
       ];
 
       const quizForm = document.getElementById('quizForm');
@@ -1009,67 +1665,112 @@
       const quizResult = document.getElementById('quizResult');
       let currentQuestions = [];
       let missed = [];
+      let quizRenderCount = 0;
 
-      function renderQuiz() {
-        const count = quizMode.value === 'quick' ? 7 : quizBank.length;
-        currentQuestions = quizBank.slice(0, count);
-        missed = [];
-        quizResult.hidden = true;
+      function answerIndexes(item) {
+        return Array.isArray(item.answer) ? [...item.answer].sort((a, b) => a - b) : [item.answer];
+      }
+
+      function correctAnswerText(item) {
+        return answerIndexes(item).map(index => item.options[index]).join('; ');
+      }
+
+      function sameAnswers(a, b) {
+        return a.length === b.length && a.every((value, index) => value === b[index]);
+      }
+
+      function renderQuestionSet(questions, prefix = 'q') {
+        quizRenderCount += 1;
         quizForm.innerHTML = '';
-        currentQuestions.forEach((item, index) => {
+        questions.forEach((item, index) => {
           const fieldset = document.createElement('fieldset');
           fieldset.className = 'question-block';
           fieldset.dataset.index = String(index);
-          const options = item.options.map((opt, optIndex) => `<label class="option"><input type="radio" name="q${index}" value="${optIndex}"> <span>${opt}</span></label>`).join('');
-          fieldset.innerHTML = `<legend>${index + 1}. ${item.q}</legend>${options}<div class="feedback"></div><div class="print-answer" hidden>Correct answer: ${item.options[item.answer]}</div>`;
+          const inputType = item.type === 'multi' ? 'checkbox' : 'radio';
+          const instruction = item.type === 'multi' ? 'Select every correct answer.' : 'Select one answer.';
+          const options = item.options.map((option, optionIndex) => {
+            const inputId = `${prefix}-${quizRenderCount}-${index}-${optionIndex}`;
+            return `<label class="option" for="${inputId}"><input id="${inputId}" type="${inputType}" name="${prefix}${index}" value="${optionIndex}"> <span>${option}</span></label>`;
+          }).join('');
+          fieldset.innerHTML = `<legend>${index + 1}. ${item.q}</legend><span class="question-help">${instruction}</span>${options}<div class="feedback"></div><div class="print-answer" hidden>Correct answer: ${correctAnswerText(item)}</div>`;
           quizForm.append(fieldset);
         });
+      }
+
+      function renderQuiz() {
+        currentQuestions = quizMode.value === 'quick'
+          ? quizBank.filter(item => item.quick)
+          : [...quizBank];
+        missed = [];
+        quizResult.hidden = true;
+        renderQuestionSet(currentQuestions, 'q');
       }
 
       function gradeQuiz() {
         let score = 0;
         missed = [];
+
         currentQuestions.forEach((item, index) => {
           const block = quizForm.querySelector(`[data-index="${index}"]`);
-          const selected = block.querySelector('input:checked');
-          const chosen = selected ? Number(selected.value) : null;
-          const correct = chosen === item.answer;
+          const selected = [...block.querySelectorAll('input:checked')]
+            .map(input => Number(input.value))
+            .sort((a, b) => a - b);
+          const expected = answerIndexes(item);
+          const correct = sameAnswers(selected, expected);
+          const selectedText = selected.length
+            ? selected.map(answerIndex => item.options[answerIndex]).join('; ')
+            : 'No answer';
+
           block.classList.toggle('correct-q', correct);
           block.classList.toggle('wrong-q', !correct);
           const feedback = block.querySelector('.feedback');
+
           if (correct) {
             score += 1;
             feedback.innerHTML = `<strong>Correct.</strong> ${item.why}`;
           } else {
-            missed.push({ ...item, index });
-            feedback.innerHTML = `<strong>Your answer:</strong> ${chosen === null ? 'No answer' : item.options[chosen]}<br><strong>Correct answer:</strong> ${item.options[item.answer]}<br><strong>Why:</strong> ${item.why}`;
+            missed.push(item);
+            feedback.innerHTML = `<strong>Your answer:</strong> ${selectedText}<br><strong>Correct answer:</strong> ${correctAnswerText(item)}<br><strong>Why:</strong> ${item.why}`;
           }
         });
+
         const pct = Math.round(score / currentQuestions.length * 100);
-        const counts = missed.reduce((acc, q) => (acc[q.topic] = (acc[q.topic] || 0) + 1, acc), {});
-        const weakHtml = Object.entries(counts).map(([topic, count]) => `<button type="button" class="weak-link" data-review-topic="${topic}"><span>${topicLabels[topic]}</span><strong>${count} missed</strong></button>`).join('');
-        quizResult.innerHTML = `<div class="score-number">${score} / ${currentQuestions.length}</div><p>${pct}% correct.</p>${missed.length ? `<h3>Topics to review</h3><div class="weak-list">${weakHtml}</div><button type="button" id="retryMissed">Retry missed questions</button>` : '<p><strong>Excellent:</strong> no weak topics identified in this attempt.</p>'}`;
+        const counts = missed.reduce((acc, question) => {
+          acc[question.topic] = (acc[question.topic] || 0) + 1;
+          return acc;
+        }, {});
+
+        const weakHtml = Object.entries(counts)
+          .map(([topic, count]) => `<button type="button" class="weak-link" data-review-topic="${topic}"><span>${topicLabels[topic]}</span><strong>${count} missed</strong></button>`)
+          .join('');
+
+        quizResult.innerHTML = `<div class="score-number">${score} / ${currentQuestions.length}</div>
+          <p>${pct}% correct.</p>
+          ${missed.length
+            ? `<h3>Topics to review</h3><div class="weak-list">${weakHtml}</div><button type="button" id="retryMissed">Retry missed questions</button>`
+            : '<p><strong>Excellent:</strong> no weak topics were identified in this attempt.</p>'}`;
         quizResult.hidden = false;
-        quizResult.querySelectorAll('[data-review-topic]').forEach(btn => btn.addEventListener('click', () => {
-          const target = document.getElementById(topicTargets[btn.dataset.reviewTopic]);
-          if (target) { target.hidden = false; target.open = true; target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-        }));
+
+        quizResult.querySelectorAll('[data-review-topic]').forEach(button => {
+          button.addEventListener('click', () => {
+            const target = document.getElementById(topicTargets[button.dataset.reviewTopic]);
+            if (target) {
+              target.hidden = false;
+              target.open = true;
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          });
+        });
+
         document.getElementById('retryMissed')?.addEventListener('click', retryMissed);
         quizResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
 
       function retryMissed() {
         if (!missed.length) return;
-        currentQuestions = missed.map(({ index, ...q }) => q);
-        quizForm.innerHTML = '';
+        currentQuestions = [...missed];
         quizResult.hidden = true;
-        currentQuestions.forEach((item, index) => {
-          const fieldset = document.createElement('fieldset');
-          fieldset.className = 'question-block';
-          fieldset.dataset.index = String(index);
-          fieldset.innerHTML = `<legend>${index + 1}. ${item.q}</legend>${item.options.map((opt, optIndex) => `<label class="option"><input type="radio" name="retry${index}" value="${optIndex}"> <span>${opt}</span></label>`).join('')}<div class="feedback"></div><div class="print-answer" hidden>Correct answer: ${item.options[item.answer]}</div>`;
-          quizForm.append(fieldset);
-        });
+        renderQuestionSet(currentQuestions, 'retry');
         quizForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
